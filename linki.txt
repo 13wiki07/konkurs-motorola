@@ -7,3 +7,5 @@ https://lucid.app/lucidchart/46a8bd1b-9a6a-43a7-b91d-2b53db984835/edit?viewport_
 
 SOLID:
 https://enlabsoftware.com/development/how-to-apply-solid-principles-with-practical-examples-in-c-sharp.html
+Zasada odwrócenia zależności - Ważne
+Ogólnie pojęcie Dependency injection jest dość istotne
