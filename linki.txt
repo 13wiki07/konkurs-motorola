@@ -9,3 +9,4 @@ SOLID:
 https://enlabsoftware.com/development/how-to-apply-solid-principles-with-practical-examples-in-c-sharp.html
 Zasada odwrócenia zależności - Ważne
 Ogólnie pojęcie Dependency injection jest dość istotne
+https://programmer-girl.com/2018/06/03/o-co-chodzi-z-odwroceniem-zaleznosci/
