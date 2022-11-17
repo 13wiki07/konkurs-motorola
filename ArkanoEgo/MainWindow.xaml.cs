@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace ArkanoEgo
 {
@@ -20,10 +21,37 @@ namespace ArkanoEgo
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer gameTimer  = new DispatcherTimer();
+        private bool goDown = true;
         public MainWindow()
         {
             InitializeComponent();
+
             myCanvas.Focus();
+
+            gameTimer.Interval = TimeSpan.FromMilliseconds(20);
+            gameTimer.Tick += new EventHandler(GameTimerEvent);
+            gameTimer.Start();
+
+        }
+        private void GameTimerEvent(object sender, EventArgs e)
+        {
+            if (goDown)
+            {
+                Canvas.SetTop(ball, Canvas.GetTop(ball) + 15);
+                if(Canvas.GetTop(ball) + (ball.Height) > Application.Current.MainWindow.Height)
+                {
+                    goDown=false;
+                }
+            }
+            else
+            {
+                Canvas.SetTop(ball, Canvas.GetTop(ball) - 15);
+                if (Canvas.GetTop(ball) < 0)
+                {
+                    goDown = true;
+                }
+            }
         }
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
