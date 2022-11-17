@@ -23,6 +23,19 @@ namespace ArkanoEgo
         public MainWindow()
         {
             InitializeComponent();
+            myCanvas.Focus();
+        }
+
+        private void myCanvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.A)
+            {
+                Canvas.SetLeft(player, Canvas.GetLeft(player) - 10);
+            }
+            if (e.Key == Key.D)
+            {
+                Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
+            }
         }
     }
 }
