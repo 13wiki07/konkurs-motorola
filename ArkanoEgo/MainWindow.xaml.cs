@@ -28,11 +28,11 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.A)
+            if(e.Key == Key.A || e.Key == Key.Left && Canvas.GetLeft(player) > 5)
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) - 10);
             }
-            if (e.Key == Key.D)
+            if (e.Key == Key.D || e.Key == Key.Right && Canvas.GetLeft(player) + (player.Width) < Application.Current.MainWindow.Width)
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
             }
