@@ -14,3 +14,6 @@ https://programmer-girl.com/2018/06/03/o-co-chodzi-z-odwroceniem-zaleznosci/
 
 App:
 .Net Framework 4.8
+
+Graficzne przedstawienie położeń kulki:
+https://www.canva.com/design/DAFSS32ggNg/_imCqnviKF8GRLeYljB3Vg/view?utm_content=DAFSS32ggNg&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
