@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArkanoEgo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="540" Width="800">
-    <Canvas Name="myCanvas" Height="500" Width="800"  Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
-        <Rectangle x:Name="player" Height="10" Width="100" Fill="Red" Canvas.Left="350" Canvas.Top="480" ></Rectangle>
-        <Ellipse x:Name="ball"  Height="10" Width="10" Fill="Blue" Canvas.Left="395" Canvas.Top="200"></Ellipse>
-    </Canvas>
+        Title="ArkanoEgo" Height="540" Width="800">
+    <Grid>
+        <!-- frame potrzebne do GamePage itp -->
+        <Frame x:Name="gridFrame" Source=".xaml" NavigationUIVisibility="Hidden"/>
+    </Grid>
 </Window>

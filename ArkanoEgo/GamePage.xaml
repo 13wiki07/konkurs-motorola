@@ -1,0 +1,14 @@
+﻿<Page x:Class="ArkanoEgo.GamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ArkanoEgo"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="GamePage">
+    <Canvas Name="myCanvas" Height="500" Width="800" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
+        <Rectangle x:Name="player" Height="10" Width="100" Fill="Red" Canvas.Left="350" Canvas.Top="480" ></Rectangle>
+        <Ellipse x:Name="ball"  Height="10" Width="10" Fill="Blue" Canvas.Left="395" Canvas.Top="200"></Ellipse>
+    </Canvas>
+</Page>

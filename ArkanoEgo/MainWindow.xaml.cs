@@ -16,54 +16,12 @@ using System.Windows.Threading;
 
 namespace ArkanoEgo
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        DispatcherTimer gameTimer  = new DispatcherTimer();
-        private bool goDown = true;
         public MainWindow()
         {
             InitializeComponent();
-
-            myCanvas.Focus();
-
-            gameTimer.Interval = TimeSpan.FromMilliseconds(20);
-            gameTimer.Tick += new EventHandler(GameTimerEvent);
-            gameTimer.Start();
-
-        }
-        private void GameTimerEvent(object sender, EventArgs e)
-        {
-            if (goDown)
-            {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) + 15);
-                if(Canvas.GetTop(ball) + (ball.Height) > Application.Current.MainWindow.Height)
-                {
-                    goDown=false;
-                }
-            }
-            else
-            {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) - 15);
-                if (Canvas.GetTop(ball) < 0)
-                {
-                    goDown = true;
-                }
-            }
-        }
-
-        private void myCanvas_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.A || e.Key == Key.Left && Canvas.GetLeft(player) > 5)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) - 10);
-            }
-            if (e.Key == Key.D || e.Key == Key.Right && Canvas.GetLeft(player) + (player.Width) < Application.Current.MainWindow.Width)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
-            }
+            gridFrame.Navigate(new GamePage()); // tutaj decydujemy jaką stronę wyświetlamy
         }
     }
 }
