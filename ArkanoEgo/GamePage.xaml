@@ -7,8 +7,169 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GamePage">
-    <Canvas Name="myCanvas" Height="500" Width="800" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
-        <Rectangle x:Name="player" Height="10" Width="100" Fill="Red" Canvas.Left="350" Canvas.Top="480" ></Rectangle>
+    <Canvas Name="myCanvas" Height="550" Width="1037" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  />
+        <Rectangle x:Name="player" Height="10" Width="100" Fill="Red" Canvas.Left="350" Canvas.Top="498" HorizontalAlignment="Center" VerticalAlignment="Top" ></Rectangle>
         <Ellipse x:Name="ball"  Height="10" Width="10" Fill="Blue" Canvas.Left="395" Canvas.Top="200"></Ellipse>
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="80"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="160"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="30"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="30"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="30"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="30"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="319"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="30"  HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="319"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="30"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="30"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="30"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="637"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877"  HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="30" Canvas.Left="637"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="30"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="30"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="30"  HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="30"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="90" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="90" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="60"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="90"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="149" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="149" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="149"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="319" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="209" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="637" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="209" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="179"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="209"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="268" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="268" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957"  HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="238"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="268"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="80" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="160" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="240" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="319" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="328" Canvas.Left="319"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="399" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="479" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="559" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="637" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="328" Canvas.Left="637"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="717" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="797" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="877" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="298"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Left="957" Canvas.Top="328"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="358"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="388"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="418"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="448"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Rectangle Height="30" Width="80" Fill="Black" Stroke="White" StrokeThickness="1" Panel.ZIndex="3" Canvas.Top="478"  HorizontalAlignment="Center" VerticalAlignment="Top"  />
     </Canvas>
 </Page>

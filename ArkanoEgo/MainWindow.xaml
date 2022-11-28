@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArkanoEgo"
         mc:Ignorable="d"
-        Title="ArkanoEgo" Height="540" Width="800">
+        Title="ArkanoEgo" Height="1080" Width="1920">
     <Grid>
         <!-- frame potrzebne do GamePage itp -->
         <Frame x:Name="gridFrame" Source=".xaml" NavigationUIVisibility="Hidden"/>
