@@ -195,6 +195,5 @@
         <Rectangle Style="{StaticResource brickStyle}" Canvas.Top="418"/>
         <Rectangle Style="{StaticResource brickStyle}" Canvas.Top="448"/>
         <Rectangle Style="{StaticResource brickStyle}" Canvas.Top="478"/>
-
     </Canvas>
 </Page>
