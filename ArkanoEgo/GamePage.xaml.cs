@@ -35,15 +35,15 @@ namespace ArkanoEgo
         {
             if (goDown)
             {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) + 15);
-                if (Canvas.GetTop(ball) + (ball.Height) > Application.Current.MainWindow.Height)
+                Canvas.SetTop(ball, Canvas.GetTop(ball) + 10);
+                if (Canvas.GetTop(ball) + (ball.Height) > myCanvas.Height)
                 {
                     goDown = false;
                 }
             }
             else
             {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) - 15);
+                Canvas.SetTop(ball, Canvas.GetTop(ball) - 10);
                 if (Canvas.GetTop(ball) < 0)
                 {
                     goDown = true;
@@ -57,7 +57,7 @@ namespace ArkanoEgo
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) - 10);
             }
-            if (e.Key == Key.D || e.Key == Key.Right && Canvas.GetLeft(player) + (player.Width) < Application.Current.MainWindow.Width)
+            if (e.Key == Key.D || e.Key == Key.Right && Canvas.GetLeft(player) + (player.Width) < myCanvas.Width)
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
             }
