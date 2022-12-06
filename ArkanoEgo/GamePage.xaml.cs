@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArkanoEgo.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace ArkanoEgo
     {
         DispatcherTimer gameTimer = new DispatcherTimer();
         private bool goDown = true;
+
+        Ball ball = new Ball();
         public GamePage()
         {
             InitializeComponent();
@@ -31,6 +34,11 @@ namespace ArkanoEgo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
+            // kulka przypisanie
+            ball.posX = Convert.ToInt32(ballEclipse.GetValue(Grid.WidthProperty));
+            ball.posY = Convert.ToInt32(ballEclipse.GetValue(Grid.HeightProperty));
+            //ball.rad = Convert.ToInt32(ballEclipse.Height); // promień kuli
+            MessageBox.Show("aa");
         }
         public void GenerateElements()
         {
@@ -69,9 +77,9 @@ namespace ArkanoEgo
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
 
-                    Rect ballHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                    Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (ballHitBox.IntersectsWith(BlockHitBox))
+                    if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
                         myCanvas.Children.Remove(x);
                         if(goDown==true)
@@ -84,9 +92,9 @@ namespace ArkanoEgo
                 }
                 if (x.Name == "player")//jeżeli element jest graczem to się od niego odbij
                 {
-                    Rect ballHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                    Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (ballHitBox.IntersectsWith(BlockHitBox))
+                    if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
                         goDown = false;
                     }
@@ -97,16 +105,16 @@ namespace ArkanoEgo
 
             if (goDown)
             {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) + 10);
-                if (Canvas.GetTop(ball) + (ball.Height) > myCanvas.Height)
+                Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);
+                if (Canvas.GetTop(ballEclipse) + (ballEclipse.Height) > myCanvas.Height)
                 {
                     goDown = false;
                 }
             }
             else
             {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) - 10);
-                if (Canvas.GetTop(ball) < 0)
+                Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);
+                if (Canvas.GetTop(ballEclipse) < 0)
                 {
                     goDown = true;
                 }
@@ -123,6 +131,13 @@ namespace ArkanoEgo
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
             }
+        }
+
+
+        private void changeBallDirection()
+        {
+            // napewno !bool -> !top !bot !left !right
+            // dodaj jakiś if który sprawdza od czego odbiła się kulka + dodaj wymiary kulki i paletki
         }
     }
 }

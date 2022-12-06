@@ -10,6 +10,6 @@
 
     <Canvas Name="myCanvas" Height="900" Width="960" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
         <Rectangle x:Name="player" Height="10" Width="100" Fill="Red" Canvas.Left="430" Canvas.Top="783" HorizontalAlignment="Center" VerticalAlignment="Top" ></Rectangle>
-        <Ellipse x:Name="ball"  Height="10" Width="10" Fill="Blue" Canvas.Left="475" Canvas.Top="350"></Ellipse>
+        <Ellipse x:Name="ballEclipse"  Height="10" Width="10" Fill="Blue" Canvas.Left="475" Canvas.Top="350"></Ellipse>
     </Canvas>
 </Page>
