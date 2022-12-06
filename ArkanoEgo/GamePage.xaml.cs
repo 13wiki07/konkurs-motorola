@@ -36,7 +36,8 @@ namespace ArkanoEgo
         {
             int top = 0;
             int left = 0;
-            for (int i = 0; i < 12; i++){//x
+            for (int i = 0; i < 12; i++)
+            {//x
 
                 for (int j = 0; j < 12; j++)//y
                 {
@@ -63,15 +64,31 @@ namespace ArkanoEgo
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
-            foreach(var x in myCanvas.Children.OfType<Rectangle>())
+            foreach (var x in myCanvas.Children.OfType<Rectangle>())
             {
-                Rect ballHitBox = new Rect(Canvas.GetLeft(ball),Canvas.GetTop(ball),ball.Width,ball.Height);
-                Rect BlockHitBox = new Rect(Canvas.GetLeft(x),Canvas.GetTop(x),x.Width,x.Height);
-                if (ballHitBox.IntersectsWith(BlockHitBox)){
-                    myCanvas.Children.Remove(x);
-                    break;
+                if (x.Name != "player")//jeżeli element jest blokiem to go usun
+                {
+
+                    Rect ballHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                    Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (ballHitBox.IntersectsWith(BlockHitBox))
+                    {
+                        myCanvas.Children.Remove(x);
+                        break;
+                    }
                 }
+                if (x.Name == "player")//jeżeli element jest graczem to się od niego odbij
+                {
+                    Rect ballHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                    Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (ballHitBox.IntersectsWith(BlockHitBox))
+                    {
+                        goDown = false;
+                    }
+                }
+
             }
+
 
             if (goDown)
             {
