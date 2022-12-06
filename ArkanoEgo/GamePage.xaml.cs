@@ -48,7 +48,6 @@ namespace ArkanoEgo
                         Fill = Brushes.Green,
                         Stroke = Brushes.Red,
                         StrokeThickness = 1,
-                        Name = "Element" + i.ToString() + j.ToString()
                     };
 
                     // Add to a canvas for example
