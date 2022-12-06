@@ -74,6 +74,11 @@ namespace ArkanoEgo
                     if (ballHitBox.IntersectsWith(BlockHitBox))
                     {
                         myCanvas.Children.Remove(x);
+                        if(goDown==true)
+                        goDown = false;
+                        else
+                        goDown = true;
+
                         break;
                     }
                 }
