@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArkanoEgo"
         mc:Ignorable="d"
-        Title="ArkanoEgo" Height="1080" Width="1920">
-    <Grid>
+        Width="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" 
+        Height="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
+        WindowState="Maximized"
+        Title="ArkanoEgo">
+<Grid>
         <!-- frame potrzebne do GamePage itp -->
         <Frame x:Name="gridFrame" Source=".xaml" NavigationUIVisibility="Hidden"/>
     </Grid>

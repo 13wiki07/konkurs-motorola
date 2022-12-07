@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArkanoEgo.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,13 @@ namespace ArkanoEgo
     {
         DispatcherTimer gameTimer = new DispatcherTimer();
         private bool goDown = true;
+
+        Ball ball = new Ball();
+
+        //wymiary Canvas'a / pola gry
+        int height;
+        int width;
+
         public GamePage()
         {
             InitializeComponent();
@@ -31,8 +39,23 @@ namespace ArkanoEgo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
+            height = (int)windowPage.Height;
+            width = (int)windowPage.Width;
+
+            // kulka przypisanie
+            // w linku jest rozpiska co czym jest
+            // https://www.canva.com/design/DAFSS32ggNg/ZHP5O-GhpveqJ4X_GtHzrg/view?utm_content=DAFSS32ggNg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton#5
+            ball.rad = Convert.ToInt32(ballEclipse.Height) / 2; // promień kuli
+            ball.posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
+            ball.posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));
+
+            //testowyLabel.Content = "w: " + ball.posX + " h: " + ball.posY;
+
+            ball.top = true; // potrzebne do testu z onclickiem i Q
+            ball.left = true; // potrzebne do testu z onclickiem i Q
         }
-        public void GenerateElements()
+
+        public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
         {
             int top = 0;
             int left = 0;
@@ -68,49 +91,49 @@ namespace ArkanoEgo
             {
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
-
-                    Rect ballHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                    Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (ballHitBox.IntersectsWith(BlockHitBox))
+                    if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
                         myCanvas.Children.Remove(x);
-                        if(goDown==true)
-                        goDown = false;
+                        if (goDown == true)
+                            goDown = false;
                         else
-                        goDown = true;
+                            goDown = true;
 
                         break;
                     }
                 }
-                if (x.Name == "player")//jeżeli element jest graczem to się od niego odbij
+                if (x.Name == "player") //jeżeli element jest graczem to się od niego odbij
                 {
-                    Rect ballHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                    Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (ballHitBox.IntersectsWith(BlockHitBox))
+                    if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
                         goDown = false;
                     }
                 }
 
+                //ballMovement(); // nie może być tu, bo kulka est mega przyśpieszona :/
             }
 
-
+            /* ciągły ruch kulki w górę i w dół, i guess do usunięcia
             if (goDown)
             {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) + 10);
-                if (Canvas.GetTop(ball) + (ball.Height) > myCanvas.Height)
+                Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);
+                if (Canvas.GetTop(ballEclipse) + (ballEclipse.Height) > myCanvas.Height)
                 {
                     goDown = false;
                 }
             }
             else
             {
-                Canvas.SetTop(ball, Canvas.GetTop(ball) - 10);
-                if (Canvas.GetTop(ball) < 0)
+                Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);
+                if (Canvas.GetTop(ballEclipse) < 0)
                 {
                     goDown = true;
                 }
-            }
+            }*/
         }
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
@@ -123,6 +146,66 @@ namespace ArkanoEgo
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
             }
+
+            if (e.Key == Key.Q)
+            {
+                ballMovement();
+            }
+        }
+
+        private void changeBallDirection()
+        {
+            //testowyLabel.Content = "PosY zwykłe: " + (ball.posY-ball.rad)  + "PosY: " + ball.posY + " Rad: " + ball.rad; // nie usuwajcie tego ~ Wika
+
+            if (ball.posY <= 0) // góra
+            {
+                ball.top = false; // odbicie
+            }
+
+            if (ball.posX <= 0) // lewy bok
+            {
+
+                ball.left = false;
+            }
+
+            if (ball.posX >= width - (ball.rad * 2)) // prawy bok
+            {
+                ball.left = true;
+            }
+
+            if (ball.posY >= height) // dół // jest na razie i gdy przegrana będzie zrobiona to do usunięcia
+            {
+                ball.top = true;
+            }
+            // dodaj jakiś if który sprawdza od czego odbiła się kulka + dodaj wymiary kulki i paletki (ale do zmiennych) ~ Wika
+        }
+
+        private void ballMovement()
+        {
+            ball.posX = (int)Canvas.GetLeft(ballEclipse);
+            ball.posY = (int)Canvas.GetTop(ballEclipse);
+
+            // dodaj wykonywanie co ileś milisekund (chyba najlepiej 6-10)
+            if (ball.left)
+                ball.posX -= 1;
+            else if (!ball.left)
+                ball.posX += 1;
+
+            if (ball.top)
+                ball.posY -= 1;
+            else if (!ball.top)
+                ball.posY += 1;
+
+            //testowyLabel.Content = "w: " + ball.posX + " h: " + ball.posY;
+
+            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);    // do góry
+            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);    // do dołu
+            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) - 10);  // w lewo
+            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) + 10);  // w prawo
+
+            Canvas.SetLeft(ballEclipse, ball.posX);
+            Canvas.SetTop(ballEclipse, ball.posY);
+            changeBallDirection();
         }
     }
 }
