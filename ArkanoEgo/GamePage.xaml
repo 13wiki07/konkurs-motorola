@@ -5,13 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArkanoEgo"
       mc:Ignorable="d" 
-      d:DesignHeight="820" d:DesignWidth="960"
+      Height="800" Width="960"
+      x:Name="windowPage"
       Title="GamePage">
 
-    <Canvas Name="myCanvas" Height="805" Width="960" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
+    <Canvas Name="myCanvas" Height="{Binding ElementName=windowPage}" Width="{Binding ElementName=windowPage}" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
         <Rectangle x:Name="player" Height="10" Width="100" Fill="Red" Canvas.Left="430" Canvas.Top="783" HorizontalAlignment="Center" VerticalAlignment="Top" ></Rectangle>
-        <Ellipse x:Name="ballEclipse"  Height="10" Width="10" Fill="Blue" Canvas.Left="475" Canvas.Top="350"></Ellipse>
-        <Label x:Name="testowyLabel" FontSize="20" Content="aaa" Canvas.Bottom="0"/>
-        <Button Content="a" Canvas.Bottom="30" Padding="10" Click="Button_Click"/>
+        <Ellipse x:Name="ballEclipse"  Height="10" Width="10" Fill="Blue" Canvas.Left="20" Canvas.Top="20"></Ellipse>
+        <Label x:Name="testowyLabel" FontSize="20" Content="" Canvas.Bottom="0"/>
     </Canvas>
 </Page>
