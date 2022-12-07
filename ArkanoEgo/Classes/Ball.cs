@@ -10,10 +10,10 @@ namespace ArkanoEgo.Classes
     {
         public int rad { get; set; } // promień kulki (potrzebny do odbić)
         public int speed { get; set; }
-        public int posX { get; set; }
-        public int posY { get; set; }
+        public int posX { get; set; } // - w góre, + w dół
+        public int posY { get; set; } // - w lewo, + w prawo
 
-        public bool top_bot { get; set; } // top = true; bot = false;
-        public bool left_right { get; set; } // right = true; left = false;
+        public bool top { get; set; } // top = false; bot = true;
+        public bool right { get; set; } // left = false; right = true;
     }
 }

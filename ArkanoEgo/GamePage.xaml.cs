@@ -37,9 +37,12 @@ namespace ArkanoEgo
             // kulka przypisanie
             ball.posX = Convert.ToInt32(ballEclipse.GetValue(Grid.WidthProperty));
             ball.posY = Convert.ToInt32(ballEclipse.GetValue(Grid.HeightProperty));
-            //ball.rad = Convert.ToInt32(ballEclipse.Height); // promień kuli
-            MessageBox.Show("aa");
+            ball.rad = Convert.ToInt32(ballEclipse.Height)/2; // promień kuli
+            //testowyLabel.Content = "Promień: " + ball.rad;
+            ball.top = true; // potrzebne do testu z onclickiem
+            ball.right = true; // potrzebne do testu z onclickiem
         }
+
         public void GenerateElements()
         {
             int top = 0;
@@ -102,7 +105,7 @@ namespace ArkanoEgo
 
             }
 
-
+            /*
             if (goDown)
             {
                 Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);
@@ -118,7 +121,7 @@ namespace ArkanoEgo
                 {
                     goDown = true;
                 }
-            }
+            }*/
         }
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
@@ -136,8 +139,71 @@ namespace ArkanoEgo
 
         private void changeBallDirection()
         {
+            //testowyLabel.Content = ball.posY + " == " + (ball.rad+5);
+            if(ball.posY < 5 + ball.rad) // góra
+            {
+                testowyLabel.Content = "tu powinna byc zmiana";
+                // odbicie
+                ball.top = false;
+            }
+            testowyLabel.Content = ball.posX + " == " + ball.rad;
+
+            if (ball.posX < ball.rad) // lewy bok
+            {
+                testowyLabel.Content = "tu powinna byc zmiana";
+                // odbicie
+                ball.right = false;
+            }
+            //testowyLabel.Content = ball.posY + " == " + (ball.rad + 5);
+
+            if (ball.posX > /*Convert.ToInt32(Canvas.WidthProperty)*/ 960 - ball.rad) // prawy bok
+            {
+                testowyLabel.Content = "tu powinna byc zmiana";
+                // odbicie
+                ball.right = true;
+            }
+
+            if (ball.posY > 805 - ball.rad) // dół
+            {
+                testowyLabel.Content = "tu powinna byc zmiana";
+                // odbicie
+                ball.top = true;
+            }
+            // https://paradacreativa.es/pl/como-hacer-flechas-en-el-teclado-de-laptop/
             // napewno !bool -> !top !bot !left !right
             // dodaj jakiś if który sprawdza od czego odbiła się kulka + dodaj wymiary kulki i paletki
+        }
+
+        private void ballMovement()
+        {
+            ball.posX = (int) Canvas.GetLeft(ballEclipse);
+            ball.posY = (int) Canvas.GetTop(ballEclipse);
+            // co ileś milisekund
+            if (ball.right)
+                ball.posX -= 10;
+            else if (!ball.right)
+                ball.posX += 10;
+
+            if (ball.top)
+                ball.posY -= 10;
+            else if (!ball.top)
+                ball.posY += 10;
+
+            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);    // do góry
+            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);    // do dołu
+            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) - 10);  // w lewo
+            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) + 10);  // w prawo
+
+            Canvas.SetLeft(ballEclipse, ball.posX);
+            Canvas.SetTop(ballEclipse, ball.posY);
+            changeBallDirection();
+            //testowyLabel.Content = "R: " + ball.right + " T: " + ball.top;
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) // kontrolne, do kontroli ruchu
+        {
+            ballMovement();
         }
     }
 }
