@@ -11,7 +11,7 @@
 
     <Canvas Name="myCanvas" Height="{Binding ElementName=windowPage}" Width="{Binding ElementName=windowPage}" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown">
         <Rectangle x:Name="player" Height="10" Width="100" Fill="Red" Canvas.Left="430" Canvas.Top="783" HorizontalAlignment="Center" VerticalAlignment="Top" ></Rectangle>
-        <Ellipse x:Name="ballEclipse"  Height="10" Width="10" Fill="Blue" Canvas.Left="20" Canvas.Top="20"></Ellipse>
+        <Ellipse x:Name="ballEclipse" Height="10" Width="10" Fill="Blue" Canvas.Left="400" Canvas.Top="60"></Ellipse>
         <Label x:Name="testowyLabel" FontSize="20" Content="" Canvas.Bottom="0"/>
     </Canvas>
 </Page>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,6 +54,8 @@ namespace ArkanoEgo
 
             ball.top = true; // potrzebne do testu z onclickiem i Q
             ball.left = true; // potrzebne do testu z onclickiem i Q
+
+            fun();
         }
 
         public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
@@ -96,13 +99,41 @@ namespace ArkanoEgo
                     if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
                         myCanvas.Children.Remove(x);
-                        if (goDown == true)
-                            goDown = false;
-                        else
-                            goDown = true;
 
+                        // góra klocka
+                        if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
+                        {
+                            //testowyLabel.Content = "góra klocka";
+                            ball.top = true;
+                        }
+
+                        // dół klocka
+                        if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY > Canvas.GetTop(x))
+                        {
+                            //testowyLabel.Content = "dół klocka";
+                            ball.top = false;
+                        }
+
+
+                        // lewa klocka
+                        if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX < Canvas.GetLeft(x) + x.Width)
+                        {
+                            //testowyLabel.Content = "lewa klocka";
+                            ball.left = true;
+                        }
+
+                        // prawa klocka
+                        if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX > Canvas.GetLeft(x))
+                        {
+                            //testowyLabel.Content = "prawa klocka";
+                            ball.left = false;
+                        }
+
+                        // trzeba dodać jeszcze co gdy jest kant klocka (bo te funkcje tego nie wykrywają)
                         break;
                     }
+
+
                 }
                 if (x.Name == "player") //jeżeli element jest graczem to się od niego odbij
                 {
@@ -110,30 +141,11 @@ namespace ArkanoEgo
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
-                        goDown = false;
+                        ball.top = true;
                     }
                 }
-
-                //ballMovement(); // nie może być tu, bo kulka est mega przyśpieszona :/
             }
-
-            /* ciągły ruch kulki w górę i w dół, i guess do usunięcia
-            if (goDown)
-            {
-                Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);
-                if (Canvas.GetTop(ballEclipse) + (ballEclipse.Height) > myCanvas.Height)
-                {
-                    goDown = false;
-                }
-            }
-            else
-            {
-                Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);
-                if (Canvas.GetTop(ballEclipse) < 0)
-                {
-                    goDown = true;
-                }
-            }*/
+            ballMovement();
         }
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
@@ -164,7 +176,6 @@ namespace ArkanoEgo
 
             if (ball.posX <= 0) // lewy bok
             {
-
                 ball.left = false;
             }
 
