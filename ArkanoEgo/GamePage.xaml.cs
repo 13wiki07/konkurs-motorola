@@ -35,7 +35,7 @@ namespace ArkanoEgo
         public GamePage()
         {
             InitializeComponent();
-            Bricks[0,0] = new GoldBrick();
+            Bricks[0,0] = new SilverBrick(50,1);
             GenerateElements();
             myCanvas.Focus();
             gameTimer.Interval = TimeSpan.FromMilliseconds(6);
@@ -74,6 +74,7 @@ namespace ArkanoEgo
                         Height = 40,
                         Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[0,0].Color)),
                         Stroke = Brushes.Red,
+                        Tag = 2,
                         StrokeThickness = 1,
                     };
 
@@ -102,14 +103,28 @@ namespace ArkanoEgo
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
                         {
                             ball.top = true;
-                            myCanvas.Children.Remove(x);
+                            if(x.Tag is 2)
+                            {
+                                x.Tag = 1;
+                            }
+                            else
+                            {
+                                myCanvas.Children.Remove(x);
+                            }
                         }
 
                         // dolna krawędź klocka
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY > Canvas.GetTop(x))
                         {
                             ball.top = false;
-                            myCanvas.Children.Remove(x);
+                            if (x.Tag is 2)
+                            {
+                                x.Tag = 1;
+                            }
+                            else
+                            {
+                                myCanvas.Children.Remove(x);
+                            }
                         }
 
 
@@ -117,14 +132,28 @@ namespace ArkanoEgo
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX < Canvas.GetLeft(x) + x.Width)
                         {
                             ball.left = true;
-                            myCanvas.Children.Remove(x);
+                            if (x.Tag is 2)
+                            {
+                                x.Tag = 1;
+                            }
+                            else
+                            {
+                                myCanvas.Children.Remove(x);
+                            }
                         }
 
                         // prawa krawędź klocka
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX > Canvas.GetLeft(x))
                         {
                             ball.left = false;
-                            myCanvas.Children.Remove(x);
+                            if (x.Tag is 2)
+                            {
+                                x.Tag = 1;
+                            }
+                            else
+                            {
+                                myCanvas.Children.Remove(x);
+                            }
                         }
 
                         break;
