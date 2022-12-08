@@ -36,7 +36,7 @@ namespace ArkanoEgo
             GenerateElements();
             myCanvas.Focus();
 
-            gameTimer.Interval = TimeSpan.FromMilliseconds(20);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(6);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
@@ -60,16 +60,16 @@ namespace ArkanoEgo
         {
             int top = 0;
             int left = 0;
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 13; i++)
             {//x
 
-                for (int j = 0; j < 12; j++)//y
+                for (int j = 0; j < 20; j++)//y
                 {
                     // Create the rectangle
                     Rectangle rec = new Rectangle()
                     {
                         Width = 80,
-                        Height = 47,
+                        Height = 40,
                         Fill = Brushes.Green,
                         Stroke = Brushes.Red,
                         StrokeThickness = 1,
@@ -79,7 +79,7 @@ namespace ArkanoEgo
                     myCanvas.Children.Add(rec);
                     Canvas.SetTop(rec, top);
                     Canvas.SetLeft(rec, left);
-                    top = top + 47;
+                    top = top + 40;
                 }
                 left = left + 80;
                 top = 0;
