@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,6 +70,10 @@
     </Compile>
     <Compile Include="Classes\Ball.cs" />
     <Compile Include="Classes\Booster.cs" />
+    <Compile Include="Classes\Bricks\Brick.cs" />
+    <Compile Include="Classes\Bricks\GoldBrick.cs" />
+    <Compile Include="Classes\Bricks\SilverBrick.cs" />
+    <Compile Include="Classes\Bricks\SimpleBrick.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
