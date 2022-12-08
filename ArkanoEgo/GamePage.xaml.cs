@@ -54,8 +54,6 @@ namespace ArkanoEgo
 
             ball.top = true; // potrzebne do testu z onclickiem i Q
             ball.left = true; // potrzebne do testu z onclickiem i Q
-
-            fun();
         }
 
         public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
@@ -98,38 +96,35 @@ namespace ArkanoEgo
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
-                        myCanvas.Children.Remove(x);
-
-                        // góra klocka
+                        // górna krawędź klocka
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
                         {
-                            //testowyLabel.Content = "góra klocka";
                             ball.top = true;
+                            myCanvas.Children.Remove(x);
                         }
 
-                        // dół klocka
+                        // dolna krawędź klocka
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY > Canvas.GetTop(x))
                         {
-                            //testowyLabel.Content = "dół klocka";
                             ball.top = false;
+                            myCanvas.Children.Remove(x);
                         }
 
 
-                        // lewa klocka
+                        // lewa krawędź klocka
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX < Canvas.GetLeft(x) + x.Width)
                         {
-                            //testowyLabel.Content = "lewa klocka";
                             ball.left = true;
+                            myCanvas.Children.Remove(x);
                         }
 
-                        // prawa klocka
+                        // prawa krawędź klocka
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX > Canvas.GetLeft(x))
                         {
-                            //testowyLabel.Content = "prawa klocka";
                             ball.left = false;
+                            myCanvas.Children.Remove(x);
                         }
 
-                        // trzeba dodać jeszcze co gdy jest kant klocka (bo te funkcje tego nie wykrywają)
                         break;
                     }
 
