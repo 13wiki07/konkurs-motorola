@@ -74,6 +74,7 @@
     <Compile Include="Classes\Bricks\GoldBrick.cs" />
     <Compile Include="Classes\Bricks\SilverBrick.cs" />
     <Compile Include="Classes\Bricks\SimpleBrick.cs" />
+    <Compile Include="Classes\Tools\Tools.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
@@ -107,6 +108,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="LVLS\lvl1.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

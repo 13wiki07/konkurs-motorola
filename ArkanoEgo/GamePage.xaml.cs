@@ -1,5 +1,6 @@
 ﻿using ArkanoEgo.Classes;
 using ArkanoEgo.Classes.Bricks;
+using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
-        public Brick[,] Bricks = new Brick[20, 13];
+        public Brick[,] Bricks = new Brick[13, 20];
 
         DispatcherTimer gameTimer = new DispatcherTimer();
         private bool goDown = true;
@@ -35,7 +36,7 @@ namespace ArkanoEgo
         public GamePage()
         {
             InitializeComponent();
-            Bricks[0,0] = new SilverBrick(50,1);
+            Bricks = Tools.ReadLvl(1);
             GenerateElements();
             myCanvas.Focus();
             gameTimer.Interval = TimeSpan.FromMilliseconds(6);
@@ -67,21 +68,25 @@ namespace ArkanoEgo
 
                 for (int j = 0; j < 20; j++)//y
                 {
-                    // Create the rectangle
-                    Rectangle rec = new Rectangle()
-                    {
-                        Width = 80,
-                        Height = 40,
-                        Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[0,0].Color)),
-                        Stroke = Brushes.Red,
-                        Tag = 2,
-                        StrokeThickness = 1,
-                    };
 
-                    // Add to a canvas for example
-                    myCanvas.Children.Add(rec);
-                    Canvas.SetTop(rec, top);
-                    Canvas.SetLeft(rec, left);
+                    if (Bricks[i, j] != null)
+                    {
+                        // Create the rectangle
+                        Rectangle rec = new Rectangle()
+                        {
+                            Width = 80,
+                            Height = 40,
+                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),
+                            Stroke = Brushes.Red,
+                            Tag = 2,
+                            StrokeThickness = 1,
+                        };
+
+                        // Add to a canvas for example
+                        myCanvas.Children.Add(rec);
+                        Canvas.SetTop(rec, top);
+                        Canvas.SetLeft(rec, left);
+                    }
                     top = top + 40;
                 }
                 left = left + 80;
@@ -103,7 +108,7 @@ namespace ArkanoEgo
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
                         {
                             ball.top = true;
-                            if(x.Tag is 2)
+                            if(x.Tag is 2)// w ten sposób można sprawdzać timeToBreak
                             {
                                 x.Tag = 1;
                             }
