@@ -39,7 +39,7 @@ namespace ArkanoEgo
             Bricks = Tools.ReadLvl(1);
             GenerateElements();
             myCanvas.Focus();
-            gameTimer.Interval = TimeSpan.FromMilliseconds(6);
+            gameTimer.Interval = TimeSpan.FromMilliseconds(1);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
