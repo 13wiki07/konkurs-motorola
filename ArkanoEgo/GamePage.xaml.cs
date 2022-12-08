@@ -1,4 +1,5 @@
 ﻿using ArkanoEgo.Classes;
+using ArkanoEgo.Classes.Bricks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,10 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
+        public Brick[,] Bricks = new Brick[20, 13];
+
         DispatcherTimer gameTimer = new DispatcherTimer();
         private bool goDown = true;
-
         Ball ball = new Ball();
 
         //wymiary Canvas'a / pola gry
@@ -33,9 +35,9 @@ namespace ArkanoEgo
         public GamePage()
         {
             InitializeComponent();
+            Bricks[0,0] = new GoldBrick();
             GenerateElements();
             myCanvas.Focus();
-
             gameTimer.Interval = TimeSpan.FromMilliseconds(6);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
@@ -70,7 +72,7 @@ namespace ArkanoEgo
                     {
                         Width = 80,
                         Height = 40,
-                        Fill = Brushes.Green,
+                        Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[0,0].Color)),
                         Stroke = Brushes.Red,
                         StrokeThickness = 1,
                     };
