@@ -111,7 +111,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="LVLS\lvl1.csv" />
+    <Content Include="LVLS\**">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,11 +10,20 @@ namespace ArkanoEgo.Classes.Tools
 {
     public static class Tools
     {
-        //TODO trzeba sprawdzić jak ustawić względną ściężke do poziomu
         public static Brick[,] ReadLvl(int lvl)//wstępne czytanie mapy z pliku
         {
+            string[] lines = null;
             Brick[,] Bricks = new Brick[13, 20];
-            string[] lines = File.ReadAllLines(System.IO.Path.ChangeExtension(@"C:\Users\Dawid\Desktop\konkursik\ArkanoEgo\LVLS\lvl1", ".csv"));
+
+            try
+            {
+                lines = File.ReadAllLines(System.IO.Path.ChangeExtension($@"LVLS\lvl{lvl}", ".csv"));
+            }
+            catch(Exception e)//TODO trzeba pomyśleć nad lepszym rozwiązaniem gdy nie ma pliku z mapą
+            {
+                Bricks[0, 0] = new GoldBrick();
+                return Bricks;
+            }
             foreach (var line in lines)
             {
 

@@ -15,7 +15,7 @@ namespace ArkanoEgo.Classes.Bricks
             _value = value;
             _timesToBreak = 1;
         }
-        public int Value
+        public override int Value
         {
             get
             {

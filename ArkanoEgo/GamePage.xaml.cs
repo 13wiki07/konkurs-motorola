@@ -23,6 +23,7 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
+        public int points = 0;
         public Brick[,] Bricks = new Brick[13, 20];
 
         DispatcherTimer gameTimer = new DispatcherTimer();
@@ -39,7 +40,8 @@ namespace ArkanoEgo
             Bricks = Tools.ReadLvl(1);
             GenerateElements();
             myCanvas.Focus();
-            gameTimer.Interval = TimeSpan.FromMilliseconds(6);
+
+            gameTimer.Interval = TimeSpan.FromMilliseconds(0);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
@@ -78,7 +80,6 @@ namespace ArkanoEgo
                             Height = 40,
                             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),
                             Stroke = Brushes.Red,
-                            Tag = 2,
                             StrokeThickness = 1,
                         };
 
@@ -100,6 +101,10 @@ namespace ArkanoEgo
             {
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
+
+                    int posX = (int)Canvas.GetLeft(x)/80;
+                    int poxY = (int)Canvas.GetTop(x) / 40;
+
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
@@ -114,7 +119,12 @@ namespace ArkanoEgo
                             }
                             else
                             {
+                                if(Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -128,7 +138,12 @@ namespace ArkanoEgo
                             }
                             else
                             {
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -143,7 +158,12 @@ namespace ArkanoEgo
                             }
                             else
                             {
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -157,7 +177,12 @@ namespace ArkanoEgo
                             }
                             else
                             {
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
