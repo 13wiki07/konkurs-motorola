@@ -37,7 +37,7 @@ namespace ArkanoEgo
         public GamePage()
         {
             InitializeComponent();
-            Bricks = Tools.ReadLvl(1);
+            Bricks = Tools.ReadLvl(1);//Wczytywanie mapy
             GenerateElements();
             myCanvas.Focus();
 
@@ -78,7 +78,7 @@ namespace ArkanoEgo
                         {
                             Width = 80,
                             Height = 40,
-                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),
+                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),//color pobierany z obiektu
                             Stroke = Brushes.Red,
                             StrokeThickness = 1,
                         };
@@ -102,8 +102,8 @@ namespace ArkanoEgo
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
 
-                    int posX = (int)Canvas.GetLeft(x)/80;
-                    int poxY = (int)Canvas.GetTop(x) / 40;
+                    int posX = (int)Canvas.GetLeft(x) / 80;//element [x,0] tablicy
+                    int poxY = (int)Canvas.GetTop(x) / 40;//element [0,Y] tablicy
 
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
@@ -113,13 +113,13 @@ namespace ArkanoEgo
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
                         {
                             ball.top = true;
-                            if(x.Tag is 2)// w ten sposób można sprawdzać timeToBreak
+                            if (x.Tag is 2)// TODO trzeba to zamienić na timeToBrick z danego obiektu
                             {
                                 x.Tag = 1;
                             }
                             else
                             {
-                                if(Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
                                 {
                                     points += Bricks[posX, poxY].Value;
                                 }

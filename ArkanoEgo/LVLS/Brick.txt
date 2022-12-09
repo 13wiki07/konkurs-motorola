@@ -1,0 +1,20 @@
+-Type 1/2/3 (Simple/Silver/Gold)
+-Position X
+-Position Y
+-Value (type: 1/2)
+-color (type: 1)
+-timesToBreak (type: 2)
+
+example:
+
+Type 1 - Simple
+type/X/Y/Value/Color/null
+1;0;0;20;#5669cc;0
+
+Type 2 - Silver
+type/X/Y/Value/null/timesToBreak
+2;0;1;20;0;2
+
+Type 3 - Gold
+type/X/Y/null/null/null
+3;0;2;0;0;0
