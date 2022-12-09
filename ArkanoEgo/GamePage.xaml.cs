@@ -23,6 +23,7 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
+        public int points = 0;
         public Brick[,] Bricks = new Brick[13, 20];
 
         DispatcherTimer gameTimer = new DispatcherTimer();
@@ -36,9 +37,10 @@ namespace ArkanoEgo
         public GamePage()
         {
             InitializeComponent();
-            Bricks = Tools.ReadLvl(1);
+            Bricks = Tools.ReadLvl(1);//Wczytywanie mapy
             GenerateElements();
             myCanvas.Focus();
+
             gameTimer.Interval = TimeSpan.FromMilliseconds(1);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
@@ -76,9 +78,8 @@ namespace ArkanoEgo
                         {
                             Width = 80,
                             Height = 40,
-                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),
+                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),//color pobierany z obiektu
                             Stroke = Brushes.Red,
-                            Tag = 2,
                             StrokeThickness = 1,
                         };
 
@@ -100,6 +101,10 @@ namespace ArkanoEgo
             {
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
+
+                    int posX = (int)Canvas.GetLeft(x) / 80;//element [x,0] tablicy
+                    int poxY = (int)Canvas.GetTop(x) / 40;//element [0,Y] tablicy
+
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
@@ -108,13 +113,18 @@ namespace ArkanoEgo
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
                         {
                             ball.top = true;
-                            if(x.Tag is 2)// w ten sposób można sprawdzać timeToBreak
+                            if (x.Tag is 2)// TODO trzeba to zamienić na timeToBrick z danego obiektu
                             {
                                 x.Tag = 1;
                             }
                             else
                             {
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -128,7 +138,12 @@ namespace ArkanoEgo
                             }
                             else
                             {
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -143,7 +158,12 @@ namespace ArkanoEgo
                             }
                             else
                             {
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -157,7 +177,12 @@ namespace ArkanoEgo
                             }
                             else
                             {
+                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                {
+                                    points += Bricks[posX, poxY].Value;
+                                }
                                 myCanvas.Children.Remove(x);
+                                testowyLabel.Content = "Points: " + points;
                             }
                         }
 
