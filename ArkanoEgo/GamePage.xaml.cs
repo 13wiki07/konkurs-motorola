@@ -27,7 +27,6 @@ namespace ArkanoEgo
         public Brick[,] Bricks = new Brick[13, 20];
 
         DispatcherTimer gameTimer = new DispatcherTimer();
-        private bool goDown = true;
         Ball ball = new Ball();
 
         //wymiary Canvas'a / pola gry
@@ -37,13 +36,6 @@ namespace ArkanoEgo
         public GamePage()
         {
             InitializeComponent();
-            Bricks = Tools.ReadLvl(1);//Wczytywanie mapy
-            GenerateElements();
-            myCanvas.Focus();
-
-            gameTimer.Interval = TimeSpan.FromMilliseconds(1);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
-            gameTimer.Tick += new EventHandler(GameTimerEvent);
-            gameTimer.Start();
 
             height = (int)windowPage.Height;
             width = (int)windowPage.Width;
@@ -59,6 +51,29 @@ namespace ArkanoEgo
 
             ball.top = true; // potrzebne do testu z onclickiem i Q
             ball.left = true; // potrzebne do testu z onclickiem i Q
+
+            // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
+            height = (int)SystemParameters.FullPrimaryScreenHeight / 13;
+            height = height * 13;
+
+            /* np.
+             system -> 800
+             /13 -> 61
+             *13 -> 793 <= i to ma być szerokość i elo  */
+
+            windowPage.SetValue(WidthProperty, (double)(height));
+            windowPage.UpdateLayout();
+            width = (int)windowPage.Width;
+
+            Bricks = Tools.ReadLvl(1);//Wczytywanie mapy
+            GenerateElements();
+            myCanvas.Focus();
+
+            gameTimer.Interval = TimeSpan.FromMilliseconds(1);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
+            gameTimer.Tick += new EventHandler(GameTimerEvent);
+            gameTimer.Start();
+
+            //testowyLabel.Content = "Wymiary canvy: " + width + " x " + height;
         }
 
         public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
@@ -76,8 +91,8 @@ namespace ArkanoEgo
                         // Create the rectangle
                         Rectangle rec = new Rectangle()
                         {
-                            Width = 80,
-                            Height = 40,
+                            Width = width/13,
+                            Height = height/26, // 26 albo 27
                             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),//color pobierany z obiektu
                             Stroke = Brushes.Red,
                             StrokeThickness = 1,
@@ -88,9 +103,9 @@ namespace ArkanoEgo
                         Canvas.SetTop(rec, top);
                         Canvas.SetLeft(rec, left);
                     }
-                    top = top + 40;
+                    top = top + (height/26);
                 }
-                left = left + 80;
+                left = left + (width/13);
                 top = 0;
             }
         }
@@ -101,9 +116,8 @@ namespace ArkanoEgo
             {
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
-
-                    int posX = (int)Canvas.GetLeft(x) / 80;//element [x,0] tablicy
-                    int poxY = (int)Canvas.GetTop(x) / 40;//element [0,Y] tablicy
+                    int posX = (int)Canvas.GetLeft(x) / (width/13);//element [x,0] tablicy
+                    int poxY = (int)Canvas.GetTop(x) / (height/26);//element [0,Y] tablicy
 
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
@@ -122,8 +136,8 @@ namespace ArkanoEgo
                                 if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
                                 {
                                     points += Bricks[posX, poxY].Value;
+                                    myCanvas.Children.Remove(x);
                                 }
-                                myCanvas.Children.Remove(x);
                                 testowyLabel.Content = "Points: " + points;
                             }
                         }
@@ -141,8 +155,8 @@ namespace ArkanoEgo
                                 if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
                                 {
                                     points += Bricks[posX, poxY].Value;
+                                    myCanvas.Children.Remove(x);
                                 }
-                                myCanvas.Children.Remove(x);
                                 testowyLabel.Content = "Points: " + points;
                             }
                         }
@@ -161,8 +175,8 @@ namespace ArkanoEgo
                                 if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
                                 {
                                     points += Bricks[posX, poxY].Value;
+                                    myCanvas.Children.Remove(x);
                                 }
-                                myCanvas.Children.Remove(x);
                                 testowyLabel.Content = "Points: " + points;
                             }
                         }
@@ -180,8 +194,8 @@ namespace ArkanoEgo
                                 if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
                                 {
                                     points += Bricks[posX, poxY].Value;
+                                    myCanvas.Children.Remove(x);
                                 }
-                                myCanvas.Children.Remove(x);
                                 testowyLabel.Content = "Points: " + points;
                             }
                         }
