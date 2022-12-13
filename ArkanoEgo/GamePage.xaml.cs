@@ -138,7 +138,7 @@ namespace ArkanoEgo
                                     points += Bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
                                 }
-                                testowyLabel.Content = "Points: " + points;
+                                pointsLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -157,7 +157,7 @@ namespace ArkanoEgo
                                     points += Bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
                                 }
-                                testowyLabel.Content = "Points: " + points;
+                                pointsLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -177,7 +177,7 @@ namespace ArkanoEgo
                                     points += Bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
                                 }
-                                testowyLabel.Content = "Points: " + points;
+                                pointsLabel.Content = "Points: " + points;
                             }
                         }
 
@@ -196,7 +196,7 @@ namespace ArkanoEgo
                                     points += Bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
                                 }
-                                testowyLabel.Content = "Points: " + points;
+                                pointsLabel.Content = "Points: " + points;
                             }
                         }
 
