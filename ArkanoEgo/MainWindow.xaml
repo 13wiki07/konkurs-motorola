@@ -9,8 +9,9 @@
         Height="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         WindowState="Maximized"
         Title="ArkanoEgo">
-<Grid>
+    <Grid>
         <!-- frame potrzebne do GamePage itp -->
         <Frame x:Name="gridFrame" Source=".xaml" NavigationUIVisibility="Hidden"/>
+        <Button Content="Kreator" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="20" Click="Kreator_Click"/>
     </Grid>
 </Window>

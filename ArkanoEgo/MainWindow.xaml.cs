@@ -23,5 +23,10 @@ namespace ArkanoEgo
             InitializeComponent();
             gridFrame.Navigate(new GamePage()); // tutaj decydujemy jaką stronę wyświetlamy
         }
+
+        private void Kreator_Click(object sender, RoutedEventArgs e)
+        {
+            gridFrame.Navigate(new CreatorPage());
+        }
     }
 }
