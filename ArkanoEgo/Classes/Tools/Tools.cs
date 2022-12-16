@@ -16,7 +16,7 @@ namespace ArkanoEgo.Classes.Tools
             Brick[,] Bricks = new Brick[13, 20];
 
             try
-            {
+            { 
                 lines = File.ReadAllLines(System.IO.Path.ChangeExtension($@"LVLS\lvl{lvl}", ".csv"));
             }
             catch(Exception e)//TODO trzeba pomyśleć nad lepszym rozwiązaniem gdy nie ma pliku z mapą

@@ -54,6 +54,7 @@
             <Label Content="-" HorizontalAlignment="Center"/>
 
         </UniformGrid>
+        <!-- tu chyb nalepiej by było zrobić uniformgrida -->
         <Grid x:Name="gridCreator" Grid.Column="1" Height="{x:Static SystemParameters.FullPrimaryScreenHeight}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -99,5 +100,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
         </Grid>
+
+        <Button Grid.Column="2" Click="Button_Click">Save</Button>
     </Grid>
 </Page>
