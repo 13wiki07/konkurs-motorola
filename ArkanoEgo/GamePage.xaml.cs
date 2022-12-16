@@ -215,7 +215,6 @@ namespace ArkanoEgo
                     }
                 }
             }
-
             if (Keyboard.IsKeyDown(Key.D) || Keyboard.IsKeyDown(Key.Right))
                 playerMovement(true);
             if (Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.Left))
