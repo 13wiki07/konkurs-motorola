@@ -215,20 +215,16 @@ namespace ArkanoEgo
                     }
                 }
             }
+            if (Keyboard.IsKeyDown(Key.D) || Keyboard.IsKeyDown(Key.Right))
+                playerMovement(true);
+            if (Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.Left))
+                playerMovement(false);
+
             ballMovement();
         }
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.A || e.Key == Key.Left && Canvas.GetLeft(player) > 5)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) - 10);
-            }
-            if (e.Key == Key.D || e.Key == Key.Right && Canvas.GetLeft(player) + (player.Width) < myCanvas.Width)
-            {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
-            }
-
             if (e.Key == Key.Q)
             {
                 ballMovement();
@@ -288,5 +284,21 @@ namespace ArkanoEgo
             Canvas.SetTop(ballEclipse, ball.posY);
             changeBallDirection();
         }
+        private void playerMovement(bool direction)
+        {
+            int predkoscGracza = 3;
+            for (int i = 0; i < predkoscGracza; i++)
+            {
+                if (Canvas.GetLeft(player) + (player.Width) < width && direction)
+                {
+                    Canvas.SetLeft(player, Canvas.GetLeft(player) + 1);
+                }
+                if (Canvas.GetLeft(player) > 0 && !direction)
+                {
+                    Canvas.SetLeft(player, Canvas.GetLeft(player) - 1);
+                }
+            }
+        }
+
     }
 }
