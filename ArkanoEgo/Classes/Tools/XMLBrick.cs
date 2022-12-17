@@ -25,6 +25,6 @@ namespace ArkanoEgo.Classes.Tools
         public String Color { get; set; }
 
         [XmlElement("TimeToBreak")]
-        public int TimeToBreak { get; set; }
+        public int TimesToBreak { get; set; }
     }
 }

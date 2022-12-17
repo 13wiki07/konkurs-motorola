@@ -40,7 +40,7 @@ namespace ArkanoEgo.Classes.Tools
                         Bricks[Brick.PosX, Brick.PosY] = new SimpleBrick(Brick.Color, Brick.Value);
                         break;
                     case 2:
-                        Bricks[Brick.PosX, Brick.PosY] = new SilverBrick(Brick.Value, Brick.TimeToBreak);
+                        Bricks[Brick.PosX, Brick.PosY] = new SilverBrick(Brick.Value, Brick.TimesToBreak);
                         break;
                     case 3:
                         Bricks[Brick.PosX, Brick.PosY] = new GoldBrick();

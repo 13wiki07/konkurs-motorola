@@ -1,5 +1,6 @@
 ﻿using ArkanoEgo.Classes;
 using ArkanoEgo.Classes.Bricks;
+using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,14 +26,22 @@ namespace ArkanoEgo
     {
         Button wybrany = new Button();
         Button emptyBtn = new Button();
+        List<XMLBrick> bricksList = new List<XMLBrick>();
+        List<Button> allButtons= new List<Button>();
+
         public CreatorPage()
         {
             InitializeComponent();
-            clearMap();
+            newMap();
+            
             wybrany = emptyBtn;
+            for(int i = 0; i < 21*13; i++)
+            {
+                allButtons[i].Background = wybrany.Background;
+            }
         }
 
-        private void clearMap()
+        private void newMap()
         {
             for(int i = 0; i < 13; i++) //x
             {
@@ -44,7 +54,8 @@ namespace ArkanoEgo
                     btn.MouseDown+= Field_RightClick;
                     btn.Background = new SolidColorBrush(Color.FromArgb(10, 36, 36, 36));
                     gridCreator.Children.Add(btn);
-                    emptyBtn = btn;
+                    emptyBtn.Background = btn.Background;
+                    allButtons.Add(btn);
                 }
             }
         }
@@ -75,23 +86,61 @@ namespace ArkanoEgo
         private void SaveMapToFile()
         {
             string path = @"..\..\LVLS\testowyLevel.xml"; // trzeba coś wykombinować by się robiły też nowe levele i by można było edytować stare
+                                                          // datagrid w nowej zakładce czy coś można by je pokazywać
 
-            try // TODO: dodać zapisywanie wszystkich buttonów, które na mapie nie są empty albo default
+            XmlSerializer sr = new XmlSerializer(typeof(XMLBrick));
+            StreamWriter writer = new StreamWriter(path);
+            bricksList.Clear();
+
+            for (int n = 0; n < allButtons.Count; n++)
             {
-                BrickXML brick = new BrickXML();
-                brick.Type = 1;
-                brick.PosX = 2;
-                brick.PosY = 3;
-                brick.Value = 150;
-                brick.Color = "#ff00cc";
-                brick.TimesToBreak = 1;
-
-                XmlSerializer sr = new XmlSerializer(typeof(BrickXML));
-                StreamWriter writer = new StreamWriter(path);
-                sr.Serialize(writer, brick);
-                writer.Close();
+                if (allButtons[n].Background != emptyBtn.Background)
+                {
+                    XMLBrick b = createBrick(allButtons[n]);
+                    b.Type = n;
+                    bricksList.Add(b);
+                }
             }
-            catch { }
+
+            for (int i = 0; i < bricksList.Count; i++)
+            {
+                sr.Serialize(writer, bricksList[i]); // dodaje dany brick do .xml
+            }
+            writer.Close();
+        }
+
+        private XMLBrick createBrick(Button btn)
+        {
+            XMLBrick brick = new XMLBrick();
+
+            brick.Type = 1;
+            brick.Value = 0;
+            brick.Color = btn.Background.ToString();
+            brick.PosX = (int)btn.GetValue(Grid.ColumnProperty);
+            brick.PosY = (int)btn.GetValue(Grid.RowProperty);
+            brick.TimesToBreak = 0;
+
+            if (btn.Name == "silver")
+            {
+                brick.Type = 2;
+                //brick.TimesToBreak = 5;
+            }
+
+            if (btn.Name == "gold")
+            {
+                brick.Type = 3;
+                //brick.Value = 0;
+            }
+
+            return brick;
+
+            
+        /*  brick.Type;
+            brick.Value;
+            brick.Color;
+            brick.PosX;
+            brick.PosY;
+            brick.TimesToBreak;*/
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

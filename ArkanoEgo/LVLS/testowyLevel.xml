@@ -1,9 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<BrickXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Type>1</Type>
-  <PosX>2</PosX>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>2</Type>
+  <PosX>0</PosX>
+  <PosY>2</PosY>
+  <Value>0</Value>
+  <Color>#FFF5F5F5</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>3</Type>
+  <PosX>0</PosX>
   <PosY>3</PosY>
-  <Value>150</Value>
-  <Color>#ff00cc</Color>
-  <TimesToBreak>1</TimesToBreak>
-</BrickXML>
+  <Value>0</Value>
+  <Color>#FF7FFFD4</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>4</Type>
+  <PosX>0</PosX>
+  <PosY>4</PosY>
+  <Value>0</Value>
+  <Color>#FFFF1493</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>5</Type>
+  <PosX>0</PosX>
+  <PosY>5</PosY>
+  <Value>0</Value>
+  <Color>#FFFFC0CB</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>6</Type>
+  <PosX>0</PosX>
+  <PosY>6</PosY>
+  <Value>0</Value>
+  <Color>#FF808080</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>26</Type>
+  <PosX>1</PosX>
+  <PosY>5</PosY>
+  <Value>0</Value>
+  <Color>#FFF5F5F5</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>27</Type>
+  <PosX>1</PosX>
+  <PosY>6</PosY>
+  <Value>0</Value>
+  <Color>#FFDAA520</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>28</Type>
+  <PosX>1</PosX>
+  <PosY>7</PosY>
+  <Value>0</Value>
+  <Color>#FFDAA520</Color>
+  <TimeToBreak>0</TimeToBreak>
+</XMLBrick>

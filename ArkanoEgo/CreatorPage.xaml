@@ -23,32 +23,32 @@
         </Grid.ColumnDefinitions>
 
         <UniformGrid Columns="2" Height="320">
-            <Button Background="WhiteSmoke" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="Orange" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="WhiteSmoke" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="Orange" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="50" HorizontalAlignment="Center"/>
             <Label Content="60" HorizontalAlignment="Center"/>
 
-            <Button Background="Aquamarine" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="LightGreen" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="Aquamarine" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="LightGreen" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="70" HorizontalAlignment="Center"/>
             <Label Content="80" HorizontalAlignment="Center"/>
 
-            <Button Background="DeepPink" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="RoyalBlue" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="DeepPink" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="RoyalBlue" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="90" HorizontalAlignment="Center"/>
             <Label Content="100" HorizontalAlignment="Center"/>
 
-            <Button Background="Pink" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="Yellow" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="Pink" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="Yellow" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="110" HorizontalAlignment="Center"/>
             <Label Content="120" HorizontalAlignment="Center"/>
 
-            <Button Background="Gray" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="Goldenrod" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button x:Name="silver" Background="Gray" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button x:Name="gold" Background="Goldenrod" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="50 * lvl" HorizontalAlignment="Center"/>
             <Label Content="-" HorizontalAlignment="Center"/>
