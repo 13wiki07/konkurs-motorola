@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<BrickXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>0</Type>
+  <PosX>2</PosX>
+  <PosY>3</PosY>
+  <Value>150</Value>
+  <Color>#ff00cc</Color>
+  <TimeToBreak>1</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Type>1</Type>
   <PosX>2</PosX>
   <PosY>3</PosY>
   <Value>150</Value>
   <Color>#ff00cc</Color>
-  <TimesToBreak>1</TimesToBreak>
-</BrickXML>
+  <TimeToBreak>1</TimeToBreak>
+</XMLBrick><?xml version="1.0" encoding="utf-8"?>
+<XMLBrick xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Type>2</Type>
+  <PosX>2</PosX>
+  <PosY>3</PosY>
+  <Value>150</Value>
+  <Color>#ff00cc</Color>
+  <TimeToBreak>1</TimeToBreak>
+</XMLBrick>
