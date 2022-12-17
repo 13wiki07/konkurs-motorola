@@ -78,7 +78,6 @@
     <Compile Include="Classes\Bricks\GoldBrick.cs" />
     <Compile Include="Classes\Bricks\SilverBrick.cs" />
     <Compile Include="Classes\Bricks\SimpleBrick.cs" />
-    <Compile Include="Classes\BrickXML.cs" />
     <Compile Include="Classes\Tools\XMLBrick.cs" />
     <Compile Include="Classes\Tools\Tools.cs" />
     <Compile Include="CreatorPage.xaml.cs">
