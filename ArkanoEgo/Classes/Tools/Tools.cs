@@ -13,6 +13,8 @@ namespace ArkanoEgo.Classes.Tools
 {
     public static class Tools
     {
+        private static Random rnd = new Random();
+
         [XmlRoot("XMLBricks")]
         public class ListBricks
         {
@@ -49,6 +51,11 @@ namespace ArkanoEgo.Classes.Tools
                 }
             }
             return Bricks;
+        }
+
+        public static int RundomNumber(int from, int to)
+        {
+            return rnd.Next(from, to + 1);
         }
 }
 }

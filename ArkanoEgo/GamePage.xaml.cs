@@ -31,6 +31,7 @@ namespace ArkanoEgo
 
         DispatcherTimer gameTimer = new DispatcherTimer();
         Ball ball = new Ball();
+        Booster booster = null;
 
         //wymiary Canvas'a / pola gry
         int height;
@@ -49,6 +50,11 @@ namespace ArkanoEgo
             ball.rad = Convert.ToInt32(ballEclipse.Height) / 2; // promień kuli
             ball.posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
             ball.posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));
+
+            SpawnBoost(ball);
+
+            booster = new Booster(ball);
+            booster.rad = Convert.ToInt32(20) / 2; // promień kuli
 
             //testowyLabel.Content = "w: " + ball.posX + " h: " + ball.posY;
 
@@ -78,6 +84,7 @@ namespace ArkanoEgo
 
             //testowyLabel.Content = "Wymiary canvy: " + width + " x " + height;
         }
+
         public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
         {
             int top = 0;
@@ -93,8 +100,8 @@ namespace ArkanoEgo
                         // Create the rectangle
                         Rectangle rec = new Rectangle()
                         {
-                            Width = width/13,
-                            Height = height/26, // 26 albo 27
+                            Width = width / 13,
+                            Height = height / 26, // 26 albo 27
                             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),//color pobierany z obiektu
                             Stroke = Brushes.Red,
                             StrokeThickness = 1,
@@ -105,11 +112,24 @@ namespace ArkanoEgo
                         Canvas.SetTop(rec, top);
                         Canvas.SetLeft(rec, left);
                     }
-                    top = top + (height/26);
+                    top = top + (height / 26);
                 }
-                left = left + (width/13);
+                left = left + (width / 13);
                 top = 0;
             }
+        }
+
+        public void SpawnBoost(Ball ball)
+        {
+            Ellipse boost = new Ellipse()
+            {
+                Width = 20,
+                Height = 20, // 26 albo 27
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32")),
+            };
+            myCanvas.Children.Add(boost);
+            Canvas.SetTop(boost, ball.posY);
+            Canvas.SetLeft(boost, ball.posX);
         }
 
         private void GameTimerEvent(object sender, EventArgs e)
@@ -118,8 +138,8 @@ namespace ArkanoEgo
             {
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
-                    int posX = (int)Canvas.GetLeft(x) / (width/13);//element [x,0] tablicy
-                    int poxY = (int)Canvas.GetTop(x) / (height/26);//element [0,Y] tablicy
+                    int posX = (int)Canvas.GetLeft(x) / (width / 13);//element [x,0] tablicy
+                    int poxY = (int)Canvas.GetTop(x) / (height / 26);//element [0,Y] tablicy
 
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
@@ -211,12 +231,36 @@ namespace ArkanoEgo
                 {
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    bool hit = false; //problem z for eachem, gdy usuwa się element
+
                     if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                     {
                         ball.top = true;
                     }
+
+                    foreach (var g in myCanvas.Children.OfType<Ellipse>())
+                    {
+                        if (g.Name != "ballEclipse")
+                        {
+                            Rect boosterEclipseHitBox = new Rect(Canvas.GetLeft(g), Canvas.GetTop(g), g.Width, g.Height);
+                            if (boosterEclipseHitBox.IntersectsWith(BlockHitBox))
+                            {
+                                myCanvas.Children.Remove(g);
+                                hit = true;
+
+                                booster.RandomPower();
+                                SetBoost();
+                                break;
+                            }
+                        }
+                    }
+                    if (hit)
+                    {
+                        break;
+                    }
                 }
             }
+
             if (PlayerGoRight && PlayerGoLeft)
                 ;
             else if (PlayerGoRight)
@@ -224,6 +268,7 @@ namespace ArkanoEgo
             else if (PlayerGoLeft)
                 playerMovement(false);
             ballMovement();
+            boostMovement();
         }
 
         private void changeBallDirection()
@@ -279,6 +324,23 @@ namespace ArkanoEgo
             Canvas.SetTop(ballEclipse, ball.posY);
             changeBallDirection();
         }
+        private void boostMovement()
+        {
+            foreach (var x in myCanvas.Children.OfType<Ellipse>())
+            {
+                if (x.Name != "ballEclipse")
+                {
+                    booster.posX = (int)Canvas.GetLeft(x);
+                    booster.posY = (int)Canvas.GetTop(x);
+
+                    booster.posY += 1;
+
+                    Canvas.SetLeft(x, booster.posX);
+                    Canvas.SetTop(x, booster.posY);
+                }
+            }
+
+        }
         private void playerMovement(bool direction)
         {
             int predkoscGracza = 3;
@@ -314,5 +376,60 @@ namespace ArkanoEgo
             if (e.Key == Key.A || e.Key == Key.Left)
                 PlayerGoLeft = true;
         }
+
+
+        public void SetBoost()
+        {
+            
+            //Task.Delay(500).ContinueWith(t => StopBoost());
+            switch (booster.power)
+            {
+                case Power.PlayerLenght:
+                    player = booster.SetBoost(player);
+                    Task.Delay(1000).ContinueWith(_ =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() => { StopBoost(); });//wyłączenie boosta po pewnym czasie
+                    });
+                    break;
+                case Power.NewBall:
+                    player = booster.SetBoost(player);
+                    Task.Delay(1000).ContinueWith(_ =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() => { StopBoost(); });
+                    });
+                    break;
+                case Power.StrongerHit:
+                    player = booster.SetBoost(player);
+                    Task.Delay(1000).ContinueWith(_ =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() => { StopBoost(); });
+                    });
+                    break;
+                case Power.None:
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void StopBoost()
+        {
+            switch (booster.power)
+            {
+                case Power.PlayerLenght:
+                    player = booster.StopBoost(player);
+                    break;
+                case Power.NewBall:
+                    player = booster.StopBoost(player);
+                    break;
+                case Power.StrongerHit:
+                    player = booster.StopBoost(player);
+                    break;
+                case Power.None:
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }
