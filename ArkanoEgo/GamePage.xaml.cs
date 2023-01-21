@@ -23,14 +23,15 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
-        bool PlayerGoRight = false;
-        bool PlayerGoLeft = false;
+        bool playerGoRight = false;
+        bool playerGoLeft = false;
 
         public int points = 0;
-        public Brick[,] Bricks = new Brick[13, 20];
+        public Brick[,] bricks = new Brick[13, 20];
 
         DispatcherTimer gameTimer = new DispatcherTimer();
         Ball ball = new Ball();
+
         Booster booster = null;
 
         //wymiary Canvas'a / pola gry
@@ -51,15 +52,11 @@ namespace ArkanoEgo
             ball.posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
             ball.posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));
 
-            SpawnBoost(ball);
-
-            booster = new Booster(ball);
-            booster.rad = Convert.ToInt32(20) / 2; // promień kuli
-
-            //testowyLabel.Content = "w: " + ball.posX + " h: " + ball.posY;
-
             ball.top = true; // potrzebne do testu z onclickiem i Q
             ball.left = true; // potrzebne do testu z onclickiem i Q
+
+            SpawnBoost(ball); // TODO: dodać tą metodę przy zniszczeniu specjalnych bloków
+            booster = new Booster(ball);
 
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
             height = (int)SystemParameters.FullPrimaryScreenHeight / 13;
@@ -74,15 +71,14 @@ namespace ArkanoEgo
             windowPage.UpdateLayout();
             width = (int)windowPage.Width;
 
-            Bricks = Tools.ReadLvl(1);//Wczytywanie mapy
+            bricks = Tools.ReadLvl(1);//Wczytywanie mapy
             GenerateElements();
             myCanvas.Focus();
 
-            gameTimer.Interval = TimeSpan.FromMilliseconds(1);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
+            gameTimer.Interval = TimeSpan.FromMilliseconds(0);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
-            //testowyLabel.Content = "Wymiary canvy: " + width + " x " + height;
         }
 
         public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
@@ -91,18 +87,17 @@ namespace ArkanoEgo
             int left = 0;
             for (int i = 0; i < 13; i++)
             {//x
-
                 for (int j = 0; j < 20; j++)//y
                 {
 
-                    if (Bricks[i, j] != null)
+                    if (bricks[i, j] != null)
                     {
                         // Create the rectangle
                         Rectangle rec = new Rectangle()
                         {
                             Width = width / 13,
                             Height = height / 26, // 26 albo 27
-                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Bricks[i, j].Color)),//color pobierany z obiektu
+                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bricks[i, j].Color)),//color pobierany z obiektu
                             Stroke = Brushes.Red,
                             StrokeThickness = 1,
                         };
@@ -149,37 +144,40 @@ namespace ArkanoEgo
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
                         {
                             ball.top = true;
-                            if (x.Tag is 2)// TODO trzeba to zamienić na timeToBrick z danego obiektu
+
+                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
                             {
-                                x.Tag = 1;
-                            }
-                            else
-                            {
-                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
+                                if (bricks[posX, poxY].TimesToBreak < 2)
                                 {
-                                    points += Bricks[posX, poxY].Value;
+                                    points += bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
+                                    pointsLabel.Content = "Points: " + points;
                                 }
-                                pointsLabel.Content = "Points: " + points;
+                                else
+                                {
+                                    pointsLabel.Content = bricks[posX, poxY].TimesToBreak;
+                                    bricks[posX, poxY].TimesToBreak--;
+                                }
                             }
                         }
+
 
                         // dolna krawędź klocka
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY > Canvas.GetTop(x))
                         {
                             ball.top = false;
-                            if (x.Tag is 2)
+                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
                             {
-                                x.Tag = 1;
-                            }
-                            else
-                            {
-                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                if (bricks[posX, poxY].TimesToBreak < 2)
                                 {
-                                    points += Bricks[posX, poxY].Value;
+                                    points += bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
+                                    pointsLabel.Content = "Points: " + points;
                                 }
-                                pointsLabel.Content = "Points: " + points;
+                                else
+                                {
+                                    bricks[posX, poxY].TimesToBreak--;
+                                }
                             }
                         }
 
@@ -188,18 +186,18 @@ namespace ArkanoEgo
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX < Canvas.GetLeft(x) + x.Width)
                         {
                             ball.left = true;
-                            if (x.Tag is 2)
+                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
                             {
-                                x.Tag = 1;
-                            }
-                            else
-                            {
-                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                if (bricks[posX, poxY].TimesToBreak < 2)
                                 {
-                                    points += Bricks[posX, poxY].Value;
+                                    points += bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
+                                    pointsLabel.Content = "Points: " + points;
                                 }
-                                pointsLabel.Content = "Points: " + points;
+                                else
+                                {
+                                    bricks[posX, poxY].TimesToBreak--;
+                                }
                             }
                         }
 
@@ -207,18 +205,18 @@ namespace ArkanoEgo
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX > Canvas.GetLeft(x))
                         {
                             ball.left = false;
-                            if (x.Tag is 2)
+                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
                             {
-                                x.Tag = 1;
-                            }
-                            else
-                            {
-                                if (Bricks[posX, poxY].GetType() != typeof(GoldBrick))
+                                if (bricks[posX, poxY].TimesToBreak < 2)
                                 {
-                                    points += Bricks[posX, poxY].Value;
+                                    points += bricks[posX, poxY].Value;
                                     myCanvas.Children.Remove(x);
+                                    pointsLabel.Content = "Points: " + points;
                                 }
-                                pointsLabel.Content = "Points: " + points;
+                                else
+                                {
+                                    bricks[posX, poxY].TimesToBreak--;
+                                }
                             }
                         }
 
@@ -237,7 +235,7 @@ namespace ArkanoEgo
                     {
                         ball.top = true;
                     }
-
+                    //kolizja gracza z boostem
                     foreach (var g in myCanvas.Children.OfType<Ellipse>())
                     {
                         if (g.Name != "ballEclipse")
@@ -261,11 +259,10 @@ namespace ArkanoEgo
                 }
             }
 
-            if (PlayerGoRight && PlayerGoLeft)
-                ;
-            else if (PlayerGoRight)
+            
+            if (playerGoRight && !playerGoLeft)
                 playerMovement(true);
-            else if (PlayerGoLeft)
+            if (playerGoLeft && !playerGoRight)
                 playerMovement(false);
             ballMovement();
             boostMovement();
@@ -339,7 +336,6 @@ namespace ArkanoEgo
                     Canvas.SetTop(x, booster.posY);
                 }
             }
-
         }
         private void playerMovement(bool direction)
         {
@@ -357,13 +353,6 @@ namespace ArkanoEgo
             }
         }
 
-        private void myCanvas_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.D || e.Key == Key.Right)
-                PlayerGoRight = false;
-            if (e.Key == Key.A || e.Key == Key.Left)
-                PlayerGoLeft = false;
-        }
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Q)
@@ -371,36 +360,43 @@ namespace ArkanoEgo
                 ballMovement();
             }
 
-            if (e.Key == Key.D || e.Key == Key.Right)
-                PlayerGoRight = true;
-            if (e.Key == Key.A || e.Key == Key.Left)
-                PlayerGoLeft = true;
+            if (e.Key == Key.D)
+                playerGoRight = true;
+
+            if (e.Key == Key.A)
+                playerGoLeft = true;
+        }
+        private void myCanvas_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.D)
+                playerGoRight = false;
+            if (e.Key == Key.A)
+                playerGoLeft = false;
         }
 
 
         public void SetBoost()
         {
-            
-            //Task.Delay(500).ContinueWith(t => StopBoost());
+
             switch (booster.power)
             {
                 case Power.PlayerLenght:
                     player = booster.SetBoost(player);
-                    Task.Delay(1000).ContinueWith(_ =>
+                    Task.Delay(booster.PowerDuration).ContinueWith(_ =>
                     {
                         Application.Current.Dispatcher.Invoke(() => { StopBoost(); });//wyłączenie boosta po pewnym czasie
                     });
                     break;
                 case Power.NewBall:
                     player = booster.SetBoost(player);
-                    Task.Delay(1000).ContinueWith(_ =>
+                    Task.Delay(booster.PowerDuration).ContinueWith(_ =>
                     {
                         Application.Current.Dispatcher.Invoke(() => { StopBoost(); });
                     });
                     break;
                 case Power.StrongerHit:
                     player = booster.SetBoost(player);
-                    Task.Delay(1000).ContinueWith(_ =>
+                    Task.Delay(booster.PowerDuration).ContinueWith(_ =>
                     {
                         Application.Current.Dispatcher.Invoke(() => { StopBoost(); });
                     });

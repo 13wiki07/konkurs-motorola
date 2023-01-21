@@ -26,7 +26,7 @@ namespace ArkanoEgo.Classes.Bricks
                 _value = value;
             }
         }
-        public int TimesToBreak
+        public override int TimesToBreak
         {
             get
             {
