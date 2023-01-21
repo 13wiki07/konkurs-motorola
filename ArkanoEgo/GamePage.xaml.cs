@@ -23,6 +23,9 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
+        bool PlayerGoRight = false;
+        bool PlayerGoLeft = false;
+
         public int points = 0;
         public Brick[,] Bricks = new Brick[13, 20];
 
@@ -75,7 +78,6 @@ namespace ArkanoEgo
 
             //testowyLabel.Content = "Wymiary canvy: " + width + " x " + height;
         }
-
         public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
         {
             int top = 0;
@@ -215,20 +217,13 @@ namespace ArkanoEgo
                     }
                 }
             }
-            if (Keyboard.IsKeyDown(Key.D) || Keyboard.IsKeyDown(Key.Right))
+            if (PlayerGoRight && PlayerGoLeft)
+                ;
+            else if (PlayerGoRight)
                 playerMovement(true);
-            if (Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.Left))
+            else if (PlayerGoLeft)
                 playerMovement(false);
-
             ballMovement();
-        }
-
-        private void myCanvas_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Q)
-            {
-                ballMovement();
-            }
         }
 
         private void changeBallDirection()
@@ -300,5 +295,24 @@ namespace ArkanoEgo
             }
         }
 
+        private void myCanvas_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.D || e.Key == Key.Right)
+                PlayerGoRight = false;
+            if (e.Key == Key.A || e.Key == Key.Left)
+                PlayerGoLeft = false;
+        }
+        private void myCanvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Q)
+            {
+                ballMovement();
+            }
+
+            if (e.Key == Key.D || e.Key == Key.Right)
+                PlayerGoRight = true;
+            if (e.Key == Key.A || e.Key == Key.Left)
+                PlayerGoLeft = true;
+        }
     }
 }
