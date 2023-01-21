@@ -27,9 +27,7 @@ namespace ArkanoEgo.Classes
         // power boostera
         public Power power = Power.None;
 
-        private bool PowerActive = false;
-
-        private int PowerSecDuration = 10;
+        public int PowerDuration = 10000;
 
 
         public Booster(Ball ball)

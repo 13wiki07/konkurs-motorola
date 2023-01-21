@@ -40,5 +40,6 @@ namespace ArkanoEgo.Classes.Bricks
             }
         }
         public abstract int Value { get; set; }
+        public abstract int TimesToBreak { get; set; }
     }
 }
