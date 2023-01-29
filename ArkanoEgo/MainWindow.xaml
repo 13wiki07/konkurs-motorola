@@ -9,9 +9,25 @@
         Height="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         WindowState="Maximized"
         Title="ArkanoEgo">
+
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+
         <!-- frame potrzebne do GamePage itp -->
-        <Frame x:Name="gridFrame" Source=".xaml" NavigationUIVisibility="Hidden"/>
-        <Button Content="Kreator" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="20" Click="Kreator_Click"/>
+        <Frame x:Name="gridFrame" Grid.Column="0" HorizontalAlignment="Center" 
+               Source=".xaml" NavigationUIVisibility="Hidden"/>
+
+        <StackPanel Grid.Column="1">
+            <Label Content="Arkanoid (logo)" Style="{StaticResource JustAnotherHandFont}" FontSize="50"/>
+            <Button Background="IndianRed" Content="CREATOR PAGE (do menu potem)" FontSize="36" Style="{StaticResource btnStyle}" Click="Creator_Click"/>
+            <Button Background="IndianRed" Content="GAME PAGE (do menu potem)" FontSize="36" Style="{StaticResource btnStyle}" Click="Game_Click"/>
+            <Button Content="NEW GAME" x:Name="newGameBtn" Style="{StaticResource btnStyle}"/>
+            <Button Content="MENU" Click="Menu_Click" Style="{StaticResource btnStyle}"/>
+            <Button Content="OPTIONS" Style="{StaticResource btnStyle}"/>
+            <Button Content="QUIT" Click="Quick_Click" Style="{StaticResource btnStyle}"/>
+        </StackPanel>
     </Grid>
 </Window>

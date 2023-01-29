@@ -62,7 +62,7 @@ namespace ArkanoEgo
 
         private void TemplateBtn_Click(object sender, RoutedEventArgs e)
         {
-            wybrany.BorderBrush = Brushes.Transparent;
+            wybrany.BorderBrush = wybrany.Background;
             wybrany = sender as Button;
             wybrany.BorderBrush = Brushes.Black;
             wybrany.BorderThickness = new Thickness(3);
