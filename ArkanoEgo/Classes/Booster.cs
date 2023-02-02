@@ -39,6 +39,7 @@ namespace ArkanoEgo.Classes
                 Width = 20,
                 Height = 20, // 26 albo 27
                 Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32")),
+                Tag = "Boost",
             };
             myCanvas.Children.Add(boost);
             Canvas.SetTop(boost, ball.posY);
@@ -67,16 +68,28 @@ namespace ArkanoEgo.Classes
             }
         }
 
-        public Rectangle SetBoost(Rectangle rectangle)
+        public void SetBoostPlayerLenght(ref Rectangle rectangle)
         {
             rectangle.Width = rectangle.Width * 2;
-            return rectangle;
+            Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) - rectangle.ActualWidth / 2);
         }
 
-        public Rectangle StopBoost(Rectangle rectangle)
+        public void StopBoostPlayerLenght(ref Rectangle rectangle)
         {
+            Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) + rectangle.ActualWidth / 4);
             rectangle.Width = rectangle.Width / 2;
-            return rectangle;
+        }
+        
+        public void SetBoost(ref Rectangle rectangle)
+        {
+            rectangle.Width = rectangle.Width * 2;
+            Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) - rectangle.ActualWidth / 2);
+        }
+
+        public void StopBoost(ref Rectangle rectangle)
+        {
+            Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) + rectangle.ActualWidth / 4);
+            rectangle.Width = rectangle.Width / 2;
         }
         public float durationTime { get; set; }
         // ew można kilka klas/typów boosterów zrobić
