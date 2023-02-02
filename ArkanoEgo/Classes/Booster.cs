@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace ArkanoEgo.Classes
@@ -30,8 +32,18 @@ namespace ArkanoEgo.Classes
         public int PowerDuration = 10000;
 
 
-        public Booster(Ball ball)
+        public Booster(Ball ball, ref Canvas myCanvas)// po wywołaniu tego konstruktora, booster zrespi się tma gdzie jest aktualnie piłka
         {
+            Ellipse boost = new Ellipse()
+            {
+                Width = 20,
+                Height = 20, // 26 albo 27
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32")),
+            };
+            myCanvas.Children.Add(boost);
+            Canvas.SetTop(boost, ball.posY);
+            Canvas.SetLeft(boost, ball.posX);
+
             posX = ball.posX;
             posY = ball.posY;
         }
