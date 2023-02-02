@@ -39,7 +39,7 @@ namespace ArkanoEgo.Classes
                 Width = 20,
                 Height = 20, // 26 albo 27
                 Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32")),
-                Tag = "Boost",
+                Tag = "Booster",
             };
             myCanvas.Children.Add(boost);
             Canvas.SetTop(boost, ball.posY);

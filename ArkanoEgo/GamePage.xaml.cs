@@ -53,9 +53,6 @@ namespace ArkanoEgo
                 balls.Add(ball);
             }
 
-            myCanvas.Children.OfType<Ellipse>().FirstOrDefault(x => x.Tag.ToString() == "ballEclipse");
-
-
             booster = new Booster(ball, ref myCanvas);// TODO: dodać tą metodę przy zniszczeniu specjalnych bloków
 
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
@@ -78,7 +75,7 @@ namespace ArkanoEgo
 
 
             //Pętla gry
-            gameTimer.Interval = TimeSpan.FromMilliseconds(1);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
+            gameTimer.Interval = TimeSpan.FromMilliseconds(30);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
@@ -87,19 +84,22 @@ namespace ArkanoEgo
         private void GameTimerEvent(object sender, EventArgs e)
         {
             int index = 0;
-            /*for (int i = 0; i < 10; i++)
-            {*/
+            for (int i = 0; i < 10; i++)
+            {
                 foreach (var x in myCanvas.Children.OfType<Rectangle>())
                 {
+                    bool leave = false;
                     if (x.Name != "player")//jeżeli element jest blokiem to go usun
                     {
                         int posX = (int)Canvas.GetLeft(x) / (width / 13);//element [x,0] tablicy
                         int posY = (int)Canvas.GetTop(x) / (height / 26);//element [0,Y] tablicy
                         Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                        Rect ballEclipseHitBox;
                         index = 0;
                         foreach (var ball in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse"))
                         {
-                            Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                            leave = false;
+                            ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
 
                             if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                             {
@@ -108,22 +108,23 @@ namespace ArkanoEgo
                                 {
                                     balls[index].top = true;
                                     HitBlock(posX, posY, x);
+                                    leave = true;
                                 }
-
 
                                 // dolna krawędź klocka
                                 if (Canvas.GetLeft(x) < balls[index].posX && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY > Canvas.GetTop(x))
                                 {
                                     balls[index].top = false;
                                     HitBlock(posX, posY, x);
+                                    leave = true;
                                 }
-
 
                                 // lewa krawędź klocka
                                 if (Canvas.GetTop(x) < balls[index].posY && balls[index].posY < Canvas.GetTop(x) + x.Height && balls[index].posX < Canvas.GetLeft(x) + x.Width)
                                 {
                                     balls[index].left = true;
                                     HitBlock(posX, posY, x);
+                                    leave = true;
                                 }
 
                                 // prawa krawędź klocka
@@ -131,12 +132,15 @@ namespace ArkanoEgo
                                 {
                                     balls[index].left = false;
                                     HitBlock(posX, posY, x);
+                                    leave = true;
                                 }
-
-                                break;
                             }
                             index++;
+                            if (leave)
+                                break;
                         }
+                        if (leave)
+                            break;
                     }
                     if (x.Name == "player") //jeżeli element jest graczem to się od niego odbij
                     {
@@ -161,20 +165,20 @@ namespace ArkanoEgo
                         }
                     }
 
-               // }
+                }
+                if (playerGoRight && !playerGoLeft)
+                    playerMovement(true);
+                if (playerGoLeft && !playerGoRight)
+                    playerMovement(false);
+
+                for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
+                {
+                    ballMovement(j);
+                }
+
+                boostMovement();
             }
 
-            if (playerGoRight && !playerGoLeft)
-                playerMovement(true);
-            if (playerGoLeft && !playerGoRight)
-                playerMovement(false);
-
-            for (int i = 0;i < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); i++)
-            {
-                ballMovement(i);
-            }
-
-            boostMovement();
         }
 
         private void changeBallDirection(int index)
@@ -232,18 +236,15 @@ namespace ArkanoEgo
         }
         private void boostMovement()
         {
-            foreach (var x in myCanvas.Children.OfType<Ellipse>())
+            foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
             {
-                if (x.Name != "ballEclipse")
-                {
-                    booster.posX = (int)Canvas.GetLeft(x);
-                    booster.posY = (int)Canvas.GetTop(x);
+                booster.posX = (int)Canvas.GetLeft(x);
+                booster.posY = (int)Canvas.GetTop(x);
 
-                    booster.posY += 1;
+                booster.posY += 1;
 
-                    Canvas.SetLeft(x, booster.posX);
-                    Canvas.SetTop(x, booster.posY);
-                }
+                Canvas.SetLeft(x, booster.posX);
+                Canvas.SetTop(x, booster.posY);
             }
         }
         private void playerMovement(bool direction)
