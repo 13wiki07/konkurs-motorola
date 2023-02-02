@@ -45,18 +45,9 @@ namespace ArkanoEgo
             height = (int)windowPage.Height;
             width = (int)windowPage.Width;
 
-            // kulka przypisanie
-            // w linku jest rozpiska co czym jest
-            // https://www.canva.com/design/DAFSS32ggNg/ZHP5O-GhpveqJ4X_GtHzrg/view?utm_content=DAFSS32ggNg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton#5
-            ball.rad = Convert.ToInt32(ballEclipse.Height) / 2; // promień kuli
-            ball.posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
-            ball.posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));
-
-            ball.top = true; // potrzebne do testu z onclickiem i Q
-            ball.left = true; // potrzebne do testu z onclickiem i Q
-
-            SpawnBoost(ball); // TODO: dodać tą metodę przy zniszczeniu specjalnych bloków
-            booster = new Booster(ball);
+            ball.InitBall(ref ballEclipse);
+            
+            booster = new Booster(ball, ref myCanvas);// TODO: dodać tą metodę przy zniszczeniu specjalnych bloków
 
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
             height = (int)SystemParameters.FullPrimaryScreenHeight / 13;
@@ -72,59 +63,16 @@ namespace ArkanoEgo
             width = (int)windowPage.Width;
 
             bricks = Tools.ReadLvl(1);//Wczytywanie mapy
-            GenerateElements();
+
+            Brick.GenerateElements(ref myCanvas, ref bricks,width,height);//Przykładowa funkcja jak można przerzycić metody do innych klas
             myCanvas.Focus();
 
-            gameTimer.Interval = TimeSpan.FromMilliseconds(0);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
+
+            //Pętla gry
+            gameTimer.Interval = TimeSpan.FromMilliseconds(1);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
-        }
-
-        public void GenerateElements() // potrzba dodać skrypt odczytujący pola i kolory klocków
-        {
-            int top = 0;
-            int left = 0;
-            for (int i = 0; i < 13; i++)
-            {//x
-                for (int j = 0; j < 20; j++)//y
-                {
-
-                    if (bricks[i, j] != null)
-                    {
-                        // Create the rectangle
-                        Rectangle rec = new Rectangle()
-                        {
-                            Width = width / 13,
-                            Height = height / 26, // 26 albo 27
-                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bricks[i, j].Color)),//color pobierany z obiektu
-                            Stroke = Brushes.Red,
-                            StrokeThickness = 1,
-                        };
-
-                        // Add to a canvas for example
-                        myCanvas.Children.Add(rec);
-                        Canvas.SetTop(rec, top);
-                        Canvas.SetLeft(rec, left);
-                    }
-                    top = top + (height / 26);
-                }
-                left = left + (width / 13);
-                top = 0;
-            }
-        }
-
-        public void SpawnBoost(Ball ball)
-        {
-            Ellipse boost = new Ellipse()
-            {
-                Width = 20,
-                Height = 20, // 26 albo 27
-                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32")),
-            };
-            myCanvas.Children.Add(boost);
-            Canvas.SetTop(boost, ball.posY);
-            Canvas.SetLeft(boost, ball.posX);
         }
 
         private void GameTimerEvent(object sender, EventArgs e)
@@ -134,7 +82,7 @@ namespace ArkanoEgo
                 if (x.Name != "player")//jeżeli element jest blokiem to go usun
                 {
                     int posX = (int)Canvas.GetLeft(x) / (width / 13);//element [x,0] tablicy
-                    int poxY = (int)Canvas.GetTop(x) / (height / 26);//element [0,Y] tablicy
+                    int posY = (int)Canvas.GetTop(x) / (height / 26);//element [0,Y] tablicy
 
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
@@ -144,21 +92,7 @@ namespace ArkanoEgo
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY < Canvas.GetTop(x) + x.Height)
                         {
                             ball.top = true;
-
-                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
-                            {
-                                if (bricks[posX, poxY].TimesToBreak < 2)
-                                {
-                                    points += bricks[posX, poxY].Value;
-                                    myCanvas.Children.Remove(x);
-                                    pointsLabel.Content = "Points: " + points;
-                                }
-                                else
-                                {
-                                    pointsLabel.Content = bricks[posX, poxY].TimesToBreak;
-                                    bricks[posX, poxY].TimesToBreak--;
-                                }
-                            }
+                            HitBlock(posX, posY, x);
                         }
 
 
@@ -166,19 +100,7 @@ namespace ArkanoEgo
                         if (Canvas.GetLeft(x) < ball.posX && ball.posX < Canvas.GetLeft(x) + x.Width && ball.posY > Canvas.GetTop(x))
                         {
                             ball.top = false;
-                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
-                            {
-                                if (bricks[posX, poxY].TimesToBreak < 2)
-                                {
-                                    points += bricks[posX, poxY].Value;
-                                    myCanvas.Children.Remove(x);
-                                    pointsLabel.Content = "Points: " + points;
-                                }
-                                else
-                                {
-                                    bricks[posX, poxY].TimesToBreak--;
-                                }
-                            }
+                            HitBlock(posX, posY, x);
                         }
 
 
@@ -186,38 +108,14 @@ namespace ArkanoEgo
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX < Canvas.GetLeft(x) + x.Width)
                         {
                             ball.left = true;
-                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
-                            {
-                                if (bricks[posX, poxY].TimesToBreak < 2)
-                                {
-                                    points += bricks[posX, poxY].Value;
-                                    myCanvas.Children.Remove(x);
-                                    pointsLabel.Content = "Points: " + points;
-                                }
-                                else
-                                {
-                                    bricks[posX, poxY].TimesToBreak--;
-                                }
-                            }
+                            HitBlock(posX, posY,x);
                         }
 
                         // prawa krawędź klocka
                         if (Canvas.GetTop(x) < ball.posY && ball.posY < Canvas.GetTop(x) + x.Height && ball.posX > Canvas.GetLeft(x))
                         {
                             ball.left = false;
-                            if (bricks[posX, poxY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
-                            {
-                                if (bricks[posX, poxY].TimesToBreak < 2)
-                                {
-                                    points += bricks[posX, poxY].Value;
-                                    myCanvas.Children.Remove(x);
-                                    pointsLabel.Content = "Points: " + points;
-                                }
-                                else
-                                {
-                                    bricks[posX, poxY].TimesToBreak--;
-                                }
-                            }
+                            HitBlock(posX, posY, x);
                         }
 
                         break;
@@ -229,41 +127,22 @@ namespace ArkanoEgo
                 {
                     Rect ballEclipseHitBox = new Rect(Canvas.GetLeft(ballEclipse), Canvas.GetTop(ballEclipse), ballEclipse.Width, ballEclipse.Height);
                     Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    bool hit = false; //problem z for eachem, gdy usuwa się element
-
-                    if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
-                    {
+                   
+                    if (ballEclipseHitBox.IntersectsWith(BlockHitBox)){
                         ball.top = true;
                     }
                     //kolizja gracza z boostem
-                    foreach (var g in myCanvas.Children.OfType<Ellipse>())
-                    {
-                        if (g.Name != "ballEclipse")
-                        {
-                            Rect boosterEclipseHitBox = new Rect(Canvas.GetLeft(g), Canvas.GetTop(g), g.Width, g.Height);
-                            if (boosterEclipseHitBox.IntersectsWith(BlockHitBox))
-                            {
-                                myCanvas.Children.Remove(g);
-                                hit = true;
-
-                                booster.RandomPower();
-                                SetBoost();
-                                break;
-                            }
-                        }
-                    }
-                    if (hit)
-                    {
+                    if (PlayerCaughtABoost(BlockHitBox)){
                         break;
                     }
                 }
             }
-
             
             if (playerGoRight && !playerGoLeft)
                 playerMovement(true);
             if (playerGoLeft && !playerGoRight)
                 playerMovement(false);
+
             ballMovement();
             boostMovement();
         }
@@ -272,23 +151,19 @@ namespace ArkanoEgo
         {
             //testowyLabel.Content = "PosY zwykłe: " + (ball.posY-ball.rad)  + "PosY: " + ball.posY + " Rad: " + ball.rad; // nie usuwajcie tego ~ Wika
 
-            if (ball.posY <= 0) // góra
-            {
+            if (ball.posY <= 0){// góra
                 ball.top = false; // odbicie
             }
 
-            if (ball.posX <= 0) // lewy bok
-            {
+            if (ball.posX <= 0){ // lewy bok
                 ball.left = false;
             }
 
-            if (ball.posX >= width - (ball.rad * 2)) // prawy bok
-            {
+            if (ball.posX >= width - (ball.rad * 2)){// prawy bok
                 ball.left = true;
             }
 
-            if (ball.posY >= height) // dół // jest na razie i gdy przegrana będzie zrobiona to do usunięcia
-            {
+            if (ball.posY >= height){// dół // jest na razie i gdy przegrana będzie zrobiona to do usunięcia
                 ball.top = true;
             }
             // dodaj jakiś if który sprawdza od czego odbiła się kulka + dodaj wymiary kulki i paletki (ale do zmiennych) ~ Wika
@@ -425,6 +300,43 @@ namespace ArkanoEgo
                 default:
                     break;
             }
+        }
+
+        public void HitBlock(int posX, int posY, Rectangle rectangle)//akcja po trafieniu piłki w block
+        {
+            if (bricks[posX, posY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
+            {
+                if (bricks[posX, posY].TimesToBreak < 2)
+                {
+                    points += bricks[posX, posY].Value;
+                    myCanvas.Children.Remove(rectangle);
+                    pointsLabel.Content = "Points: " + points;
+                }
+                else
+                {
+                    bricks[posX, posY].TimesToBreak--;
+                }
+            }
+        }
+
+        public bool PlayerCaughtABoost(Rect rect)
+        {
+            foreach (var g in myCanvas.Children.OfType<Ellipse>())
+            {
+                if (g.Name != "ballEclipse")
+                {
+                    Rect boosterEclipseHitBox = new Rect(Canvas.GetLeft(g), Canvas.GetTop(g), g.Width, g.Height);
+                    if (boosterEclipseHitBox.IntersectsWith(rect))
+                    {
+                        myCanvas.Children.Remove(g);
+
+                        booster.RandomPower();
+                        SetBoost();
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
     }
