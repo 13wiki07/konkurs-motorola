@@ -42,18 +42,21 @@ namespace ArkanoEgo
         {
             InitializeComponent();
 
-            Ball ball = new Ball();
 
             height = (int)windowPage.Height;
             width = (int)windowPage.Width;
 
             foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(x => x.Tag.ToString() == "ballEclipse"))
             {
+                Ball ball = new Ball();
                 ball.InitBall(x);
                 balls.Add(ball);
             }
 
-            booster = new Booster(ball, ref myCanvas);// TODO: dodać tą metodę przy zniszczeniu specjalnych bloków
+            if (balls.Count > 0)
+            {
+                booster = new Booster(balls[0], ref myCanvas);// TODO: dodać tą metodę przy zniszczeniu specjalnych bloków
+            }
 
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
             height = (int)SystemParameters.FullPrimaryScreenHeight / 13;
@@ -86,7 +89,7 @@ namespace ArkanoEgo
             int index = 0;
             for (int i = 0; i < 10; i++)
             {
-                foreach (var x in myCanvas.Children.OfType<Rectangle>())
+                foreach (var x in myCanvas.Children.OfType<Rectangle>())//kolizja piłek
                 {
                     bool leave = false;
                     if (x.Name != "player")//jeżeli element jest blokiem to go usun
@@ -166,6 +169,7 @@ namespace ArkanoEgo
                     }
 
                 }
+
                 if (playerGoRight && !playerGoLeft)
                     playerMovement(true);
                 if (playerGoLeft && !playerGoRight)
@@ -351,7 +355,7 @@ namespace ArkanoEgo
 
         public bool PlayerCaughtABoost(Rect rect)
         {
-            foreach (var g in myCanvas.Children.OfType<Ellipse>())
+            foreach (var g in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Tag"))
             {
                 if (g.Name != "ballEclipse")
                 {
