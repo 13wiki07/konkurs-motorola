@@ -30,6 +30,7 @@ namespace ArkanoEgo
         public Brick[,] bricks = new Brick[13, 20];
 
         DispatcherTimer gameTimer = new DispatcherTimer();
+
         List<Ball> balls = new List<Ball>();
 
         Booster booster = new Booster();
@@ -42,7 +43,6 @@ namespace ArkanoEgo
         {
             InitializeComponent();
 
-
             height = (int)windowPage.Height;
             width = (int)windowPage.Width;
 
@@ -53,10 +53,6 @@ namespace ArkanoEgo
                 balls.Add(ball);
             }
 
-           /* if (balls.Count > 0)
-            {
-                booster = new Booster(balls[0], ref myCanvas);// TODO: dodać tą metodę przy zniszczeniu specjalnych bloków
-            }*/
 
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
             height = (int)SystemParameters.FullPrimaryScreenHeight / 13;
@@ -143,7 +139,7 @@ namespace ArkanoEgo
                                 }
                             }
                             index++;
-                            if (leave)
+                            if (leave)//wyjście z foreacha, bo usuwamy jeden z jego elementów
                                 break;
                         }
                         if (leave)
@@ -155,7 +151,7 @@ namespace ArkanoEgo
                         Rect ballEclipseHitBox;
 
                         index = 0;
-                        foreach (var ball in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse"))
+                        foreach (var ball in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse"))//sprawdzanie czy jakaś piłka nie dotkła paletki
                         {
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
                             if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
@@ -166,7 +162,7 @@ namespace ArkanoEgo
                             index++;
                         }
                         //kolizja gracza z boostem
-                        if (PlayerCaughtABoost(BlockHitBox))
+                        if (PlayerCaughtABoost(BlockHitBox))//contakt paletki z boostem
                         {
                             break;
                         }
@@ -175,21 +171,56 @@ namespace ArkanoEgo
                 }
 
                 if (playerGoRight && !playerGoLeft)
-                    playerMovement(true);
+                    PlayerMovement(true);
                 if (playerGoLeft && !playerGoRight)
-                    playerMovement(false);
+                    PlayerMovement(false);
 
                 for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
                 {
-                    ballMovement(j);
+                    BallMovement(j);
                 }
 
-                boostMovement();
+                BoostMovement();
             }
 
         }
 
-        private void changeBallDirection(int index)
+        private void BallMovement(int index, int goLeft = 0)
+        {
+            //tablica balls i jej odpowiednik na planszy mają ten sem index
+            balls[index].posX = (int)Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
+            balls[index].posY = (int)Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
+
+            // dodaj wykonywanie co ileś milisekund (chyba najlepiej 6-10)
+            if (balls[index].stop != true)//przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
+            {
+                if (balls[index].left)
+                    balls[index].posX -= 1;
+                else if (!balls[index].left)
+                    balls[index].posX += 1;
+
+                if (balls[index].top)
+                    balls[index].posY -= 1;
+                else if (!balls[index].top)
+                    balls[index].posY += 1;
+            }
+            else
+            {
+                balls[index].posX += goLeft;
+            }
+            //testowyLabel.Content = "w: " + ball.posX + " h: " + ball.posY;
+
+            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);    // do góry
+            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);    // do dołu
+            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) - 10);  // w lewo
+            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) + 10);  // w prawo
+
+            Canvas.SetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posX);
+            Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY);
+            ChangeBallDirection(index);
+        }
+
+        private void ChangeBallDirection(int index)
         {
             //testowyLabel.Content = "PosY zwykłe: " + (ball.posY-ball.rad)  + "PosY: " + ball.posY + " Rad: " + ball.rad; // nie usuwajcie tego ~ Wika
 
@@ -215,40 +246,7 @@ namespace ArkanoEgo
             // dodaj jakiś if który sprawdza od czego odbiła się kulka + dodaj wymiary kulki i paletki (ale do zmiennych) ~ Wika
         }
 
-        private void ballMovement(int index, int goLeft = 0)
-        {
-            balls[index].posX = (int)Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
-            balls[index].posY = (int)Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
-
-            // dodaj wykonywanie co ileś milisekund (chyba najlepiej 6-10)
-            if (balls[index].stop != true)
-            {
-                if (balls[index].left)
-                    balls[index].posX -= 1;
-                else if (!balls[index].left)
-                    balls[index].posX += 1;
-
-                if (balls[index].top)
-                    balls[index].posY -= 1;
-                else if (!balls[index].top)
-                    balls[index].posY += 1;
-            }
-            else
-            {
-                balls[index].posX += goLeft;
-            }
-            //testowyLabel.Content = "w: " + ball.posX + " h: " + ball.posY;
-
-            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);    // do góry
-            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);    // do dołu
-            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) - 10);  // w lewo
-            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) + 10);  // w prawo
-
-            Canvas.SetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posX);
-            Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY);
-            changeBallDirection(index);
-        }
-        private void boostMovement()
+        private void BoostMovement()
         {
             foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
             {
@@ -261,27 +259,32 @@ namespace ArkanoEgo
                 Canvas.SetTop(x, booster.posY);
             }
         }
-        private void playerMovement(bool direction)
+
+        private void PlayerMovement(bool direction)
         {
-            int predkoscGracza = 2;
-            for (int i = 0; i < predkoscGracza; i++)
+            int playerSpeed = 2;
+            for (int i = 0; i < playerSpeed; i++)
             {
                 if (Canvas.GetLeft(player) + (player.Width) < width && direction)
                 {
                     Canvas.SetLeft(player, Canvas.GetLeft(player) + 1);
-                    for(int j=0;j<balls.Count;j++)
+
+                    for (int j = 0; j < balls.Count; j++)//ruch przyklejonych piłek do paletki
                     {
                         if (balls[j].stop == true)
-                            ballMovement(j, 1);
+                            BallMovement(j, 1);
                     }
+
                 }
                 if (Canvas.GetLeft(player) > 0 && !direction)
                 {
+
                     Canvas.SetLeft(player, Canvas.GetLeft(player) - 1);
+
                     for (int j = 0; j < balls.Count; j++)
                     {
-                        if (balls[j].stop==true)
-                        ballMovement(j, -1);
+                        if (balls[j].stop == true)
+                            BallMovement(j, -1);
                     }
                 }
             }
@@ -294,7 +297,8 @@ namespace ArkanoEgo
 
             if (e.Key == Key.A)
                 playerGoLeft = true;
-            if (e.Key == Key.Space)
+
+            if (e.Key == Key.Space)//wypuszczenie wszystkich piłek
             {
                 for (int j = 0; j < balls.Count; j++)
                 {
@@ -302,6 +306,7 @@ namespace ArkanoEgo
                 }
             }
         }
+
         private void myCanvas_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.D)
@@ -309,6 +314,7 @@ namespace ArkanoEgo
             if (e.Key == Key.A)
                 playerGoLeft = false;
         }
+
         public void SetBoost()
         {
 
@@ -329,6 +335,7 @@ namespace ArkanoEgo
                     break;
             }
         }
+
         public void StopBoost()
         {
             switch (booster.GetPower())
@@ -371,23 +378,21 @@ namespace ArkanoEgo
         {
             foreach (var g in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
             {
-                if (g.Name != "ballEclipse")
+                Rect boosterEclipseHitBox = new Rect(Canvas.GetLeft(g), Canvas.GetTop(g), g.Width, g.Height);
+                if (boosterEclipseHitBox.IntersectsWith(rect))
                 {
-                    Rect boosterEclipseHitBox = new Rect(Canvas.GetLeft(g), Canvas.GetTop(g), g.Width, g.Height);
-                    if (boosterEclipseHitBox.IntersectsWith(rect))
-                    {
-                        myCanvas.Children.Remove(g);
-                        StopBoost();
-                        booster.RandomPower();
-                        //booster.SetPower(Power.StrongerHit); testowanie PowerUp'ów
-                        SetBoost();
-                        return true;
-                    }
+                    myCanvas.Children.Remove(g);
+                    StopBoost();
+                    booster.RandomPower();
+                    //booster.SetPower(Power.StrongerHit); testowanie PowerUp'ów
+                    SetBoost();
+                    return true;
                 }
             }
             return false;
         }
-        public void RespawnBoost(int indexOfBall)//Po zniszczeniu bloku, jest 10% szans na to, że sprespi się nowy boost
+
+        public void RespawnBoost(int indexOfBall)//Po zniszczeniu bloku, jest 10% szans na to, że sprespi się nowy boost. Poprzedni wciąż jest aktywny
         {
             if (Tools.RundomNumber(1, 10) == 5)
             {
