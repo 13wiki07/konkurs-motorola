@@ -94,7 +94,7 @@ namespace ArkanoEgo.Classes
         }
 
 
-        public void SetBoostPlayerLenght(ref Rectangle rectangle)
+        public void SetBoostPlayerLenght(ref Rectangle rectangle)//powiększamy gracza
         {
             rectangle.Width = rectangle.Width * 2;
             Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) - rectangle.ActualWidth / 2);
