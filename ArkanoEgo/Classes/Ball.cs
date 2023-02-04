@@ -18,12 +18,16 @@ namespace ArkanoEgo.Classes
         public bool top { get; set; } // top = true; bottom = false;
         public bool left { get; set; } // left = true; right = false;
 
+        public bool stop { get; set; }
+
 
         // kulka przypisanie
         // w linku jest rozpiska co czym jest
         // https://www.canva.com/design/DAFSS32ggNg/ZHP5O-GhpveqJ4X_GtHzrg/view?utm_content=DAFSS32ggNg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton#5
         public void InitBall(Ellipse ballEclipse)
         {
+            stop = true;
+
             rad = Convert.ToInt32(ballEclipse.Height) / 2; // promień kuli
             posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
             posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));
