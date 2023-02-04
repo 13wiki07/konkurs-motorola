@@ -26,8 +26,8 @@ namespace ArkanoEgo.Classes
         public bool top { get; set; } // top = true; bottom = false;
         public bool left { get; set; } // left = true; right = false;
 
-        // power boostera
-        public Power power = Power.None;
+        // _power boostera
+        private Power _power = Power.None;
 
         public int PowerDuration = 10000;
 
@@ -48,25 +48,34 @@ namespace ArkanoEgo.Classes
             posX = ball.posX;
             posY = ball.posY;
         }
+        public Power GetPower()
+        {
+            return _power;
+        }
+        public void SetPower(Power power)
+        {
+            _power = power;
+        }
 
         public void RandomPower()
         {
             switch (Tools.Tools.RundomNumber(1, 3))
             {
                 case 1:
-                    power = Power.PlayerLenght;
+                    _power = Power.PlayerLenght;
                     break;
                 case 2:
-                    power = Power.NewBall;
+                    _power = Power.NewBall;
                     break;
                 case 3:
-                    power = Power.StrongerHit;
+                    _power = Power.StrongerHit;
                     break;
                 default:
-                    power = Power.None;
+                    _power = Power.None;
                     break;
             }
         }
+
 
         public void SetBoostPlayerLenght(ref Rectangle rectangle)
         {
@@ -79,17 +88,34 @@ namespace ArkanoEgo.Classes
             Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) + rectangle.ActualWidth / 4);
             rectangle.Width = rectangle.Width / 2;
         }
-        
-        public void SetBoost(ref Rectangle rectangle)
+        public void NewBallSetBoost(ref Canvas myCanvas, ref List<Ball> balls)
         {
-            rectangle.Width = rectangle.Width * 2;
-            Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) - rectangle.ActualWidth / 2);
-        }
+            Ellipse ballEclipse = new Ellipse()
+            {
+                Width = 10,
+                Height = 10, // 26 albo 27
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0000ff")),
+                Tag = "ballEclipse",
+            };
 
-        public void StopBoost(ref Rectangle rectangle)
+            myCanvas.Children.Add(ballEclipse);
+            Canvas.SetTop(ballEclipse, balls[0].posY);
+            Canvas.SetLeft(ballEclipse, balls[0].posX);
+
+            Ball ball = new Ball();
+            ball.InitBall(ballEclipse);
+
+            ball.top = balls[0].top;
+            if (balls[0].left)
+                ball.left = false;
+            else
+                ball.left = true;
+
+            balls.Add(ball);
+        }
+        public void NewBallStopBoost(ref List<Ball> balls)
         {
-            Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) + rectangle.ActualWidth / 4);
-            rectangle.Width = rectangle.Width / 2;
+
         }
         public float durationTime { get; set; }
         // ew można kilka klas/typów boosterów zrobić
