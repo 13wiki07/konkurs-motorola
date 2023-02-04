@@ -109,7 +109,8 @@ namespace ArkanoEgo
                                 // górna krawędź klocka
                                 if (Canvas.GetLeft(x) < balls[index].posX && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY < Canvas.GetTop(x) + x.Height)
                                 {
-                                    balls[index].top = true;
+                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                        balls[index].top = true;
                                     HitBlock(posX, posY, x);
                                     leave = true;
                                 }
@@ -117,7 +118,8 @@ namespace ArkanoEgo
                                 // dolna krawędź klocka
                                 if (Canvas.GetLeft(x) < balls[index].posX && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY > Canvas.GetTop(x))
                                 {
-                                    balls[index].top = false;
+                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                        balls[index].top = false;
                                     HitBlock(posX, posY, x);
                                     leave = true;
                                 }
@@ -125,7 +127,8 @@ namespace ArkanoEgo
                                 // lewa krawędź klocka
                                 if (Canvas.GetTop(x) < balls[index].posY && balls[index].posY < Canvas.GetTop(x) + x.Height && balls[index].posX < Canvas.GetLeft(x) + x.Width)
                                 {
-                                    balls[index].left = true;
+                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                        balls[index].left = true;
                                     HitBlock(posX, posY, x);
                                     leave = true;
                                 }
@@ -133,7 +136,8 @@ namespace ArkanoEgo
                                 // prawa krawędź klocka
                                 if (Canvas.GetTop(x) < balls[index].posY && balls[index].posY < Canvas.GetTop(x) + x.Height && balls[index].posX > Canvas.GetLeft(x))
                                 {
-                                    balls[index].left = false;
+                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                        balls[index].left = false;
                                     HitBlock(posX, posY, x);
                                     leave = true;
                                 }
@@ -282,33 +286,19 @@ namespace ArkanoEgo
             if (e.Key == Key.A)
                 playerGoLeft = false;
         }
-
-
         public void SetBoost()
         {
 
-            switch (booster.power)
+            switch (booster.GetPower())
             {
                 case Power.PlayerLenght:
                     booster.SetBoostPlayerLenght(ref player);
-                    Task.Delay(booster.PowerDuration).ContinueWith(_ =>
-                    {
-                        Application.Current.Dispatcher.Invoke(() => { StopBoost(); });//wyłączenie boosta po pewnym czasie
-                    });
                     break;
                 case Power.NewBall:
-                    booster.SetBoost(ref player);
-                    Task.Delay(booster.PowerDuration).ContinueWith(_ =>
-                    {
-                        Application.Current.Dispatcher.Invoke(() => { StopBoost(); });
-                    });
+                    booster.NewBallSetBoost(ref myCanvas, ref balls);
                     break;
                 case Power.StrongerHit:
-                    booster.SetBoost(ref player);
-                    Task.Delay(booster.PowerDuration).ContinueWith(_ =>
-                    {
-                        Application.Current.Dispatcher.Invoke(() => { StopBoost(); });
-                    });
+                    booster.SetPower(Power.StrongerHit);
                     break;
                 case Power.None:
                     break;
@@ -318,16 +308,16 @@ namespace ArkanoEgo
         }
         public void StopBoost()
         {
-            switch (booster.power)
+            switch (booster.GetPower())
             {
                 case Power.PlayerLenght:
                     booster.StopBoostPlayerLenght(ref player);
                     break;
                 case Power.NewBall:
-                    booster.StopBoost(ref player);
+                    //booster.StopBoost(ref player);
                     break;
                 case Power.StrongerHit:
-                    booster.StopBoost(ref player);
+                    booster.SetPower(Power.None);
                     break;
                 case Power.None:
                     break;
@@ -355,7 +345,7 @@ namespace ArkanoEgo
 
         public bool PlayerCaughtABoost(Rect rect)
         {
-            foreach (var g in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Tag"))
+            foreach (var g in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
             {
                 if (g.Name != "ballEclipse")
                 {
@@ -363,8 +353,9 @@ namespace ArkanoEgo
                     if (boosterEclipseHitBox.IntersectsWith(rect))
                     {
                         myCanvas.Children.Remove(g);
-
+                        StopBoost();
                         booster.RandomPower();
+                        //booster.SetPower(Power.StrongerHit); testowanie PowerUp'ów
                         SetBoost();
                         return true;
                     }
