@@ -35,10 +35,10 @@ namespace ArkanoEgo
             newMap();
             
             wybrany = emptyBtn;
-            for(int i = 0; i < 21*13; i++)
+            /*for(int i = 0; i < 21*13; i++) // chyba nie potrzebne
             {
                 allButtons[i].Background = wybrany.Background;
-            }
+            }*/
         }
 
         private void newMap()
@@ -52,7 +52,9 @@ namespace ArkanoEgo
                     btn.SetValue(Grid.RowProperty, j);
                     btn.Click += Field_LeftClick;
                     btn.MouseDown+= Field_RightClick;
-                    btn.Background = new SolidColorBrush(Color.FromArgb(10, 36, 36, 36));
+                    btn.Background = new SolidColorBrush(Color.FromRgb(36, 36, 36));
+                    btn.BorderBrush = Brushes.Black;
+                    btn.BorderThickness = new Thickness(1.5);
                     gridCreator.Children.Add(btn);
                     emptyBtn.Background = btn.Background;
                     allButtons.Add(btn);
@@ -143,7 +145,7 @@ namespace ArkanoEgo
             brick.TimesToBreak;*/
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SaveLevel_Click(object sender, RoutedEventArgs e)
         {
             SaveMapToFile();
         }

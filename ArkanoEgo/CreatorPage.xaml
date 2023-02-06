@@ -6,9 +6,8 @@
       xmlns:local="clr-namespace:ArkanoEgo"
       mc:Ignorable="d" 
       d:DesignHeight="1030" d:DesignWidth="1920"
-      Height="{x:Static SystemParameters.FullPrimaryScreenHeight}"
       Width="{x:Static SystemParameters.FullPrimaryScreenWidth}"
-      Title="CreatorPage" Background="#a6a49f">
+      Title="CreatorPage" Background="#313131">
     <Page.Resources>
         <Style x:Key="brickEditStyle" TargetType="Button">
             <!---->
@@ -28,39 +27,44 @@
         </Grid.ColumnDefinitions>
 
         <UniformGrid Columns="2" Height="320" Margin="30">
-            <Button Background="WhiteSmoke" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="Orange" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#FFFFFF" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#F8B34B" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="50" Style="{StaticResource valueLabel}"/>
             <Label Content="60" Style="{StaticResource valueLabel}"/>
 
-            <Button Background="Aquamarine" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="LightGreen" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#6CD4C5" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#98E677" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="70" Style="{StaticResource valueLabel}"/>
             <Label Content="80" Style="{StaticResource valueLabel}"/>
 
-            <Button Background="DeepPink" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="RoyalBlue" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#FD6B6B" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#79A5F2" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="90"  Style="{StaticResource valueLabel}"/>
             <Label Content="100" Style="{StaticResource valueLabel}"/>
 
-            <Button Background="Pink" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="Yellow" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#E5989B" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button Background="#FFDC6C" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="110" Style="{StaticResource valueLabel}"/>
             <Label Content="120" Style="{StaticResource valueLabel}"/>
 
-            <Button x:Name="silver" Background="Gray" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button x:Name="gold" Background="Goldenrod" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button x:Name="silver" Background="#626161" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button x:Name="gold"   Background="#C69245" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
             <Label Content="50 * lvl" Style="{StaticResource valueLabel}"/>
             <Label Content="-"        Style="{StaticResource valueLabel}"/>
 
         </UniformGrid>
+        
+        <Button VerticalAlignment="Bottom" Margin="0 50"
+            Background="Gray" Content="SAVE" 
+            Height="40" Width="200" Click="SaveLevel_Click"/>
+        
         <!-- tu chyb nalepiej by było zrobić uniformgrida -->
-        <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 50" Height="{x:Static SystemParameters.FullPrimaryScreenHeight}">
+        <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 50" Height="750">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

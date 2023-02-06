@@ -53,9 +53,8 @@ namespace ArkanoEgo
                 balls.Add(ball);
             }
 
-
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
-            height = (int)SystemParameters.FullPrimaryScreenHeight / 13;
+            height = 700 / 13; //(int)SystemParameters.FullPrimaryScreenHeight / 13;
             height = height * 13;
 
             /* np.

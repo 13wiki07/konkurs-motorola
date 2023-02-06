@@ -5,14 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArkanoEgo"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1000" d:DesignWidth="1920"
       Height="{x:Static SystemParameters.FullPrimaryScreenHeight}"
       Width="1040"
       Title="MenuPage">
-    <!-- todo: do zrobienia jeszcze cały wygląd -->
-    <StackPanel Background="Beige">
-        <Label Content="Arkanoego (logo)"/>
-        <Button Content="START" FontSize="30" Width="220" Style="{StaticResource btnStyle}"/>
-        <Button Content="START" Style="{StaticResource btnStyle}"/>
-    </StackPanel>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1545"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel>
+            <Label Content="Arkanoego (logo)" FontSize="100"/>
+        </StackPanel>
+    </Grid>
 </Page>
