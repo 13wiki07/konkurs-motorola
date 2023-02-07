@@ -100,25 +100,115 @@ namespace ArkanoEgo
             settings.IndentChars = ("    ");
             settings.CloseOutput = false;
             settings.OmitXmlDeclaration = true;
-            XmlWriter writer = XmlWriter.Create("lvl7.xml", settings);
+            
+            XmlWriter writer = XmlWriter.Create("lvl9.xml", settings);
             //int count = 0;
-            writer.WriteStartElement("ListBricks");
+            writer.WriteStartElement("XMLBricks");
 
             for (int n = 0; n < allButtons.Count; n++)
             {
                 if (allButtons[n].Background.ToString() != emptyBtn.Background.ToString())
                 {
+                    /*  KOLORKI
+                        biały               1 50  #FFFFFF
+                        pomarańczowy        1 60  #F8B34B
+                        aqua                1 70  #6CD4C5
+                        zielony             1 80  #98E677
+                        ciemny róż          1 90  #FD6B6B
+                        ciemny niebieski    1 100 #79A5F2
+                        jasny róż           1 110 #E5989B
+                        żółty               1 120 #FFDC6C
+                        srebrny             2 50  //#626161
+                        złoty               3 //-   #C69245
+                     */
                     //count++;
+                    //MessageBox.Show("okk " + allButtons[n].Background.ToString());
+
                     writer.WriteStartElement("XMLBrick");
+
+                    if (allButtons[n].Background.ToString() == "#626161") // srebrny
+                        writer.WriteElementString("Type", "2");
+                    else if (allButtons[n].Background.ToString() == "#C69245") // złoty
+                        writer.WriteElementString("Type", "3");
+                    else
+                        writer.WriteElementString("Type", "1");
+
+                    writer.WriteElementString("PosX", allButtons[n].GetValue(Grid.ColumnProperty).ToString());
+                    writer.WriteElementString("PosY", allButtons[n].GetValue(Grid.RowProperty).ToString());
+
+                    if (allButtons[n].Background.ToString() == "#FFFFFF") // biały
+                    {
+                        writer.WriteElementString("Value", "50");
+                        writer.WriteElementString("Color", "#FFFFFF");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#F8B34B") // pomarańczowy
+                    {
+                        writer.WriteElementString("Value", "60");
+                        writer.WriteElementString("Color", "#F8B34B");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#6CD4C5") // aqua
+                    {
+                        writer.WriteElementString("Value", "70");
+                        writer.WriteElementString("Color", "#6CD4C5");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#98E677") // zielony
+                    {
+                        writer.WriteElementString("Value", "80");
+                        writer.WriteElementString("Color", "#98E677");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#FD6B6B") // ciemny róż
+                    {
+                        writer.WriteElementString("Value", "90");
+                        writer.WriteElementString("Color", "#FD6B6B");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#79A5F2") // ciemny niebieski
+                    {
+                        writer.WriteElementString("Value", "100");
+                        writer.WriteElementString("Color", "#79A5F2");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#E5989B") // jasny róż
+                    {
+                        writer.WriteElementString("Value", "110");
+                        writer.WriteElementString("Color", "#E5989B");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#FFDC6C") // żółty
+                    {
+                        writer.WriteElementString("Value", "120");
+                        writer.WriteElementString("Color", "#FFDC6C");
+                        writer.WriteElementString("TimesToBreak", "1");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#626161") // srebrny
+                    {
+                        writer.WriteElementString("Value", "50");
+                        writer.WriteElementString("Color", "#626161");
+                        writer.WriteElementString("TimesToBreak", "2");
+                    }
+                    else if (allButtons[n].Background.ToString() == "#C69245") // złoty
+                    {
+                        writer.WriteElementString("Value", "");
+                        writer.WriteElementString("Color", "#C69245");
+                        writer.WriteElementString("TimesToBreak", "");
+                    }
+                    writer.WriteEndElement();
+                    /*
                     writer.WriteElementString("Type", "1");    // int
                     writer.WriteElementString("PosX", "1");    // int
                     writer.WriteElementString("PosY", "1");    // int
                     writer.WriteElementString("Value", "1");    // int
                     writer.WriteElementString("Color", "#FFFFFF");    // string
                     writer.WriteElementString("TimesToBreak", "20");    // int
-                    writer.WriteEndElement();
+                    writer.WriteEndElement();*/
                 }
             }
+            writer.WriteEndElement();
+
             //MessageBox.Show("Ile: " + count);
             writer.Flush();
 
