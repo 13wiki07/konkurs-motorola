@@ -63,8 +63,8 @@
             Background="Gray" Content="SAVE" 
             Height="40" Width="200" Click="SaveLevel_Click"/>
         
-        <!-- tu chyb nalepiej by było zrobić uniformgrida -->
-        <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 50" Height="750">
+        <!-- 13 x 21 -->
+        <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 20" Height="700">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -81,11 +81,6 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>

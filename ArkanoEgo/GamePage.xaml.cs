@@ -66,7 +66,8 @@ namespace ArkanoEgo
             windowPage.UpdateLayout();
             width = (int)windowPage.Width;
 
-            bricks = Tools.ReadLvl(1);//Wczytywanie mapy
+            //bricks = Tools.ReadLvl(1);//Wczytywanie mapy
+            bricks = Tools.ReadLvl(2);
 
             Brick.GenerateElements(ref myCanvas, ref bricks, width, height);//Przykładowa funkcja jak można przerzycić metody do innych klas
             myCanvas.Focus();

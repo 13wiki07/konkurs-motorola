@@ -18,7 +18,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
+using static ArkanoEgo.Classes.Tools.Tools;
 
 namespace ArkanoEgo
 {
@@ -87,12 +89,48 @@ namespace ArkanoEgo
 
         private void SaveMapToFile()
         {
-            string path = @"..\..\LVLS\testowyLevel.xml"; // trzeba coś wykombinować by się robiły też nowe levele i by można było edytować stare
-                                                          // datagrid w nowej zakładce czy coś można by je pokazywać
+            string path = @"..\..\LVLS\lvl5.xml"; // trzeba coś wykombinować by się robiły też nowe levele i by można było edytować stare
+                                                  // datagrid w nowej zakładce czy coś można by je pokazywać
 
-            XmlSerializer sr = new XmlSerializer(typeof(XMLBrick));
+            XmlDocument doc = new XmlDocument();
+
+            //doc.AppendChild();
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = ("    ");
+            settings.CloseOutput = false;
+            settings.OmitXmlDeclaration = true;
+            XmlWriter writer = XmlWriter.Create("lvl7.xml", settings);
+            //int count = 0;
+            writer.WriteStartElement("ListBricks");
+
+            for (int n = 0; n < allButtons.Count; n++)
+            {
+                if (allButtons[n].Background.ToString() != emptyBtn.Background.ToString())
+                {
+                    //count++;
+                    writer.WriteStartElement("XMLBrick");
+                    writer.WriteElementString("Type", "1");    // int
+                    writer.WriteElementString("PosX", "1");    // int
+                    writer.WriteElementString("PosY", "1");    // int
+                    writer.WriteElementString("Value", "1");    // int
+                    writer.WriteElementString("Color", "#FFFFFF");    // string
+                    writer.WriteElementString("TimesToBreak", "20");    // int
+                    writer.WriteEndElement();
+                }
+            }
+            //MessageBox.Show("Ile: " + count);
+            writer.Flush();
+
+            /*      STARA METODA
+             XmlSerializer sr = new XmlSerializer(typeof(XMLBrick));
+
             StreamWriter writer = new StreamWriter(path);
             bricksList.Clear();
+
+
+
+            sr.Serialize(writer, "XMLBricks", )
 
             for (int n = 0; n < allButtons.Count; n++)
             {
@@ -108,7 +146,8 @@ namespace ArkanoEgo
             {
                 sr.Serialize(writer, bricksList[i]); // dodaje dany brick do .xml
             }
-            writer.Close();
+            writer.Close();*/
+            MessageBox.Show("Zapisano level \n" + path);
         }
 
         private XMLBrick createBrick(Button btn)
