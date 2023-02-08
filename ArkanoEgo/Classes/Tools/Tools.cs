@@ -27,7 +27,7 @@ namespace ArkanoEgo.Classes.Tools
         public static ListBricks listBricks = new ListBricks();
         public static Brick[,] ReadLvl(int lvl)//wstępne czytanie mapy z pliku
         {
-            Brick[,] Bricks = new Brick[13, 20];
+            Brick[,] Bricks = new Brick[13, 21];
 
             var serializer = new XmlSerializer(typeof(ListBricks));
             using (var reader = XmlReader.Create($@"LVLS\lvl{lvl}.xml"))

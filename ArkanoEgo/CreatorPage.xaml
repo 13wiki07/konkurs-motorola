@@ -7,12 +7,10 @@
       mc:Ignorable="d" 
       d:DesignHeight="1030" d:DesignWidth="1920"
       Width="{x:Static SystemParameters.FullPrimaryScreenWidth}"
-      Title="CreatorPage" Background="#313131">
+      Title="CreatorPage" Background="#454545">
     <Page.Resources>
-        <Style x:Key="brickEditStyle" TargetType="Button">
-            <!---->
-        </Style>
         <Style x:Key="valueLabel" TargetType="Label">
+            <Setter Property="Foreground" Value="#cecece"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="20 0 0 0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -54,8 +52,8 @@
             <Button x:Name="silver" Background="#626161" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
             <Button x:Name="gold"   Background="#C69245" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-            <Label Content="50 * lvl" Style="{StaticResource valueLabel}"/>
-            <Label Content="-"        Style="{StaticResource valueLabel}"/>
+            <Label Content="50" Style="{StaticResource valueLabel}"/>
+            <Label Content="0"  Style="{StaticResource valueLabel}"/>
 
         </UniformGrid>
         
@@ -64,7 +62,7 @@
             Height="40" Width="200" Click="SaveLevel_Click"/>
         
         <!-- 13 x 21 -->
-        <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 20" Height="700">
+        <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 20" Height="693" Width="858">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

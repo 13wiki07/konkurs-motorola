@@ -52,7 +52,7 @@ namespace ArkanoEgo.Classes.Bricks
             int left = 0;
             for (int i = 0; i < 13; i++)
             {//x
-                for (int j = 0; j < 20; j++)//y
+                for (int j = 0; j < 21; j++)//y
                 {
 
                     if (bricks[i, j] != null)
@@ -63,7 +63,7 @@ namespace ArkanoEgo.Classes.Bricks
                             Width = width / 13,
                             Height = height / 26, // 26 albo 27
                             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bricks[i, j].Color)),//color pobierany z obiektu
-                            Stroke = Brushes.Red,
+                            Stroke = Brushes.Black,
                             StrokeThickness = 1,
                         };
 
