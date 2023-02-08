@@ -13,14 +13,21 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="300"/>
+            <!--<ColumnDefinition Width="300"/>-->
         </Grid.ColumnDefinitions>
 
         <!-- frame potrzebne do GamePage itp -->
-        <Frame x:Name="gridFrame" Grid.Column="0" Background="Wheat"
+        <Frame x:Name="gridFrame" Grid.Column="0" Grid.ColumnSpan="2" Background="Wheat"
                Source=".xaml" NavigationUIVisibility="Hidden"/>
 
-        <StackPanel Grid.Column="1">
+        <Button Margin="20" Height="50" Click="Menu_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Image Source="./Resources/Images/img_arrow.png"/>
+        </Button>
+
+        <Button Content="Kreator (to potem w menu)" Margin="20" Height="40" Click="Creator_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <Button Content="GamePage (to potem w menu)" Margin="20 80" Height="40" Click="Game_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        
+        <!--<StackPanel Grid.Column="1">
             <Label Content="Arkanoid (logo)" Style="{StaticResource JustAnotherHandFont}" FontSize="50"/>
             <Button Background="IndianRed" Content="CREATOR PAGE (do menu potem)" FontSize="36" Style="{StaticResource btnStyle}" Click="Creator_Click"/>
             <Button Background="IndianRed" Content="GAME PAGE (do menu potem)" FontSize="36" Style="{StaticResource btnStyle}" Click="Game_Click"/>
@@ -29,6 +36,6 @@
             <Button Content="MENU" Click="Menu_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="OPTIONS" Style="{StaticResource btnStyle}"/>
             <Button Content="QUIT" Click="Quick_Click" Style="{StaticResource btnStyle}"/>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Window>
