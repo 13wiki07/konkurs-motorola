@@ -27,7 +27,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
 
         public int points = 0;
-        public Brick[,] bricks = new Brick[13, 20];
+        public Brick[,] bricks = new Brick[13, 21];
 
         DispatcherTimer gameTimer = new DispatcherTimer();
 
@@ -54,7 +54,7 @@ namespace ArkanoEgo
             }
 
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
-            height = 700 / 13; //(int)SystemParameters.FullPrimaryScreenHeight / 13;
+            height = 800 / 13; //(int)SystemParameters.FullPrimaryScreenHeight / 13;
             height = height * 13;
 
             /* np.
@@ -67,7 +67,7 @@ namespace ArkanoEgo
             width = (int)windowPage.Width;
 
             //bricks = Tools.ReadLvl(1);//Wczytywanie mapy
-            bricks = Tools.ReadLvl(2);
+            bricks = Tools.ReadLvl(9);
 
             Brick.GenerateElements(ref myCanvas, ref bricks, width, height);//Przykładowa funkcja jak można przerzycić metody do innych klas
             myCanvas.Focus();

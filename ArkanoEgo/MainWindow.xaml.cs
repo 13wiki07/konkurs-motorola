@@ -27,13 +27,13 @@ namespace ArkanoEgo
         private void Creator_Click(object sender, RoutedEventArgs e)
         {
             gridFrame.Navigate(new CreatorPage());
-            newGameBtn.Visibility = Visibility.Collapsed;
+            //newGameBtn.Visibility = Visibility.Collapsed;
         }
 
         private void Game_Click(object sender, RoutedEventArgs e)
         {
             gridFrame.Navigate(new GamePage());
-            newGameBtn.Visibility = Visibility.Visible;
+            //newGameBtn.Visibility = Visibility.Visible;
         }
 
         private void Menu_Click(object sender, RoutedEventArgs e)
