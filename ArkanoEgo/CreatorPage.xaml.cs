@@ -30,6 +30,7 @@ namespace ArkanoEgo
         Button emptyBtn = new Button();
         List<XMLBrick> bricksList = new List<XMLBrick>();
         List<Button> allButtons= new List<Button>();
+        string Silver_TTB = "1";
 
         public CreatorPage()
         {
@@ -37,10 +38,6 @@ namespace ArkanoEgo
             newMap();
             
             wybrany = emptyBtn;
-            /*for(int i = 0; i < 21*13; i++) // chyba nie potrzebne
-            {
-                allButtons[i].Background = wybrany.Background;
-            }*/
         }
 
         private void newMap()
@@ -96,8 +93,11 @@ namespace ArkanoEgo
             settings.IndentChars = ("    ");
             //settings.CloseOutput = false;
             settings.OmitXmlDeclaration = true;
-            
-            XmlWriter writer = XmlWriter.Create(@"..\..\LVLS\lvl9.xml", settings);
+
+            DateTime today = DateTime.Now;
+            string nazwa = "" + today.ToShortDateString() + today.Hour + today.Minute + today.Millisecond;
+            MessageBox.Show("name: " + nazwa);
+            XmlWriter writer = XmlWriter.Create(@"..\Debug\CustomLVLS\lvl_" + nazwa + ".xml", settings);
             writer.WriteStartElement("XMLBricks");
 
             for (int n = 0; n < allButtons.Count; n++)
@@ -187,7 +187,18 @@ namespace ArkanoEgo
                     { // srebrny
                         writer.WriteElementString("Value", "50");
                         writer.WriteElementString("Color", "#626161");
-                        writer.WriteElementString("TimesToBreak", "2");
+                        writer.WriteElementString("TimesToBreak", Silver_TTB); // do tworzenia CustomLevela
+
+                        /*  DO TWORZENIA PODSTAWOWYCH LEVELI
+                        int levelek = 0;
+                        if (levelek <= 8)
+                            writer.WriteElementString("TimesToBreak", "2");
+                        else if (levelek <= 16)
+                            writer.WriteElementString("TimesToBreak", "3");
+                        else if (levelek <= 24)
+                            writer.WriteElementString("TimesToBreak", "4");
+                        else if (levelek <= 8+8+8+8)
+                            writer.WriteElementString("TimesToBreak", "5");*/
                     }
                     else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#C69245").ToString())
                     { // złoty
@@ -217,8 +228,6 @@ namespace ArkanoEgo
             StreamWriter writer = new StreamWriter(path);
             bricksList.Clear();
 
-
-
             sr.Serialize(writer, "XMLBricks", )
 
             for (int n = 0; n < allButtons.Count; n++)
@@ -236,7 +245,7 @@ namespace ArkanoEgo
                 sr.Serialize(writer, bricksList[i]); // dodaje dany brick do .xml
             }
             writer.Close();*/
-            //MessageBox.Show("Zapisano level \n" + path);
+            MessageBox.Show("Zapisano level");
         }
 
         private XMLBrick createBrick(Button btn)
@@ -276,6 +285,11 @@ namespace ArkanoEgo
         private void SaveLevel_Click(object sender, RoutedEventArgs e)
         {
             SaveMapToFile();
+        }
+
+        private void ClearMap_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new CreatorPage());
         }
     }
 }
