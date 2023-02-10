@@ -24,5 +24,15 @@ namespace ArkanoEgo
         {
             InitializeComponent();
         }
+
+        private void Game_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new GamePage());
+        }
+
+        private void Kreator_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new CreatorPage());
+        }
     }
 }

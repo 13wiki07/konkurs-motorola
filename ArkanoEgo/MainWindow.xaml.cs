@@ -34,11 +34,13 @@ namespace ArkanoEgo
         {
             gridFrame.Navigate(new GamePage());
             //newGameBtn.Visibility = Visibility.Visible;
+            btnBackToMenu.Visibility = Visibility.Visible;
         }
 
         private void Menu_Click(object sender, RoutedEventArgs e)
         {
             gridFrame.Navigate(new MenuPage());
+            btnBackToMenu.Visibility = Visibility.Collapsed;
         }
         private void Quick_Click(object sender, RoutedEventArgs e)
         {

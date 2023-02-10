@@ -20,7 +20,7 @@
         <Frame x:Name="gridFrame" Grid.Column="0" Grid.ColumnSpan="2" Background="Wheat"
                Source=".xaml" NavigationUIVisibility="Hidden"/>
 
-        <Button Margin="20" Height="50" Click="Menu_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Button x:Name="btnBackToMenu" Margin="20" Height="50" Click="Menu_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Image Source="./Resources/Images/img_arrow.png"/>
         </Button>
 
