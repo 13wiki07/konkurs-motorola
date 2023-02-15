@@ -363,7 +363,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>3</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>
@@ -371,7 +371,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>5</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>
@@ -387,7 +387,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>7</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>
@@ -395,7 +395,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>9</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>
@@ -411,7 +411,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>11</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>
@@ -419,7 +419,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>13</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>
@@ -435,7 +435,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>15</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>
@@ -443,7 +443,7 @@
         <Type>2</Type>
         <PosX>6</PosX>
         <PosY>17</PosY>
-        <Value>50</Value>
+        <Value>950</Value>
         <Color>#626161</Color>
         <TimesToBreak>4</TimesToBreak>
     </XMLBrick>

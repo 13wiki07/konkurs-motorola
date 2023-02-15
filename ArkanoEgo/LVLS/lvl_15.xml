@@ -227,7 +227,7 @@
         <Type>2</Type>
         <PosX>4</PosX>
         <PosY>10</PosY>
-        <Value>50</Value>
+        <Value>750</Value>
         <Color>#626161</Color>
         <TimesToBreak>3</TimesToBreak>
     </XMLBrick>
@@ -635,7 +635,7 @@
         <Type>2</Type>
         <PosX>8</PosX>
         <PosY>10</PosY>
-        <Value>50</Value>
+        <Value>750</Value>
         <Color>#626161</Color>
         <TimesToBreak>3</TimesToBreak>
     </XMLBrick>

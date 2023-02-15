@@ -3,6 +3,7 @@ using ArkanoEgo.Classes.Bricks;
 using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -23,19 +24,30 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
-        int levelek = 1;
         bool playerGoRight = false;
         bool playerGoLeft = false;
+        //bool raz = true;
+        int[] dane = new int[3]; // 0. indeks  | 1. posX  | 2. posY
+        // potrzebne to by ominąć błąd z liczeniem pozostałych klocków
 
+        bool ok = true;
+        int nrr = 0;
+
+        public int levelek = 1;
         public int points = 0;
         public Brick[,] bricks = new Brick[13, 21];
+        //public int howManyBricksLeft = 0;
+
+        // test
+        public int numberOfChilds = 0;
+        public int numberOfBricksLeft = 0;
 
         DispatcherTimer gameTimer = new DispatcherTimer();
 
         List<Ball> balls = new List<Ball>();
 
         Booster booster = new Booster();
-
+        int pointsLeft = 0;
         //wymiary Canvas'a / pola gry
         int height;
         int width;
@@ -44,6 +56,18 @@ namespace ArkanoEgo
         {
             InitializeComponent();
 
+            Game();
+        }
+        public GamePage(int level, int pkt)
+        {
+            InitializeComponent();
+            levelek = level;
+            points = 0;
+            Game();
+        }
+
+        private void Game()
+        {
             height = (int)windowPage.Height;
             width = (int)windowPage.Width;
 
@@ -67,28 +91,36 @@ namespace ArkanoEgo
             windowPage.UpdateLayout();
             width = (int)windowPage.Width;
 
-            bricks = Tools.ReadLvl(2); //Wczytywanie mapy
+            bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
+            pointsLeft = Tools.PointsAtLevel;
+                                                                      // howManyBricksLeft = Tools.NumberOfBricks; // na razie ze ścieżką, zobaczymy jak będziemy wczytywać custom levele
+            nrr = Tools.NumberOfBricks;
+            pointsLabel.Content = "Zostało: " + nrr; //+ pointsLeft;
+            pointsLabel.Content = "Zostało: " + nrr + " pkt: " + points; //+ pointsLeft;
 
             Brick.GenerateElements(ref myCanvas, ref bricks, width, height);//Przykładowa funkcja jak można przerzycić metody do innych klas
             myCanvas.Focus();
-
 
             //Pętla gry
             gameTimer.Interval = TimeSpan.FromMilliseconds(30);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
 
+            numberOfChilds = myCanvas.Children.Count;
+            numberOfBricksLeft = Tools.NumberOfBricks;
         }
+        
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
             int index = 0;
             for (int i = 0; i < 10; i++)
             {
+                bool aaaa = false;
                 foreach (var x in myCanvas.Children.OfType<Rectangle>())//kolizja piłek
                 {
                     bool leave = false;
-                    if (x.Name != "player")//jeżeli element jest blokiem to go usun
+                    if (!aaaa && x.Name != "player")//jeżeli element jest blokiem to go usun
                     {
                         int posX = (int)Canvas.GetLeft(x) / (width / 13);//element [x,0] tablicy
                         int posY = (int)Canvas.GetTop(x) / (height / 26);//element [0,Y] tablicy
@@ -100,46 +132,61 @@ namespace ArkanoEgo
                             leave = false;
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
 
-                            if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
+                            if (!aaaa && ballEclipseHitBox.IntersectsWith(BlockHitBox))
                             {
+                                //pointsLabel.Content = "Zostało: " + numberOfChilds; //+ pointsLeft;
+
+                                //MessageBox.Show("górna kraw " + Canvas.GetLeft(x) + " < " + balls[index].posX + " i " + balls[index].posX + " < " + ((Canvas.GetLeft(x)) + x.Width) + " i " + balls[index].posY + " < " + (Canvas.GetTop(x) + x.Height));
+                                //MessageBox.Show("dolna kraw " + Canvas.GetLeft(x) + " < " + balls[index].posX + " i " + balls[index].posX + " < " + ((Canvas.GetLeft(x)) + x.Width) + " i " + balls[index].posY + " > " + Canvas.GetTop(x));
+                                //MessageBox.Show("lewa kraw " + Canvas.GetTop(x) + " < " + balls[index].posY + " i " + balls[index].posX + " < " + ((Canvas.GetLeft(x)) + x.Width) + " i " + balls[index].posY + " < " + (Canvas.GetTop(x) + x.Height));
+                                //MessageBox.Show("prawa kraw " + Canvas.GetTop(x) + " < " + balls[index].posY + " i " + balls[index].posX + " > " + (Canvas.GetLeft(x)) + " i " + balls[index].posY + " < " + (Canvas.GetTop(x) + x.Height));
+
                                 // górna krawędź klocka
                                 if (Canvas.GetLeft(x) < balls[index].posX && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY < Canvas.GetTop(x) + x.Height)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].top = true;
+                                    //MessageBox.Show("górna kraw");
                                     HitBlock(posX, posY, x, index);
+                                    aaaa = true;
                                     leave = true;
                                 }
-
+                                else
                                 // dolna krawędź klocka
                                 if (Canvas.GetLeft(x) < balls[index].posX && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY > Canvas.GetTop(x))
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].top = false;
+                                    //MessageBox.Show("dolna kraw");
                                     HitBlock(posX, posY, x, index);
+                                    aaaa = true;
                                     leave = true;
                                 }
-
-                                // lewa krawędź klocka
-                                if (Canvas.GetTop(x) < balls[index].posY && balls[index].posY < Canvas.GetTop(x) + x.Height && balls[index].posX < Canvas.GetLeft(x) + x.Width)
+                                else
+                // lewa krawędź klocka
+                if (Canvas.GetTop(x) < balls[index].posY && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY < Canvas.GetTop(x) + x.Height)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = true;
+                                    //MessageBox.Show("lewa kraw");
                                     HitBlock(posX, posY, x, index);
+                                    aaaa = true;
                                     leave = true;
                                 }
-
-                                // prawa krawędź klocka
-                                if (Canvas.GetTop(x) < balls[index].posY && balls[index].posY < Canvas.GetTop(x) + x.Height && balls[index].posX > Canvas.GetLeft(x))
+                                else
+                // prawa krawędź klocka
+                if (Canvas.GetTop(x) < balls[index].posY && balls[index].posX > Canvas.GetLeft(x) && balls[index].posY < Canvas.GetTop(x) + x.Height)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = false;
+                                    //MessageBox.Show("prawa kraw");
                                     HitBlock(posX, posY, x, index);
+                                    aaaa = true;
                                     leave = true;
                                 }
                             }
                             index++;
-                            if (leave)//wyjście z foreacha, bo usuwamy jeden z jego elementów
+                            if (leave || aaaa)//wyjście z foreacha, bo usuwamy jeden z jego elementów
                                 break;
                         }
                         if (leave)
@@ -162,7 +209,7 @@ namespace ArkanoEgo
                             index++;
                         }
                         //kolizja gracza z boostem
-                        if (PlayerCaughtABoost(BlockHitBox))//contakt paletki z boostem
+                        if (PlayerCaughtABoost(BlockHitBox))//kontakt paletki z boostem
                         {
                             break;
                         }
@@ -292,6 +339,9 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
+            //File.WriteAllText("WriteText.txt", Tools.info);
+            //MessageBox.Show("ok");
+
             if (e.Key == Key.D)
                 playerGoRight = true;
 
@@ -355,21 +405,69 @@ namespace ArkanoEgo
                     break;
             }
         }
-
+        
         public void HitBlock(int posX, int posY, Rectangle rectangle, int indexOfBall)//akcja po trafieniu piłki w block
         {
+            //MessageBox.Show("wywołanie funkcji HitBlock");
+            /*
+            if (dane[0] != indexOfBall || dane[1] != balls[indexOfBall].posX && dane[2] != balls[indexOfBall].posY)
+            {// 0 indeks, 1 posX, 2 posY
+                dane[0] = indexOfBall;
+                dane[1] = balls[indexOfBall].posX;
+                dane[2] = balls[indexOfBall].posY;
+                ok = true;
+            }
+            else
+                ok = false;*/
             if (bricks[posX, posY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
             {
+                //MessageBox.Show("ttb: " + bricks[posX, posY].TimesToBreak);
                 if (bricks[posX, posY].TimesToBreak < 2)
                 {
-                    points += bricks[posX, posY].Value;
+                    pointsLeft -= bricks[posX, posY].Value;
                     myCanvas.Children.Remove(rectangle);
+                    //howManyBricksLeft--;
                     RespawnBoost(indexOfBall);
-                    pointsLabel.Content = "Points: " + points;
+
+                    //MessageBox.Show("Ile: " + myCanvas.Children.Count);
+                    //MessageBox.Show("Dane kulki: "  + XX + " : " + YY + "");
+                    //if (ok)
+                    {
+                        nrr--;
+                        points += bricks[posX, posY].Value;
+                        pointsLabel.Content = "Zostało: " + nrr +" pkt: " +points + " --"+ Tools.PointsAtLevel; //+ pointsLeft;
+                    }
+                    //MessageBox.Show("Pozycja: " +ok.ToString() + " -> " +  +"=="+ balls[indexOfBall].posX +", "+ YY +"=="+ balls[indexOfBall].posY);
+                    /*
+                    pointsLabel.Content = "Zostało: " + numberOfChilds; //+ pointsLeft;
+                    //MessageBox.Show("zbicie: -" + bricks[posX, posY].Value);
+                    if(levelek == 2 && howManyBricksLeft < 60)
+                    //if(howManyBricksLeft < 2)
+                    if (raz)
+                    //    MessageBox.Show("Left: " + howManyBricksLeft);
+                    raz = false;
+                    MessageBox.Show("Left wsm: " + myCanvas.Children.Count);
+                    MessageBox.Show("DANE: " + (numberOfChilds-1) + " : " + myCanvas.Children.Count);
+                    if (numberOfChilds - 1 == myCanvas.Children.Count)
+                    {
+                            MessageBox.Show("Znika jeden klocek");
+                        numberOfBricksLeft--;
+                        numberOfChilds = myCanvas.Children.Count;
+                    }
+                    else
+                        numberOfChilds = numberOfChilds+1;
+                    MessageBox.Show("Powinny być równe: " + numberOfChilds + " : " + myCanvas.Children.Count);*/
+                    //numberOfBricksLeft = Tools.NumberOfBricks;
+                    if (points == Tools.PointsAtLevel)
+                    {
+                        Next_Level();
+                    }
+
                 }
                 else
                 {
                     bricks[posX, posY].TimesToBreak--;
+                    return;
                 }
             }
         }
@@ -382,6 +480,7 @@ namespace ArkanoEgo
                 if (boosterEclipseHitBox.IntersectsWith(rect))
                 {
                     myCanvas.Children.Remove(g);
+                    numberOfChilds--;
                     StopBoost();
                     booster.RandomPower();
                     //booster.SetPower(Power.StrongerHit); testowanie PowerUp'ów
@@ -394,11 +493,28 @@ namespace ArkanoEgo
 
         public void RespawnBoost(int indexOfBall)//Po zniszczeniu bloku, jest 10% szans na to, że sprespi się nowy boost. Poprzedni wciąż jest aktywny
         {
+                        //numberOfChilds = myCanvas.Children.Count;
             if (Tools.RundomNumber(1, 10) == 5)
             {
+                numberOfChilds++;
                 booster = new Booster(balls[indexOfBall], ref myCanvas, booster);
             }
         }
 
+        public void Next_Level()
+        {
+            gameTimer.Stop();
+            levelek++;
+            
+            MessageBox.Show("Lvl: " + levelek);
+            NavigationService.Navigate(new GamePage(levelek, points));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            gameTimer.Stop();
+            MessageBox.Show("ok"); // do usunięcia ten btn
+            gameTimer.Start();
+        }
     }
 }
