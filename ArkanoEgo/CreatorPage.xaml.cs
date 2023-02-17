@@ -97,7 +97,7 @@ namespace ArkanoEgo
             DateTime today = DateTime.Now;
             string nazwa = "" + today.ToShortDateString() + today.Hour + today.Minute + today.Millisecond;
             MessageBox.Show("name: " + nazwa);
-            XmlWriter writer = XmlWriter.Create(@"..\Debug\CustomLVLS\lvl_" + nazwa + ".xml", settings);
+            XmlWriter writer = XmlWriter.Create(@"..\Debug\CustomLVLS\lvl_" + nazwa + ".xml", settings); // wywala się po clear map 
             writer.WriteStartElement("XMLBricks");
 
             for (int n = 0; n < allButtons.Count; n++)

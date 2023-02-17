@@ -210,8 +210,9 @@
     <Content Include="LVLS\lvl_9.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Images\img_arrow.png" />
-    <Resource Include="Resources\Images\img_options.png" />
+    <Resource Include="Resources\Fonts\Boink Std Regular.otf" />
+    <Resource Include="Resources\Images\left-arrow-border.png" />
+    <Resource Include="Resources\Images\left-arrow.png" />
     <Resource Include="Resources\Fonts\LICENSE.txt" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
