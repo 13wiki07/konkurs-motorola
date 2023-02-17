@@ -9,6 +9,8 @@
       Width="{x:Static SystemParameters.FullPrimaryScreenWidth}"
       Title="CreatorPage" Background="#454545">
     <Page.Resources>
+        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientBlue}"/>
+
         <Style x:Key="valueLabel" TargetType="Label">
             <Setter Property="Foreground" Value="#cecece"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -56,10 +58,14 @@
             <Label Content="0"  Style="{StaticResource valueLabel}"/>
 
         </UniformGrid>
+
+        <Button VerticalAlignment="Bottom" Margin="0 150" Content="CLEAR MAP" 
+                Style="{StaticResource btnStyle}"
+                Width="240" Click="SaveLevel_Click"/>
         
-        <Button VerticalAlignment="Bottom" Margin="0 50"
-            Background="Gray" Content="SAVE" 
-            Height="40" Width="200" Click="SaveLevel_Click"/>
+        <Button VerticalAlignment="Bottom" Margin="0 50" Content="SAVE" 
+                Style="{StaticResource btnStyle}"
+                Width="240" Click="SaveLevel_Click"/>
         
         <!-- 13 x 21 -->
         <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 20" Height="693" Width="858">

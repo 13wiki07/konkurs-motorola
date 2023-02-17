@@ -22,6 +22,7 @@ namespace ArkanoEgo
         {
             InitializeComponent();
             gridFrame.Navigate(new GamePage()); // tutaj decydujemy jaką stronę wyświetlamy
+            //imageBackToMenu.Source = new BitmapImage(new Uri(@"Resources/Images/left-arrow.png", UriKind.Relative));
         }
 
         private void Creator_Click(object sender, RoutedEventArgs e)
@@ -49,6 +50,25 @@ namespace ArkanoEgo
             {
                 Close();
             }
+        }
+
+        private void BackToMenu_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Image img = sender as Image;
+            img.Source = new BitmapImage(new Uri(@"Resources/Images/left-arrow-border.png", UriKind.Relative));
+        }
+
+        private void BackToMenu_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Image img = sender as Image;
+            img.Source = new BitmapImage(new Uri(@"Resources/Images/left-arrow.png", UriKind.Relative));
+        }
+
+        private void Btn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Button btn = sender as Button;
+            btn.Background = Brushes.Transparent;
+            btn.BorderBrush = Brushes.Transparent;
         }
     }
 }

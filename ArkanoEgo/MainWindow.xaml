@@ -8,8 +8,25 @@
         Width="1920" 
         Height="1000"
         WindowState="Maximized"
-        Title="ArkanoEgo">
-
+        Title="ArkanoEgo" Background="#454545">
+    <Window.Resources>
+        <Style x:Key="btnn" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" CornerRadius="10" Background="{StaticResource gradientViolet}">
+                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="WhiteSmoke" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -17,11 +34,11 @@
         </Grid.ColumnDefinitions>
 
         <!-- frame potrzebne do GamePage itp -->
-        <Frame x:Name="gridFrame" Grid.Column="0" Grid.ColumnSpan="2" Background="Wheat"
+        <Frame x:Name="gridFrame" Grid.Column="0" Grid.ColumnSpan="2"
                Source=".xaml" NavigationUIVisibility="Hidden"/>
 
-        <Button x:Name="btnBackToMenu" Margin="20" Height="50" Click="Menu_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Image Source="./Resources/Images/img_arrow.png"/>
+        <Button x:Name="btnBackToMenu" Style="{StaticResource btnn}" Margin="20" Height="50" Width="70" Click="Menu_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="Btn_MouseEnter">
+            <Image Source="Resources/Images/left-arrow.png" Height="50" MouseEnter="BackToMenu_MouseEnter" MouseLeave="BackToMenu_MouseLeave"/>
         </Button>
 
         <Button Content="Kreator (to potem w menu)" Margin="20" Height="40" Click="Creator_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>

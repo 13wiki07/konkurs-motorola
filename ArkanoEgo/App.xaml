@@ -8,11 +8,70 @@
             <Setter Property="TextElement.FontFamily" Value="/Resources/Fonts/#Just Another Hand"/>
         </Style>
 
-        <Style x:Key="btnStyle" TargetType="Button">
+        <Style x:Key="btnStyle2" TargetType="Button">
             <Setter Property="FontFamily" Value="/Resources/Fonts/#Just Another Hand"/>
             <Setter Property="FontSize" Value="46"/>
             <Setter Property="Padding" Value="10"/>
             <Setter Property="Typography.Capitals" Value="Unicase"/>
+        </Style>
+
+        <!-- gradients -->
+        <GradientStopCollection x:Key="gradientRed">
+            <GradientStop Color="#FFFB9181"/>
+            <GradientStop Color="#FFFB5B7E" Offset="1"/>
+        </GradientStopCollection>
+
+        <GradientStopCollection x:Key="gradientViolet">
+            <GradientStop Color="#FF655AF9" Offset="1"/>
+            <GradientStop Color="#FFBA66FF"/>
+            <GradientStop Color="#FFA84DF2" Offset="0.53"/>
+        </GradientStopCollection>
+
+        <GradientStopCollection x:Key="gradientBlue">
+            <GradientStop Color="#FF49CFC6" Offset="0"/>
+            <GradientStop Color="#FF1D9CBF" Offset="1"/>
+            <GradientStop Color="#FF38BAC6" Offset="0.601"/>
+        </GradientStopCollection>
+
+        <GradientStopCollection x:Key="gradientOrange">
+            <GradientStop Color="#FFBF29" Offset="0"/>
+            <GradientStop Color="#FFA80F" Offset="1"/>
+        </GradientStopCollection>
+        
+        <!--https://stackoverflow.com/questions/3708817/use-a-lineargradientbrush-in-another-lineargradientbrush-->
+        <LinearGradientBrush x:Key="gradientBrush" EndPoint="0.5,1" StartPoint="0.5,0"
+                             GradientStops="{StaticResource gradientOrange}">
+        </LinearGradientBrush>
+
+        <Style x:Key="btnStyle" TargetType="Button">
+            <!--<Setter Property="Height" Value="72"/>-->
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Margin" Value="0 6"/>
+            <Setter Property="FontSize" Value="34"/>
+            <Setter Property="FontFamily" Value="/ArkanoEgo;component/Resources/Fonts/#Boink Std"/>
+            <Setter Property="Foreground" Value="{DynamicResource mainGradientColor}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="3"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="20" BorderThickness="8" Padding="10" 
+                                BorderBrush="{DynamicResource mainGradientColor}">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="WhiteSmoke" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>

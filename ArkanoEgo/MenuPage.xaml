@@ -5,27 +5,24 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArkanoEgo"
       mc:Ignorable="d" 
+      
       d:DesignHeight="1000" d:DesignWidth="1920"
       Height="1000"
       Width="{x:Static SystemParameters.MaximizedPrimaryScreenWidth}"
       Title="MenuPage">
     <Page.Resources>
-        <Style x:Key="btnStyle" TargetType="Button">
-            <Setter Property="Height" Value="90"/>
-            <Setter Property="Margin" Value="0 5"/>
-            <Setter Property="FontSize" Value="30"/>
-        </Style>
+        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientOrange}"/>
     </Page.Resources>
-    <Grid Background="AliceBlue">
-        <Border Background="IndianRed" Grid.Column="1"/>
-
+    <Grid Background="#FF313131">
+        <!--<Border Background="IndianRed" Grid.Column="1"/>-->
         <StackPanel Grid.Column="1" HorizontalAlignment="Center">
             <Label Content="Arkanoego (logo)" FontSize="100" Margin="0 50"/>
 
-            <Button Content="ZAGRAJ" Click="Game_Click" Style="{StaticResource btnStyle}"/>
-            <Button Content="OPCJE?" Style="{StaticResource btnStyle}"/>
-            <Button Content="KREATOR POZIOMÓW" Click="Kreator_Click" Style="{StaticResource btnStyle}"/>
-            <Button Content="GALERIA POZIOMÓW Z KREATORA?" Style="{StaticResource btnStyle}"/>
+            <Button Content="play" Click="Game_Click" Style="{StaticResource btnStyle}"/>
+            <Button Content="options?" Style="{StaticResource btnStyle}"/>
+            <Button Content="level creator" Click="Kreator_Click" Style="{StaticResource btnStyle}"/>
+            <Button Content="gallery?" Style="{StaticResource btnStyle}"/>
+            <Button Content="exit" Style="{StaticResource btnStyle}"/>
         </StackPanel>
     </Grid>
 </Page>
