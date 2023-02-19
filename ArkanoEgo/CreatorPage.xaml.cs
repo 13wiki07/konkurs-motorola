@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -290,6 +291,59 @@ namespace ArkanoEgo
         private void ClearMap_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new CreatorPage());
+        }
+
+
+        private void TextBoxes_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
+
+            if (new Regex("( ^[0-9]*$)").IsMatch(e.Text))
+            {
+                TextBox tb = sender as TextBox;
+                /*if (tb.Text == "0")
+                    tb.Text = "";*/
+            }
+        }
+
+        private void TextBoxes_KeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            int numerek = 0;
+           // numerek = Convert.ToInt32(tb.Text);
+           // numerek = numerek / 50;
+           //numerek = numerek * 50;
+            if (tb.Text == "0")
+                tb.Text = "";
+            //tb.Text = numerek.ToString();
+        }
+
+        bool okk = true;
+        private void qwe(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+
+            if (okk && tb.Text == "0")
+            {
+                tb.Text = "1";
+                okk = false;
+            }
+                // if (tb.Text == "")
+            //   tb.Text = "50";
+
+            int numerek = 0;
+            if (tb.Text != "")
+            {
+                numerek = Convert.ToInt32(tb.Text);
+                numerek = numerek / 50;
+                numerek = numerek * 50;
+            }
+            if (okk && tb.Text == "")
+                tb.Text = "0";
+            //tb.Text = numerek.ToString();
+
+            okk = true;
+            tb.CaretIndex = tb.Text.Length;
         }
     }
 }

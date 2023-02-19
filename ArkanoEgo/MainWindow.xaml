@@ -10,11 +10,13 @@
         WindowState="Maximized"
         Title="ArkanoEgo" Background="#454545">
     <Window.Resources>
+        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientViolet}"/>
+
         <Style x:Key="btnn" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Name="border" CornerRadius="10" Background="{StaticResource gradientViolet}">
+                        <Border Name="border" CornerRadius="10" Background="{StaticResource mainGradientColor}">
                             <ContentPresenter Content="{TemplateBinding Content}"/>
                         </Border>
                         <ControlTemplate.Triggers>

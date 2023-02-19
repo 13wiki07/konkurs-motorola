@@ -17,20 +17,20 @@
 
         <!-- gradients -->
         <GradientStopCollection x:Key="gradientRed">
-            <GradientStop Color="#FFFB9181"/>
-            <GradientStop Color="#FFFB5B7E" Offset="1"/>
+            <GradientStop Color="#FB9181"/>
+            <GradientStop Color="#FB5B7E" Offset="1"/>
         </GradientStopCollection>
 
         <GradientStopCollection x:Key="gradientViolet">
-            <GradientStop Color="#FF655AF9" Offset="1"/>
-            <GradientStop Color="#FFBA66FF"/>
-            <GradientStop Color="#FFA84DF2" Offset="0.53"/>
+            <GradientStop Color="#655AF9" Offset="1"/>
+            <GradientStop Color="#BA66FF"/>
+            <GradientStop Color="#A84DF2" Offset="0.53"/>
         </GradientStopCollection>
 
         <GradientStopCollection x:Key="gradientBlue">
-            <GradientStop Color="#FF49CFC6" Offset="0"/>
-            <GradientStop Color="#FF1D9CBF" Offset="1"/>
-            <GradientStop Color="#FF38BAC6" Offset="0.601"/>
+            <GradientStop Color="#49CFC6" Offset="0"/>
+            <GradientStop Color="#1D9CBF" Offset="1"/>
+            <GradientStop Color="#38BAC6" Offset="0.601"/>
         </GradientStopCollection>
 
         <GradientStopCollection x:Key="gradientOrange">

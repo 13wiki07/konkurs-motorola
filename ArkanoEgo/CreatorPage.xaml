@@ -17,6 +17,40 @@
             <Setter Property="Margin" Value="20 0 0 0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
+        <Style x:Key="infoLabel" TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Yu Gothic"/>
+        </Style>
+
+        <Style x:Key="tbox" TargetType="TextBox">
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Padding" Value="6 0"/>
+            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Name="border" CornerRadius="10" BorderThickness="2"
+                                Background="#5a5a5a">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource mainGradientColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <EventSetter Event="PreviewTextInput" Handler="TextBoxes_PreviewTextInput"/>
+            <EventSetter Event="KeyUp" Handler="TextBoxes_KeyUp"/>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -59,14 +93,37 @@
 
         </UniformGrid>
 
-        <Button VerticalAlignment="Bottom" Margin="0 150" Content="CLEAR MAP" 
-                Style="{StaticResource btnStyle}"
-                Width="240" Click="SaveLevel_Click"/>
-        
-        <Button VerticalAlignment="Bottom" Margin="0 50" Content="SAVE" 
-                Style="{StaticResource btnStyle}"
-                Width="240" Click="SaveLevel_Click"/>
-        
+        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+            <Border BorderBrush="{StaticResource mainGradientColor}" BorderThickness="3" CornerRadius="10" Margin="10">
+                <StackPanel Margin="15 10">
+                    <DockPanel LastChildFill="False">
+                        <Label Content="Name" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <Label Content="nmb of level and name file" Foreground="White" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    <DockPanel LastChildFill="False">
+                        <Label Content="Blocks at this level" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <Label Content="value" Foreground="White" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    <Label Content="Silver blocks:" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                    <DockPanel LastChildFill="False">
+                        <Label FontSize="14" Content="Value" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <TextBox Text="0" MaxLength="4" DockPanel.Dock="Left" Style="{StaticResource tbox}" TextChanged="qwe"/>
+                        <TextBox Text="0" MaxLength="4" DockPanel.Dock="Right" Style="{StaticResource tbox}"/>
+                        <Label FontSize="14" Content="Times to break" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                    </DockPanel>
+                    <DockPanel LastChildFill="False">
+                        <Label Content="Total points" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <Label Content="value" Foreground="White" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+
+            <Button Content="CLEAR MAP" Click="SaveLevel_Click"
+                Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
+
+            <Button Content="SAVE" Click="SaveLevel_Click"
+                Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
+        </StackPanel>
         <!-- 13 x 21 -->
         <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 20" Height="693" Width="858">
             <Grid.ColumnDefinitions>
