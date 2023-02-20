@@ -30,7 +30,7 @@ namespace ArkanoEgo
         int[] dane = new int[3]; // 0. indeks  | 1. posX  | 2. posY
         // potrzebne to by ominąć błąd z liczeniem pozostałych klocków
 
-        bool ok = true;
+        //bool ok = true;
         int nrr = 0;
 
         public int levelek = 1;
@@ -55,21 +55,32 @@ namespace ArkanoEgo
         public GamePage()
         {
             InitializeComponent();
-
+            bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
             Game();
         }
+
         public GamePage(int level, int pkt)
         {
             InitializeComponent();
             levelek = level;
             points = 0;
+            bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
+            Game();
+        }
+        public GamePage(string path)
+        {
+            InitializeComponent();
+
+            bricks = Tools.ReadLvl("2023-levelektest"); //Wczytywanie mapy
+            MessageBox.Show("Count b: " + bricks.Length);
             Game();
         }
 
         private void Game()
         {
-            height = (int)windowPage.Height;
-            width = (int)windowPage.Width;
+            height = (int) myCanvas.Height;
+            width = (int) myCanvas.Width;
+
 
             foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(x => x.Tag.ToString() == "ballEclipse"))
             {
@@ -87,11 +98,11 @@ namespace ArkanoEgo
              /13 -> 61
              *13 -> 793 <= i to ma być szerokość i elo  */
 
-            windowPage.SetValue(WidthProperty, (double)(height));
-            windowPage.UpdateLayout();
-            width = (int)windowPage.Width;
+            //windowPage.SetValue(WidthProperty, (double)(height));
+            //windowPage.UpdateLayout();
+            //width = (int)windowPage.Width;
 
-            bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
+            //bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
             pointsLeft = Tools.PointsAtLevel;
                                                                       // howManyBricksLeft = Tools.NumberOfBricks; // na razie ze ścieżką, zobaczymy jak będziemy wczytywać custom levele
             nrr = Tools.NumberOfBricks;

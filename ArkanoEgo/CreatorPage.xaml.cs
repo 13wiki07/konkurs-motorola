@@ -32,13 +32,37 @@ namespace ArkanoEgo
         List<XMLBrick> bricksList = new List<XMLBrick>();
         List<Button> allButtons= new List<Button>();
         string Silver_TTB = "1";
+        int totalPoints = 0;
+        int totalBlocks = 0;
+        int silverCount = 0;
+        int goldCount = 0;
+
+        // kolory
+        string white, orange, aqua, green, rose, blue, pink, yellow, silver, gold;
+
 
         public CreatorPage()
         {
             InitializeComponent();
+            howManySilver.Content = "0";
+
             newMap();
-            
+            aktualizuj_dane();
             wybrany = emptyBtn;
+
+            white = ColorConverter.ConvertFromString("#FFFFFF").ToString(); // biały
+            orange = ColorConverter.ConvertFromString("#F8B34B").ToString(); // pomarańczowy
+            aqua = ColorConverter.ConvertFromString("#6CD4C5").ToString(); // aqua
+            green = ColorConverter.ConvertFromString("#98E677").ToString(); // zielony
+            rose = ColorConverter.ConvertFromString("#FD6B6B").ToString(); // ciemny róż
+            blue = ColorConverter.ConvertFromString("#79A5F2").ToString(); // ciemny niebieski
+            pink = ColorConverter.ConvertFromString("#E5989B").ToString(); // jasny róż
+            yellow = ColorConverter.ConvertFromString("#FFDC6C").ToString(); // żółty
+            silver = ColorConverter.ConvertFromString("#626161").ToString(); // srebrny
+            gold = ColorConverter.ConvertFromString("#C69245").ToString(); // złoty
+
+            aktualizuj_dane();
+            newLevelBtn.Visibility = Visibility.Collapsed;
         }
 
         private void newMap()
@@ -73,7 +97,38 @@ namespace ArkanoEgo
         private void Field_LeftClick(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            btn.Background = wybrany.Background;
+            /*if (kolor(btn) == ColorConverter.ConvertFromString("#626161").ToString()) // if szary
+            {
+                if (wybrany.Background.ToString() != kolor(btn))
+                    silverCount--;
+                else
+                    silverCount++;
+            }
+            else
+                silverCount++;
+                */
+
+            /*
+             if szary
+                if wybrany jest szary -> nic
+                if wybrany jest kolor -> --
+            if nie szary (pusty)
+                if wybrany jest szary -> ++
+             */
+
+            /*if(wybrany.Background.ToString() == ColorConverter.ConvertFromString("#626161").ToString())
+            {
+                if(kolor(btn) != ColorConverter.ConvertFromString("#626161").ToString())
+            }*/
+            
+            
+                btn.Background = wybrany.Background;
+            
+
+            //totalBlocks++;
+            //if (kolor(btn) == ColorConverter.ConvertFromString("#626161").ToString()) // if szary
+                //silverCount++;
+            aktualizuj_dane();
         }
 
         private void Field_RightClick(object sender, MouseButtonEventArgs e)
@@ -81,12 +136,21 @@ namespace ArkanoEgo
             if (e.RightButton == MouseButtonState.Pressed)
             {
                 Button btn = sender as Button;
-                btn.Background = emptyBtn.Background;
+                if (kolor(btn) != kolor(emptyBtn))
+                {
+                    totalBlocks--;
+                    if (kolor(btn) == silver) // if szary
+                        silverCount--;
+
+                    btn.Background = emptyBtn.Background;
+                }
+                aktualizuj_dane();
             }
         }
 
         private void SaveMapToFile()
         {
+            aktualizuj_dane();
             XmlDocument doc = new XmlDocument();
 
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -98,12 +162,15 @@ namespace ArkanoEgo
             DateTime today = DateTime.Now;
             string nazwa = "" + today.ToShortDateString() + today.Hour + today.Minute + today.Millisecond;
             MessageBox.Show("name: " + nazwa);
-            XmlWriter writer = XmlWriter.Create(@"..\Debug\CustomLVLS\lvl_" + nazwa + ".xml", settings); // wywala się po clear map 
+            XmlWriter writer = XmlWriter.Create(@"..\..\CustomLVLS\lvl_" + nazwa + ".xml", settings); // wywala się po clear map 
             writer.WriteStartElement("XMLBricks");
+
+            newLevelBtn.Visibility = Visibility.Visible;
+            lbFileName.Content = "lvl_" + nazwa;
 
             for (int n = 0; n < allButtons.Count; n++)
             {
-                if (allButtons[n].Background.ToString() != emptyBtn.Background.ToString())
+                if (allButtons[n].Background.ToString() != kolor(emptyBtn))
                 {
                     /*  KOLORKI
                         biały               1 50  #FFFFFF
@@ -122,11 +189,11 @@ namespace ArkanoEgo
                     writer.WriteStartElement("XMLBrick");
 
                     // srebrny
-                    if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#626161").ToString())
+                    if (allButtons[n].Background.ToString() == silver)
                         writer.WriteElementString("Type", "2");
                     
                     // złoty
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#C69245").ToString())
+                    else if (allButtons[n].Background.ToString() == gold)
                         writer.WriteElementString("Type", "3");
                     
                     // cała reszta
@@ -136,55 +203,55 @@ namespace ArkanoEgo
                     writer.WriteElementString("PosX", allButtons[n].GetValue(Grid.ColumnProperty).ToString());
                     writer.WriteElementString("PosY", allButtons[n].GetValue(Grid.RowProperty).ToString());
 
-                    if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#FFFFFF").ToString())
+                    if (allButtons[n].Background.ToString() == white)
                     { // biały
                         writer.WriteElementString("Value", "50");
                         writer.WriteElementString("Color", "#FFFFFF");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#F8B34B").ToString())
+                    else if (allButtons[n].Background.ToString() == orange)
                     { // pomarańczowy
                         writer.WriteElementString("Value", "60");
                         writer.WriteElementString("Color", "#F8B34B");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#6CD4C5").ToString())
+                    else if (allButtons[n].Background.ToString() == aqua)
                     { // aqua
                         writer.WriteElementString("Value", "70");
                         writer.WriteElementString("Color", "#6CD4C5");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#98E677").ToString())
+                    else if (allButtons[n].Background.ToString() == green)
                     { // zielony
                         writer.WriteElementString("Value", "80");
                         writer.WriteElementString("Color", "#98E677");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#FD6B6B").ToString())
+                    else if (allButtons[n].Background.ToString() == rose)
                     { // ciemny róż
                         writer.WriteElementString("Value", "90");
                         writer.WriteElementString("Color", "#FD6B6B");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#79A5F2").ToString())
+                    else if (allButtons[n].Background.ToString() == blue)
                     { // ciemny niebieski
                         writer.WriteElementString("Value", "100");
                         writer.WriteElementString("Color", "#79A5F2");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#E5989B").ToString())
+                    else if (allButtons[n].Background.ToString() == pink)
                     { // jasny róż
                         writer.WriteElementString("Value", "110");
                         writer.WriteElementString("Color", "#E5989B");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#FFDC6C").ToString())
+                    else if (allButtons[n].Background.ToString() == yellow)
                     { // żółty
                         writer.WriteElementString("Value", "120");
                         writer.WriteElementString("Color", "#FFDC6C");
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#626161").ToString())
+                    else if (allButtons[n].Background.ToString() == silver)
                     { // srebrny
                         writer.WriteElementString("Value", "50");
                         writer.WriteElementString("Color", "#626161");
@@ -201,7 +268,7 @@ namespace ArkanoEgo
                         else if (levelek <= 8+8+8+8)
                             writer.WriteElementString("TimesToBreak", "5");*/
                     }
-                    else if (allButtons[n].Background.ToString() == ColorConverter.ConvertFromString("#C69245").ToString())
+                    else if (allButtons[n].Background.ToString() == gold)
                     { // złoty
                         writer.WriteElementString("Value", "0");
                         writer.WriteElementString("Color", "#C69245");
@@ -247,33 +314,34 @@ namespace ArkanoEgo
             }
             writer.Close();*/
             MessageBox.Show("Zapisano level");
+            saveBtn.Visibility = Visibility.Collapsed;
+            playBtn.Visibility = Visibility.Visible;
         }
-
+        
         private XMLBrick createBrick(Button btn)
         {
             XMLBrick brick = new XMLBrick();
 
             brick.Type = 1;
             brick.Value = 0;
-            brick.Color = btn.Background.ToString();
+            brick.Color = kolor(btn);
             brick.PosX = (int)btn.GetValue(Grid.ColumnProperty);
             brick.PosY = (int)btn.GetValue(Grid.RowProperty);
             brick.TimesToBreak = 0;
 
-            if (btn.Name == "silver")
+            if (btn.Name == "btnSilver")
             {
                 brick.Type = 2;
                 //brick.TimesToBreak = 5;
             }
 
-            if (btn.Name == "gold")
+            if (btn.Name == "btnGold")
             {
                 brick.Type = 3;
                 //brick.Value = 0;
             }
 
             return brick;
-
             
         /*  brick.Type;
             brick.Value;
@@ -281,6 +349,16 @@ namespace ArkanoEgo
             brick.PosX;
             brick.PosY;
             brick.TimesToBreak;*/
+        }
+
+        private void NewLevel_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new CreatorPage());
+        }
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new GamePage(lbFileName.Content.ToString()));
         }
 
         private void SaveLevel_Click(object sender, RoutedEventArgs e)
@@ -308,42 +386,111 @@ namespace ArkanoEgo
 
         private void TextBoxes_KeyUp(object sender, KeyEventArgs e)
         {
-            TextBox tb = sender as TextBox;
-            int numerek = 0;
-           // numerek = Convert.ToInt32(tb.Text);
-           // numerek = numerek / 50;
-           //numerek = numerek * 50;
-            if (tb.Text == "0")
-                tb.Text = "";
-            //tb.Text = numerek.ToString();
         }
 
-        bool okk = true;
-        private void qwe(object sender, TextChangedEventArgs e)
+        private void SValue_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
 
-            if (okk && tb.Text == "0")
-            {
+            if (tb.Text == "")
+                tb.Text = "10";
+
+            int numerek = Convert.ToInt32(tb.Text);
+            numerek = numerek / 10;
+            numerek = numerek * 10;
+
+            if (numerek < 10)
+                numerek = 10;
+
+            tb.Text = "" + numerek;
+        }
+
+        private void TtB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+
+            if (tb.Text == "")
                 tb.Text = "1";
-                okk = false;
-            }
-                // if (tb.Text == "")
-            //   tb.Text = "50";
+        }
 
-            int numerek = 0;
-            if (tb.Text != "")
+        private void Info_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            
+            if (tb.Text.StartsWith("0"))
+                tb.Text = tb.Text.Substring(1);
+
+            svalue.Content = silverValue.Text;
+            aktualizuj_dane();
+        }
+
+        private void aktualizuj_dane()
+        {
+            playBtn.Visibility = Visibility.Collapsed;
+
+            totalBlocks = 0;
+            totalPoints = 0;
+            silverCount = 0;
+            goldCount = 0;
+            for (int n = 0; n < allButtons.Count; n++)
             {
-                numerek = Convert.ToInt32(tb.Text);
-                numerek = numerek / 50;
-                numerek = numerek * 50;
-            }
-            if (okk && tb.Text == "")
-                tb.Text = "0";
-            //tb.Text = numerek.ToString();
+                if (kolor(allButtons[n]) != kolor(emptyBtn))
+                {
+                    totalBlocks++;
+                    if (kolor(allButtons[n]) == white)
+                        totalPoints += 50;
 
-            okk = true;
-            tb.CaretIndex = tb.Text.Length;
+                    else if (kolor(allButtons[n]) == orange)
+                        totalPoints += 60;
+
+                    else if (kolor(allButtons[n]) == aqua)
+                        totalPoints += 70;
+
+                    else if (kolor(allButtons[n]) == green)
+                        totalPoints += 80;
+
+                    else if (kolor(allButtons[n]) == rose)
+                        totalPoints += 90;
+
+                    else if (kolor(allButtons[n]) == blue)
+                        totalPoints += 100;
+
+                    else if (kolor(allButtons[n]) == pink)
+                        totalPoints += 110;
+
+                    else if (kolor(allButtons[n]) == yellow)
+                        totalPoints += 120;
+
+                    else if (kolor(allButtons[n]) == silver){
+                        totalPoints += Convert.ToInt32(silverTimesToBreak.Text);
+                        silverCount++;
+                    }
+                    else if (kolor(allButtons[n]) == gold)
+                        goldCount++;
+                }
+            }
+
+            howManyColor.Content = totalBlocks - silverCount - goldCount;
+            howManySilver.Content = silverCount;
+            howManyGold.Content = goldCount;
+            lbTotalPoints.Content = totalPoints;
+            lbBlocksAtLevel.Content = totalBlocks;
+
+            if (totalBlocks == 0)
+            {
+                saveBtn.Visibility = Visibility.Collapsed;
+                clearBtn.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                saveBtn.Visibility = Visibility.Visible;
+                clearBtn.Visibility = Visibility.Visible;
+            }
+        }
+
+        private string kolor(Button btn)
+        {
+            return btn.Background.ToString();
         }
     }
 }

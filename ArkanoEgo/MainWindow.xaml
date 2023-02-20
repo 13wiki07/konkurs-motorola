@@ -36,7 +36,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- frame potrzebne do GamePage itp -->
-        <Frame x:Name="gridFrame" Grid.Column="0" Grid.ColumnSpan="2"
+        <Frame x:Name="gridFrame"
                Source=".xaml" NavigationUIVisibility="Hidden"/>
 
         <Button x:Name="btnBackToMenu" Style="{StaticResource btnn}" Margin="20" Height="50" Width="70" Click="Menu_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="Btn_MouseEnter">

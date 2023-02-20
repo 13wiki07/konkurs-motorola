@@ -29,14 +29,14 @@ namespace ArkanoEgo.Classes.Tools
         public static ListBricks listBricks = new ListBricks();
         public static Brick[,] ReadLvl(int lvl)
         {
-            return JustReadLvl("LVLS", lvl);
+            return JustReadLvl("LVLS", lvl.ToString());
         }
 
-        public static Brick[,] ReadCustomLvl(int lvl)
+        public static Brick[,] ReadLvl(string path)
         {
-            return JustReadLvl("CustomLVLS", lvl);
+            return JustReadLvl(@"..\..\CustomLVLS", path);
         }
-        private static Brick[,] JustReadLvl(string path, int lvl)//wstępne czytanie mapy z pliku
+        private static Brick[,] JustReadLvl(string path, string lvl)//wstępne czytanie mapy z pliku
         {
             Brick[,] Bricks = new Brick[13, 21];
             int bricksCount = 0;

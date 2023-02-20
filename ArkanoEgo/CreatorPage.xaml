@@ -50,6 +50,7 @@
             </Setter>
             <EventSetter Event="PreviewTextInput" Handler="TextBoxes_PreviewTextInput"/>
             <EventSetter Event="KeyUp" Handler="TextBoxes_KeyUp"/>
+            <EventSetter Event="TextChanged" Handler="Info_TextChanged"/>
         </Style>
     </Page.Resources>
 
@@ -85,10 +86,10 @@
             <Label Content="110" Style="{StaticResource valueLabel}"/>
             <Label Content="120" Style="{StaticResource valueLabel}"/>
 
-            <Button x:Name="silver" Background="#626161" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button x:Name="gold"   Background="#C69245" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button x:Name="btnSilver" Background="#626161" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+            <Button x:Name="btnGold"   Background="#C69245" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-            <Label Content="50" Style="{StaticResource valueLabel}"/>
+            <Label x:Name="svalue" Content="50" Style="{StaticResource valueLabel}"/>
             <Label Content="0"  Style="{StaticResource valueLabel}"/>
 
         </UniformGrid>
@@ -98,31 +99,61 @@
                 <StackPanel Margin="15 10">
                     <DockPanel LastChildFill="False">
                         <Label Content="Name" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label Content="nmb of level and name file" Foreground="White" DockPanel.Dock="Right"/>
+                        <Label FontSize="15" x:Name="lbFileName" Content="nmb of level and name file" Foreground="White" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
                     </DockPanel>
-                    <DockPanel LastChildFill="False">
-                        <Label Content="Blocks at this level" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label Content="value" Foreground="White" DockPanel.Dock="Right"/>
-                    </DockPanel>
-                    <Label Content="Silver blocks:" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+
+                    <Label Content="Silver blocks" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
                     <DockPanel LastChildFill="False">
                         <Label FontSize="14" Content="Value" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <TextBox Text="0" MaxLength="4" DockPanel.Dock="Left" Style="{StaticResource tbox}" TextChanged="qwe"/>
-                        <TextBox Text="0" MaxLength="4" DockPanel.Dock="Right" Style="{StaticResource tbox}"/>
+                        <TextBox x:Name="silverValue" Text="50" MaxLength="4" DockPanel.Dock="Left" Style="{StaticResource tbox}" LostFocus="SValue_LostFocus"/>
+                        <TextBox x:Name="silverTimesToBreak" Text="1" MaxLength="4" DockPanel.Dock="Right" Style="{StaticResource tbox}" LostFocus="TtB_LostFocus"/>
                         <Label FontSize="14" Content="Times to break" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
                     </DockPanel>
+                    
+                    <Border Height="2" Background="{StaticResource mainGradientColor}" Margin="-15 10"/>
+
+                    <DockPanel LastChildFill="False">
+                        <Label Content="Blocks at this level" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <Label x:Name="lbBlocksAtLevel" Content="0" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                    </DockPanel>
+
+                    <DockPanel LastChildFill="False">
+                        <Label Content="Color blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <Label x:Name="howManyColor" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                    </DockPanel>
+                    
+                    <DockPanel LastChildFill="False">
+                        <Label Content="Silver blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <Label x:Name="howManySilver" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                    </DockPanel>
+
+                    <DockPanel LastChildFill="False">
+                        <Label Content="Gold blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <Label x:Name="howManyGold" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                    </DockPanel>
+
                     <DockPanel LastChildFill="False">
                         <Label Content="Total points" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label Content="value" Foreground="White" DockPanel.Dock="Right"/>
+                        <Label x:Name="lbTotalPoints" Content="0" Foreground="White" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
                     </DockPanel>
                 </StackPanel>
             </Border>
 
-            <Button Content="CLEAR MAP" Click="SaveLevel_Click"
+            <Button x:Name="clearBtn" Content="CLEAR MAP" Click="ClearMap_Click"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
 
-            <Button Content="SAVE" Click="SaveLevel_Click"
+            <Button x:Name="newLevelBtn" Content="NEW LEVEL"
+                Style="{StaticResource btnStyle}" Height="60" FontSize="20" Click="NewLevel_Click"/>
+
+            <Button Content="LOAD LEVEL" Click="SaveLevel_Click"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
+
+            <Button x:Name="saveBtn" Content="SAVE" Click="SaveLevel_Click"
+                Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
+
+            <Button x:Name="playBtn" Content="PLAY" Click="Play_Click"
+                Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
+            
         </StackPanel>
         <!-- 13 x 21 -->
         <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 20" Height="693" Width="858">
