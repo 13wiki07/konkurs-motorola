@@ -21,8 +21,8 @@
             <Button Content="play" Click="Game_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="options?" Style="{StaticResource btnStyle}"/>
             <Button Content="level creator" Click="Kreator_Click" Style="{StaticResource btnStyle}"/>
-            <Button Content="gallery?" Style="{StaticResource btnStyle}"/>
-            <Button Content="exit" Style="{StaticResource btnStyle}"/>
+            <Button Content="gallery" Click="Gallery_Click" Style="{StaticResource btnStyle}"/>
+            <Button Content="exit" Click="Exit_Click" Style="{StaticResource btnStyle}"/>
         </StackPanel>
     </Grid>
 </Page>

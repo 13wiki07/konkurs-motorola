@@ -29,7 +29,7 @@ namespace ArkanoEgo.Classes.Tools
         public static ListBricks listBricks = new ListBricks();
         public static Brick[,] ReadLvl(int lvl)
         {
-            return JustReadLvl("LVLS", lvl.ToString());
+            return JustReadLvl("LVLS", "lvl_" + lvl.ToString());
         }
 
         public static Brick[,] ReadLvl(string path)
@@ -43,7 +43,7 @@ namespace ArkanoEgo.Classes.Tools
             int levelPoints = 0;
             info = "";
             var serializer = new XmlSerializer(typeof(ListBricks));
-            using (var reader = XmlReader.Create($@"{path}\lvl_{lvl}.xml"))
+            using (var reader = XmlReader.Create($@"{path}\{lvl}.xml"))
             {
                 listBricks = (ListBricks)serializer.Deserialize(reader);
             }
@@ -67,6 +67,7 @@ namespace ArkanoEgo.Classes.Tools
                     default: break;
                 }
             }
+            
 
             NumberOfBricks = bricksCount;
             PointsAtLevel = levelPoints;

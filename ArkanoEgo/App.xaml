@@ -43,6 +43,7 @@
                              GradientStops="{StaticResource gradientOrange}">
         </LinearGradientBrush>
 
+        <Thickness x:Key="thick" Top="8" Bottom="8" Left="8" Right="8"/>
         <Style x:Key="btnStyle" TargetType="Button">
             <!--<Setter Property="Height" Value="72"/>-->
             <Setter Property="Width" Value="300"/>
@@ -56,7 +57,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="20" BorderThickness="8" Padding="10" 
+                        <Border x:Name="border" CornerRadius="20" BorderThickness="{DynamicResource thick}" Padding="10" 
                                 BorderBrush="{DynamicResource mainGradientColor}">
                             <ContentPresenter Content="{TemplateBinding Content}"
                                               VerticalAlignment="Center"
@@ -67,6 +68,51 @@
                                 <Setter Property="Background" TargetName="border" Value="Transparent"/>
                                 <Setter Property="Foreground" Value="WhiteSmoke" />
                                 <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="btnStyleMini" TargetType="Button" BasedOn="{StaticResource btnStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" CornerRadius="20" BorderThickness="4" Padding="10" 
+                                BorderBrush="{DynamicResource mainGradientColor}">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="WhiteSmoke" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="galleryElement" TargetType="Button">
+            <!--<Setter Property="Background" Value="{StaticResource gradientBrush}"/>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--<Border x:Name="border" CornerRadius="20" BorderThickness="3" Padding="10" 
+                                BorderBrush="{DynamicResource mainGradientColor}" Background="{DynamicResource mainGradientColor}">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!--<Setter Property="Background" TargetName="border" Value="Transparent"/>-->
+                                <Setter Property="Foreground" Value="WhiteSmoke" />
+                                <!--<Setter Property="BorderBrush" TargetName="border" Value="White"/>-->
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

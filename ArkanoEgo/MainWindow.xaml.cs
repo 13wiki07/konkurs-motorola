@@ -35,13 +35,11 @@ namespace ArkanoEgo
         {
             gridFrame.Navigate(new GamePage());
             //newGameBtn.Visibility = Visibility.Visible;
-            btnBackToMenu.Visibility = Visibility.Visible;
         }
 
         private void Menu_Click(object sender, RoutedEventArgs e)
         {
             gridFrame.Navigate(new MenuPage());
-            btnBackToMenu.Visibility = Visibility.Collapsed;
         }
         private void Quick_Click(object sender, RoutedEventArgs e)
         {
@@ -54,6 +52,7 @@ namespace ArkanoEgo
 
         private void BackToMenu_MouseEnter(object sender, MouseEventArgs e)
         {
+           // MessageBox.Show("W: " + SystemParameters. + " H: " + SystemParameters.WorkArea.Height);
             Image img = sender as Image;
             img.Source = new BitmapImage(new Uri(@"Resources/Images/left-arrow-border.png", UriKind.Relative));
         }
@@ -69,6 +68,20 @@ namespace ArkanoEgo
             Button btn = sender as Button;
             btn.Background = Brushes.Transparent;
             btn.BorderBrush = Brushes.Transparent;
+        }
+
+        // do wszystkich pages
+        public void changeColors(Button sender, string color)
+        {
+            Button btn = sender as Button;
+            Image img = (Image) btn.Content;
+
+            string path = img.Source.ToString();
+            if (path.Contains("white"))
+                path = path.Replace("white", color);
+            else
+                path = path.Replace(color, "white");
+            img.Source = new BitmapImage(new Uri(path));
         }
     }
 }

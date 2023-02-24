@@ -34,5 +34,21 @@ namespace ArkanoEgo
         {
             NavigationService.Navigate(new CreatorPage());
         }
+
+        private void Gallery_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new GalleryPage());
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = MessageBox.Show("Czy napewno chcesz zamknąć grę?", "Zamykanie", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (dialog == MessageBoxResult.OK)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
+
     }
 }

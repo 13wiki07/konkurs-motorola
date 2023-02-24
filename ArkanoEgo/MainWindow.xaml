@@ -39,10 +39,6 @@
         <Frame x:Name="gridFrame"
                Source=".xaml" NavigationUIVisibility="Hidden"/>
 
-        <Button x:Name="btnBackToMenu" Style="{StaticResource btnn}" Margin="20" Height="50" Width="70" Click="Menu_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="Btn_MouseEnter">
-            <Image Source="Resources/Images/left-arrow.png" Height="50" MouseEnter="BackToMenu_MouseEnter" MouseLeave="BackToMenu_MouseLeave"/>
-        </Button>
-
         <Button Content="Kreator (to potem w menu)" Margin="20" Height="40" Click="Creator_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         <Button Content="GamePage (to potem w menu)" Margin="20 80" Height="40" Click="Game_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         

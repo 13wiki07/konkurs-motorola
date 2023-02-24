@@ -1,0 +1,10 @@
+﻿<XMLBricks>
+    <XMLBrick>
+        <Type>1</Type>
+        <PosX>7</PosX>
+        <PosY>10</PosY>
+        <Value>100</Value>
+        <Color>#79A5F2</Color>
+        <TimesToBreak>1</TimesToBreak>
+    </XMLBrick>
+</XMLBricks>

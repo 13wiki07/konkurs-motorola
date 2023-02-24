@@ -24,6 +24,7 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
+        string maincolor = "violet";
         bool playerGoRight = false;
         bool playerGoLeft = false;
         //bool raz = true;
@@ -35,6 +36,7 @@ namespace ArkanoEgo
 
         public int levelek = 1;
         public int points = 0;
+        public int allPoints = 0;
         public Brick[,] bricks = new Brick[13, 21];
         //public int howManyBricksLeft = 0;
 
@@ -56,13 +58,16 @@ namespace ArkanoEgo
         {
             InitializeComponent();
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
+            levelTB.Text = "Level " + levelek;
             Game();
         }
 
-        public GamePage(int level, int pkt)
+        public GamePage(int level, int allpkt)
         {
             InitializeComponent();
             levelek = level;
+            allPoints = allpkt;
+            levelTB.Text = "Level " + levelek;
             points = 0;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
             Game();
@@ -71,8 +76,9 @@ namespace ArkanoEgo
         {
             InitializeComponent();
 
-            bricks = Tools.ReadLvl("2023-levelektest"); //Wczytywanie mapy
-            MessageBox.Show("Count b: " + bricks.Length);
+            bricks = Tools.ReadLvl(path); //Wczytywanie mapy
+            levelTB.Text = "Level " + (path.StartsWith("lvl_") ? path.Substring(4) : path);
+           // MessageBox.Show("Count b: " + bricks.Length);
             Game();
         }
 
@@ -106,8 +112,8 @@ namespace ArkanoEgo
             pointsLeft = Tools.PointsAtLevel;
                                                                       // howManyBricksLeft = Tools.NumberOfBricks; // na razie ze ścieżką, zobaczymy jak będziemy wczytywać custom levele
             nrr = Tools.NumberOfBricks;
-            pointsLabel.Content = "Zostało: " + nrr; //+ pointsLeft;
-            pointsLabel.Content = "Zostało: " + nrr + " pkt: " + points; //+ pointsLeft;
+            //pointsLabel.Content = "Zostało: " + nrr; //+ pointsLeft;
+            pointsLabel.Content = "" + allPoints; //+ pointsLeft;
 
             Brick.GenerateElements(ref myCanvas, ref bricks, width, height);//Przykładowa funkcja jak można przerzycić metody do innych klas
             myCanvas.Focus();
@@ -352,7 +358,7 @@ namespace ArkanoEgo
         {
             //File.WriteAllText("WriteText.txt", Tools.info);
             //MessageBox.Show("ok");
-
+            //myCanvas.Focus();
             if (e.Key == Key.D)
                 playerGoRight = true;
 
@@ -370,6 +376,7 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyUp(object sender, KeyEventArgs e)
         {
+            //myCanvas.Focus();
             if (e.Key == Key.D)
                 playerGoRight = false;
             if (e.Key == Key.A)
@@ -446,7 +453,8 @@ namespace ArkanoEgo
                     {
                         nrr--;
                         points += bricks[posX, posY].Value;
-                        pointsLabel.Content = "Zostało: " + nrr +" pkt: " +points + " --"+ Tools.PointsAtLevel; //+ pointsLeft;
+                        allPoints += bricks[posX, posY].Value;
+                        pointsLabel.Content = "" + allPoints; //+ pointsLeft;
                     }
                     //MessageBox.Show("Pozycja: " +ok.ToString() + " -> " +  +"=="+ balls[indexOfBall].posX +", "+ YY +"=="+ balls[indexOfBall].posY);
                     /*
@@ -471,6 +479,7 @@ namespace ArkanoEgo
                     //numberOfBricksLeft = Tools.NumberOfBricks;
                     if (points == Tools.PointsAtLevel)
                     {
+                        MessageBox.Show("points left: " + pointsLeft);
                         Next_Level();
                     }
 
@@ -518,7 +527,7 @@ namespace ArkanoEgo
             levelek++;
             
             MessageBox.Show("Lvl: " + levelek);
-            NavigationService.Navigate(new GamePage(levelek, points));
+            NavigationService.Navigate(new GamePage(levelek, allPoints));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -526,6 +535,38 @@ namespace ArkanoEgo
             gameTimer.Stop();
             MessageBox.Show("ok"); // do usunięcia ten btn
             gameTimer.Start();
+        }
+
+        bool gamePlay = true;
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            Image img = (Image) btn.Content;
+
+            if (gamePlay)
+            {
+                gameTimer.Stop();
+                gamePlay = false;
+                myCanvas.Focus();
+                img.Source = new BitmapImage(new Uri(@"Resources/Images/play-white.png", UriKind.Relative));
+            }
+            else
+            {
+                gameTimer.Start();
+                gamePlay = true;
+                myCanvas.Focus();
+                img.Source = new BitmapImage(new Uri(@"Resources/Images/pause-white.png", UriKind.Relative));
+            }
+        }
+      
+        private void Button_MouseEvent(object sender, MouseEventArgs e)
+        {
+            (Application.Current.MainWindow as MainWindow).changeColors(sender as Button, maincolor);
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new MenuPage());
         }
     }
 }

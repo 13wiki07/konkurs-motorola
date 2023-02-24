@@ -61,6 +61,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GalleryElementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GalleryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -79,11 +87,18 @@
     <Compile Include="Classes\Bricks\GoldBrick.cs" />
     <Compile Include="Classes\Bricks\SilverBrick.cs" />
     <Compile Include="Classes\Bricks\SimpleBrick.cs" />
+    <Compile Include="Classes\GalleryElement.cs" />
     <Compile Include="Classes\Tools\Physics.cs" />
     <Compile Include="Classes\Tools\XMLBrick.cs" />
     <Compile Include="Classes\Tools\Tools.cs" />
     <Compile Include="CreatorPage.xaml.cs">
       <DependentUpon>CreatorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GalleryElementPage.xaml.cs">
+      <DependentUpon>GalleryElementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GalleryPage.xaml.cs">
+      <DependentUpon>GalleryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
@@ -114,6 +129,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\Aloes\pliczek.png" />
     <Content Include="LVLS\lvl_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -210,9 +226,21 @@
     <Content Include="LVLS\lvl_9.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Fonts\Audiowide-Regular.ttf" />
+    <Resource Include="Resources\Fonts\PressStart2P-Regular.ttf" />
+    <Resource Include="Resources\Fonts\OFL.txt" />
+    <Resource Include="Resources\Images\audio-high.png" />
+    <Resource Include="Resources\Images\audio-low.png" />
+    <Resource Include="Resources\Images\audio-medium.png" />
+    <Resource Include="Resources\Images\audio-mute.png" />
+    <Resource Include="Resources\Images\left-arrow-blue.png" />
+    <Resource Include="Resources\Images\left-arrow-violet.png" />
+    <Resource Include="Resources\Images\left-arrow-white.png" />
+    <Resource Include="Resources\Images\pause-violet.png" />
+    <Resource Include="Resources\Images\pause-white.png" />
+    <Resource Include="Resources\Images\play-violet.png" />
+    <Resource Include="Resources\Images\play-white.png" />
     <Resource Include="Resources\Fonts\Boink Std Regular.otf" />
-    <Resource Include="Resources\Images\left-arrow-border.png" />
-    <Resource Include="Resources\Images\left-arrow.png" />
     <Resource Include="Resources\Fonts\LICENSE.txt" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -229,6 +257,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Aloes\" />
     <Folder Include="CustomLVLS\" />
   </ItemGroup>
   <ItemGroup>

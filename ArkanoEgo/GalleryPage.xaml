@@ -1,0 +1,70 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ArkanoEgo"
+      xmlns:Classes="clr-namespace:ArkanoEgo.Classes" x:Class="ArkanoEgo.GalleryPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" d:DesignWidth="1900" Loaded="Button_Click"
+      Title="GalleryPage">
+
+    <Page.Resources>
+        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientBlue}"/>
+        <Thickness x:Key="thick" Top="1" Bottom="6" Left="6" Right="6"/>
+
+        <Style x:Key="btnStyleWithChange" BasedOn="{StaticResource btnStyleMini}" TargetType="Button">
+            <EventSetter Event="MouseEnter" Handler="Button_MouseEvent"/>
+            <EventSetter Event="MouseLeave" Handler="Button_MouseEvent"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Button x:Name="btnBack" Style="{DynamicResource btnStyleWithChange}" Click="Back_Click" Margin="10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left" >
+            <Image Source="Resources/Images/left-arrow-blue.png"/>
+        </Button>
+
+        <Border x:Name="ss" HorizontalAlignment="Center" VerticalAlignment="Top" Height="89" Width="392" Background="{StaticResource mainGradientColor}">
+            <Label Content="GALLERY" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+
+        <ScrollViewer x:Name="scrollV" Width="{x:Static SystemParameters.FullPrimaryScreenWidth}" Padding="190,0" HorizontalAlignment="Center" Margin="0,110,0,50" HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Hidden">
+            <ItemsControl x:Name="levelList">
+                <ItemsControl.DataContext>
+                    <Classes:GalleryElement/>
+                </ItemsControl.DataContext>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Tag="{Binding Path=_nr}" Height="250" Width="250"  Margin="5" BorderThickness="0" Padding="0" BorderBrush="Transparent"  Background="Transparent" Click="OpenLevel_Click">
+                            <Border Height="250" Background="#454545">
+                                <Border Height="250" CornerRadius="10">
+                                    <Border.Style>
+                                        <Style>
+                                            <Setter Property="Border.Background" Value="{StaticResource mainGradientColor}"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Border.IsMouseOver" Value="True">
+                                                    <Setter Property="Border.Background" Value="WhiteSmoke" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Image HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,10,0" Source="{Binding Path=_image}" />
+                                        <Label Content="{Binding Path=_name}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                    </Grid>
+                                </Border>
+                            </Border>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Button Content="odśwież" Width="188" Height="84" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="84,612,0,0" Click="Button_Click"/>
+    </Grid>
+</Page>

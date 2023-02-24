@@ -1,0 +1,21 @@
+﻿<Page x:Class="ArkanoEgo.GalleryElementPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ArkanoEgo"
+      mc:Ignorable="d" 
+      Height="300" Width="300"
+      Title="GalleryElementPage">
+
+    <Border CornerRadius="10">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" GradientStops="{StaticResource gradientBlue}"/>
+        </Border.Background>
+
+        <Grid>
+            <Image x:Name="imgLvL" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,10,0" Source="Aloes/cos.png" />
+            <Label x:Name="nameLvL" Content="okii" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+        </Grid>
+    </Border>
+</Page>

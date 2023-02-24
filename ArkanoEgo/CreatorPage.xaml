@@ -10,7 +10,13 @@
       Title="CreatorPage" Background="#454545">
     <Page.Resources>
         <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientBlue}"/>
+        <Thickness x:Key="thick" Top="1" Bottom="6" Left="6" Right="6"/>
 
+        <Style x:Key="btnStyleWithChange" BasedOn="{StaticResource btnStyleMini}" TargetType="Button">
+            <EventSetter Event="MouseEnter" Handler="Button_MouseEvent"/>
+            <EventSetter Event="MouseLeave" Handler="Button_MouseEvent"/>
+        </Style>
+        
         <Style x:Key="valueLabel" TargetType="Label">
             <Setter Property="Foreground" Value="#cecece"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -60,7 +66,11 @@
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-
+        
+        <Button x:Name="btnBack" Style="{DynamicResource btnStyleWithChange}" Click="Back_Click" Margin="10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left" >
+            <Image Source="Resources/Images/left-arrow-blue.png"/>
+        </Button>
+        
         <UniformGrid Columns="2" Height="320" Margin="30">
             <Button Background="#FFFFFF" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
             <Button Background="#F8B34B" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
@@ -99,7 +109,7 @@
                 <StackPanel Margin="15 10">
                     <DockPanel LastChildFill="False">
                         <Label Content="Name" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label FontSize="15" x:Name="lbFileName" Content="nmb of level and name file" Foreground="White" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                        <TextBlock FontSize="15" x:Name="tbFileName" Text="nmb of level and name file" Foreground="WhiteSmoke" FontFamily="Yu Gothic" DockPanel.Dock="Right"/>
                     </DockPanel>
 
                     <Label Content="Silver blocks" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
