@@ -159,7 +159,7 @@ namespace ArkanoEgo
                                 //MessageBox.Show("prawa kraw " + Canvas.GetTop(x) + " < " + balls[index].posY + " i " + balls[index].posX + " > " + (Canvas.GetLeft(x)) + " i " + balls[index].posY + " < " + (Canvas.GetTop(x) + x.Height));
 
                                 // górna krawędź klocka
-                                if (Canvas.GetLeft(x) < balls[index].posX && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY < Canvas.GetTop(x) + x.Height)
+                                if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].top = true;
@@ -170,7 +170,7 @@ namespace ArkanoEgo
                                 }
                                 else
                                 // dolna krawędź klocka
-                                if (Canvas.GetLeft(x) < balls[index].posX && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY > Canvas.GetTop(x))
+                                if (balls[index].posY + balls[index].rad > Canvas.GetTop(x)+ x.Height)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].top = false;
@@ -181,7 +181,7 @@ namespace ArkanoEgo
                                 }
                                 else
                 // lewa krawędź klocka
-                if (Canvas.GetTop(x) < balls[index].posY && balls[index].posX < Canvas.GetLeft(x) + x.Width && balls[index].posY < Canvas.GetTop(x) + x.Height)
+                if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = true;
@@ -192,7 +192,7 @@ namespace ArkanoEgo
                                 }
                                 else
                 // prawa krawędź klocka
-                if (Canvas.GetTop(x) < balls[index].posY && balls[index].posX > Canvas.GetLeft(x) && balls[index].posY < Canvas.GetTop(x) + x.Height)
+                if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x)+x.Width)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = false;
@@ -220,7 +220,36 @@ namespace ArkanoEgo
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
                             if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
                             {
-                                balls[index].top = true;
+                                if(Canvas.GetLeft(x) < Canvas.GetLeft(ball) + ball.Width/2 && Canvas.GetLeft(x) + (x.Width / 5) > Canvas.GetLeft(ball) + ball.Width / 2)
+                                {
+                                    balls[index].top = true;
+                                    balls[index].left = true;
+                                    balls[index].trajectoryX = 1.5;
+                                }
+                                else if(Canvas.GetLeft(x) + (x.Width / 5) <= Canvas.GetLeft(ball) + ball.Width / 2  && Canvas.GetLeft(x) + (x.Width / 5)*2 > Canvas.GetLeft(ball) + ball.Width / 2)
+                                {
+                                    balls[index].top = true;
+                                    balls[index].left = true;
+                                    balls[index].trajectoryX = 1;
+                                }
+                                else if (Canvas.GetLeft(x) + (x.Width / 5)*2 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 5) * 3 > Canvas.GetLeft(ball) + ball.Width / 2)
+                                {
+                                    balls[index].top = true;
+                                    balls[index].left = true;
+                                    balls[index].trajectoryX = 0;
+                                }
+                                else if (Canvas.GetLeft(x) + (x.Width / 5) * 3 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 5) * 4 > Canvas.GetLeft(ball) + ball.Width / 2)
+                                {
+                                    balls[index].top = true;
+                                    balls[index].left = false;
+                                    balls[index].trajectoryX = 1;
+                                }
+                                else if (Canvas.GetLeft(x) + (x.Width / 5) * 4 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 5) * 5 > Canvas.GetLeft(ball) + ball.Width / 2)
+                                {
+                                    balls[index].top = true;
+                                    balls[index].left = false;
+                                    balls[index].trajectoryX = 1.5;
+                                }
                             }
 
                             index++;
@@ -252,21 +281,21 @@ namespace ArkanoEgo
         private void BallMovement(int index, int goLeft = 0)
         {
             //tablica balls i jej odpowiednik na planszy mają ten sem index
-            balls[index].posX = (int)Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
-            balls[index].posY = (int)Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
+            balls[index].posX = Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
+            balls[index].posY = Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
 
             // dodaj wykonywanie co ileś milisekund (chyba najlepiej 6-10)
             if (balls[index].stop != true)//przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
             {
                 if (balls[index].left)
-                    balls[index].posX -= 1;
+                    balls[index].posX -= balls[index].trajectoryX;
                 else if (!balls[index].left)
-                    balls[index].posX += 1;
+                    balls[index].posX += balls[index].trajectoryX;
 
                 if (balls[index].top)
-                    balls[index].posY -= 1;
+                    balls[index].posY -= balls[index].trajectoryY;
                 else if (!balls[index].top)
-                    balls[index].posY += 1;
+                    balls[index].posY += balls[index].trajectoryY;
             }
             else
             {
@@ -280,7 +309,7 @@ namespace ArkanoEgo
             //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) + 10);  // w prawo
 
             Canvas.SetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posX);
-            Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY);
+            Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index),  balls[index].posY);
             ChangeBallDirection(index);
         }
 

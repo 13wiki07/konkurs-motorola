@@ -12,8 +12,10 @@ namespace ArkanoEgo.Classes
     {
         public int rad { get; set; } // promień kulki (potrzebny do odbić)
         public int speed { get; set; }
-        public int posX { get; set; } // - w góre, + w dół
-        public int posY { get; set; } // - w lewo, + w prawo
+        public double posX { get; set; } // - w góre, + w dół
+        public double posY { get; set; } // - w lewo, + w prawo
+        public double trajectoryX { get; set; } // - w lewo, + w prawo
+        public double trajectoryY { get; set; } // - w lewo, + w prawo
 
         public bool top { get; set; } // top = true; bottom = false;
         public bool left { get; set; } // left = true; right = false;
@@ -31,6 +33,9 @@ namespace ArkanoEgo.Classes
             rad = Convert.ToInt32(ballEclipse.Height) / 2; // promień kuli
             posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
             posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));
+
+            trajectoryX = 1;
+            trajectoryY = 1;
 
             top = true; // potrzebne do testu z onclickiem i Q
             left = true; // potrzebne do testu z onclickiem i Q
