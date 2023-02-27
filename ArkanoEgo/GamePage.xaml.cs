@@ -3,6 +3,7 @@ using ArkanoEgo.Classes.Bricks;
 using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -37,7 +38,7 @@ namespace ArkanoEgo
         public int levelek = 1;
         public int points = 0;
         public int allPoints = 0;
-        public int hearts = 3;
+        public int hearts = 3; // życia gracza
         public Brick[,] bricks = new Brick[13, 21];
         //public int howManyBricksLeft = 0;
 
@@ -132,7 +133,6 @@ namespace ArkanoEgo
         private void GameTimerEvent(object sender, EventArgs e)
         {
             heatsLabel.Content = "" + hearts;
-            int index = 0;
             if (balls.Count == 0 && hearts == 0)
             {
                 MessageBox.Show("przegrana");
@@ -158,8 +158,8 @@ namespace ArkanoEgo
                         int posY = (int)Canvas.GetTop(x) / (height / 26);//element [0,Y] tablicy
                         Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                         Rect ballEclipseHitBox;
-                        index = 0;
-                        foreach (var ball in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse"))
+
+                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index)))
                         {
                             leave = false;
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
@@ -217,7 +217,6 @@ namespace ArkanoEgo
                                     leave = true;
                                 }
                             }
-                            index++;
                             if (leave || aaaa)//wyjście z foreacha, bo usuwamy jeden z jego elementów
                                 break;
                         }
@@ -229,8 +228,7 @@ namespace ArkanoEgo
                         Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                         Rect ballEclipseHitBox;
 
-                        index = 0;
-                        foreach (var ball in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse"))//sprawdzanie czy jakaś piłka nie dotkła paletki
+                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index)))//sprawdzanie czy jakaś piłka nie dotkła paletki
                         {
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
                             if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
@@ -296,8 +294,6 @@ namespace ArkanoEgo
                                     balls[index].trajectoryX = 1.5;
                                 }
                             }
-
-                            index++;
                         }
                         //kolizja gracza z boostem
                         if (PlayerCaughtABoost(BlockHitBox))//kontakt paletki z boostem
@@ -321,25 +317,23 @@ namespace ArkanoEgo
 
                 BoostMovement();
 
-                index = 0;
-                foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse"))//kolizja piłek
+                foreach (var (element, index) in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Select((element, index) => (element, index)))
                 {
-                    if (Canvas.GetTop(x) > Canvas.GetTop(player))
+                    if (Canvas.GetTop(element) > Canvas.GetTop(player))
                     {
-                        myCanvas.Children.Remove(x);
+                        myCanvas.Children.Remove(element);
                         balls.RemoveAt(index);
                         if (balls.Count == 0) return;
                         break;
                     }
-                    index++;
                 }
-                foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))//kolizja piłek
+                foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
                 {
+                    // Access `value` and `i` directly here.
                     if (Canvas.GetTop(x) > Canvas.GetTop(player))
                     {
                         myCanvas.Children.Remove(x);
                         break;
-
                     }
                 }
 
