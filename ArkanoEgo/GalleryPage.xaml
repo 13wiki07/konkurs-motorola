@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ArkanoEgo"
       xmlns:Classes="clr-namespace:ArkanoEgo.Classes" x:Class="ArkanoEgo.GalleryPage"
       mc:Ignorable="d" 
-      d:DesignHeight="1000" d:DesignWidth="1900" Loaded="Button_Click"
+      d:DesignHeight="1000" d:DesignWidth="1900" Loaded="Window_OnLoad"
       Title="GalleryPage">
 
     <Page.Resources>
@@ -64,7 +64,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-
-        <Button Content="odśwież" Width="188" Height="84" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="84,612,0,0" Click="Button_Click"/>
     </Grid>
 </Page>

@@ -22,10 +22,6 @@ namespace ArkanoEgo.Classes
 
         public bool stop { get; set; }
 
-
-        // kulka przypisanie
-        // w linku jest rozpiska co czym jest
-        // https://www.canva.com/design/DAFSS32ggNg/ZHP5O-GhpveqJ4X_GtHzrg/view?utm_content=DAFSS32ggNg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton#5
         public void InitBall(Ellipse ballEclipse)
         {
             stop = true;
@@ -37,8 +33,8 @@ namespace ArkanoEgo.Classes
             trajectoryX = 1;
             trajectoryY = 1;
 
-            top = true; // potrzebne do testu z onclickiem i Q
-            left = true; // potrzebne do testu z onclickiem i Q
+            top = true;
+            left = true;
         }
     }
 }

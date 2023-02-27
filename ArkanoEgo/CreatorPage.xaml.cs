@@ -1,46 +1,30 @@
-﻿using ArkanoEgo.Classes;
-using ArkanoEgo.Classes.Bricks;
-using ArkanoEgo.Classes.Tools;
+﻿using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using static ArkanoEgo.Classes.Tools.Tools;
 
 namespace ArkanoEgo
 {
     public partial class CreatorPage : Page
     {
-        string maincolor = "violet";
         Button wybrany = new Button();
         Button emptyBtn = new Button();
-        List<XMLBrick> bricksList = new List<XMLBrick>();
         List<Button> allButtons= new List<Button>();
-        string Silver_TTB = "1";
+
         int totalPoints = 0;
         int totalBlocks = 0;
         int silverCount = 0;
         int goldCount = 0;
 
-        // kolory
         string white, orange, aqua, green, rose, blue, pink, yellow, silver, gold;
-
 
         public CreatorPage()
         {
@@ -97,9 +81,7 @@ namespace ArkanoEgo
 
         private void Field_LeftClick(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            btn.Background = wybrany.Background;
-
+            (sender as Button).Background = wybrany.Background;
             aktualizuj_dane();
         }
 
@@ -111,7 +93,7 @@ namespace ArkanoEgo
                 if (kolor(btn) != kolor(emptyBtn))
                 {
                     totalBlocks--;
-                    if (kolor(btn) == silver) // if szary
+                    if (kolor(btn) == silver)
                         silverCount--;
 
                     btn.Background = emptyBtn.Background;
@@ -124,39 +106,23 @@ namespace ArkanoEgo
         {
             aktualizuj_dane();
             XmlDocument doc = new XmlDocument();
-
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = ("    ");
-            //settings.CloseOutput = false;
             settings.OmitXmlDeclaration = true;
 
-            DateTime today = DateTime.Now;
+            DateTime today = DateTime.Now; // domyślnie będzie tworzona nazwa z daty
             string nazwa = "" + today.ToShortDateString() + today.Hour + today.Minute + today.Millisecond;
-           // MessageBox.Show("name: " + nazwa);
-            XmlWriter writer = XmlWriter.Create(@"..\..\CustomLVLS\lvl_" + nazwa + ".xml", settings); // wywala się po clear map 
+
+            XmlWriter writer = XmlWriter.Create(@"..\..\CustomLVLS\lvl_" + nazwa + ".xml", settings);
             writer.WriteStartElement("XMLBricks");
 
-            newLevelBtn.Visibility = Visibility.Visible;
             tbFileName.Text = @"lvl_" + nazwa;
 
             for (int n = 0; n < allButtons.Count; n++)
             {
                 if (kolor(allButtons[n]) != kolor(emptyBtn))
                 {
-                    /*  KOLORKI
-                        biały               1 50  #FFFFFF
-                        pomarańczowy        1 60  #F8B34B
-                        aqua                1 70  #6CD4C5
-                        zielony             1 80  #98E677
-                        ciemny róż          1 90  #FD6B6B
-                        ciemny niebieski    1 100 #79A5F2
-                        jasny róż           1 110 #E5989B
-                        żółty               1 120 #FFDC6C
-                        srebrny             2 50  //#626161
-                        złoty               3 //-   #C69245
-                     */
-                    
                     writer.WriteStartElement("XMLBrick");
                     if (kolor(allButtons[n]) == silver)
                     { // srebrny
@@ -184,12 +150,16 @@ namespace ArkanoEgo
 
                         if (kolor(allButtons[n]) == white)
                             writer.WriteElementString("Value", "50");
+
                         else if (kolor(allButtons[n]) == orange)
                             writer.WriteElementString("Value", "60");
+
                         else if (kolor(allButtons[n]) == aqua)
                             writer.WriteElementString("Value", "70");
+
                         else if (kolor(allButtons[n]) == green)
                             writer.WriteElementString("Value", "80");
+
                         else if (kolor(allButtons[n]) == rose)
                             writer.WriteElementString("Value", "90");
 
@@ -199,82 +169,27 @@ namespace ArkanoEgo
                         else if (kolor(allButtons[n]) == pink)
                             writer.WriteElementString("Value", "110");
 
-                            else if (kolor(allButtons[n]) == yellow)
+                        else if (kolor(allButtons[n]) == yellow)
                             writer.WriteElementString("Value", "120");
 
                         writer.WriteElementString("Color", kolor(allButtons[n]));
                         writer.WriteElementString("TimesToBreak", "1");
                     }
-
-
-                    /*  DO TWORZENIA PODSTAWOWYCH LEVELI
-                    int levelek = 0;
-                    if (levelek <= 8)
-                        writer.WriteElementString("TimesToBreak", "2");
-                    else if (levelek <= 16)
-                        writer.WriteElementString("TimesToBreak", "3");
-                    else if (levelek <= 24)
-                        writer.WriteElementString("TimesToBreak", "4");
-                    else if (levelek <= 8+8+8+8)
-                        writer.WriteElementString("TimesToBreak", "5");*/
-
                     writer.WriteEndElement();
-                    /*
-                    writer.WriteElementString("Type", "1");
-                    writer.WriteElementString("PosX", "1");
-                    writer.WriteElementString("PosY", "1");
-                    writer.WriteElementString("Value", "1");
-                    writer.WriteElementString("Color", "#FFFFFF");
-                    writer.WriteElementString("TimesToBreak", "20");
-                    writer.WriteEndElement();*/
                 }
             }
             writer.WriteEndElement();
-
-            //MessageBox.Show("Ile: " + count);
             writer.Flush();
             writer.Close();
 
-            MessageBox.Show("Zapisano level");
+            createLevelImage(nazwa);
+
+            MessageBox.Show("Pomyślnie zapisano level");
+            newLevelBtn.Visibility = Visibility.Visible;
             saveBtn.Visibility = Visibility.Collapsed;
             playBtn.Visibility = Visibility.Visible;
-
-            createLevelImage(nazwa);
         }
         
-        private XMLBrick createBrick(Button btn)
-        {
-            XMLBrick brick = new XMLBrick();
-
-            brick.Type = 1;
-            brick.Value = 0;
-            brick.Color = kolor(btn);
-            brick.PosX = (int)btn.GetValue(Grid.ColumnProperty);
-            brick.PosY = (int)btn.GetValue(Grid.RowProperty);
-            brick.TimesToBreak = 0;
-
-            if (btn.Name == "btnSilver")
-            {
-                brick.Type = 2;
-                //brick.TimesToBreak = 5;
-            }
-
-            if (btn.Name == "btnGold")
-            {
-                brick.Type = 3;
-                //brick.Value = 0;
-            }
-
-            return brick;
-            
-        /*  brick.Type;
-            brick.Value;
-            brick.Color;
-            brick.PosX;
-            brick.PosY;
-            brick.TimesToBreak;*/
-        }
-
         private void NewLevel_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new CreatorPage());
@@ -295,7 +210,6 @@ namespace ArkanoEgo
             NavigationService.Navigate(new CreatorPage());
         }
 
-
         private void TextBoxes_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
@@ -303,13 +217,7 @@ namespace ArkanoEgo
             if (new Regex("( ^[0-9]*$)").IsMatch(e.Text))
             {
                 TextBox tb = sender as TextBox;
-                /*if (tb.Text == "0")
-                    tb.Text = "";*/
             }
-        }
-
-        private void TextBoxes_KeyUp(object sender, KeyEventArgs e)
-        {
         }
 
         private void SValue_LostFocus(object sender, RoutedEventArgs e)
@@ -329,12 +237,12 @@ namespace ArkanoEgo
             tb.Text = "" + numerek;
         }
 
-        private void TtB_LostFocus(object sender, RoutedEventArgs e)
+        private void TtB_LostFocus(object sender, RoutedEventArgs e) // kiedy pole TimesToBreak zostanie opuszczone
         {
             TextBox tb = sender as TextBox;
-
             if (tb.Text == "")
                 tb.Text = "1";
+
             aktualizuj_dane();
         }
 
@@ -346,17 +254,16 @@ namespace ArkanoEgo
                 tb.Text = tb.Text.Substring(1);
 
             svalue.Content = silverValue.Text;
-            //aktualizuj_dane();
         }
 
         private void aktualizuj_dane()
         {
             playBtn.Visibility = Visibility.Collapsed;
-
             totalBlocks = 0;
             totalPoints = 0;
             silverCount = 0;
             goldCount = 0;
+
             for (int n = 0; n < allButtons.Count; n++)
             {
                 if (kolor(allButtons[n]) != kolor(emptyBtn))
@@ -390,11 +297,11 @@ namespace ArkanoEgo
                         totalPoints += Convert.ToInt32(silverTimesToBreak.Text);
                         silverCount++;
                     }
+
                     else if (kolor(allButtons[n]) == gold)
                         goldCount++;
                 }
             }
-
             howManyColor.Content = totalBlocks - silverCount - goldCount;
             howManySilver.Content = silverCount;
             howManyGold.Content = goldCount;
@@ -431,12 +338,7 @@ namespace ArkanoEgo
         private void createLevelImage(string nazwa)
         {
             FrameworkElement element = gridCreator;
-            string imageExtension;
-            string fileName = nazwa + ".png";
-            imageExtension = new FileInfo(fileName).Extension.ToLower(System.Globalization.CultureInfo.InvariantCulture);
-            BitmapEncoder imgEncoder;
-
-            imgEncoder = new BmpBitmapEncoder();
+            BitmapEncoder imgEncoder = new BmpBitmapEncoder();
 
             if (element != null)
             {
@@ -450,14 +352,14 @@ namespace ArkanoEgo
 
                 RenderTargetBitmap bitmap = new RenderTargetBitmap((int)element.ActualWidth, (int)element.ActualHeight, 96, 96, PixelFormats.Pbgra32);
                 bitmap.Render(drawingVisual);
+
                 Image img = new Image();
                 img.Source = bitmap;
 
                 imgEncoder.Frames.Add(BitmapFrame.Create(bitmap));
-                using (Stream stream = File.Create("../../Aloes/" + fileName))
+                using (Stream stream = File.Create("../../CustomLVLS/CustomLevelImages/" + nazwa + ".png"))
                 {
                     imgEncoder.Save(stream);
-                    //myUniformGrid.Children.Add(img);
                 }
             }
         }

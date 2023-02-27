@@ -61,10 +61,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GalleryElementPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="GalleryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,9 +89,6 @@
     <Compile Include="Classes\Tools\Tools.cs" />
     <Compile Include="CreatorPage.xaml.cs">
       <DependentUpon>CreatorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GalleryElementPage.xaml.cs">
-      <DependentUpon>GalleryElementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GalleryPage.xaml.cs">
       <DependentUpon>GalleryPage.xaml</DependentUpon>
@@ -129,7 +122,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="Resources\Aloes\pliczek.png" />
     <Content Include="LVLS\lvl_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -257,8 +249,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Aloes\" />
-    <Folder Include="CustomLVLS\" />
+    <Folder Include="CustomLVLS\CustomLevelImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LVLS\Brick.txt">

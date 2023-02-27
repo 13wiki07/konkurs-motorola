@@ -51,8 +51,8 @@ namespace ArkanoEgo.Classes.Bricks
             int top = 0;
             int left = 0;
             for (int i = 0; i < 13; i++)
-            {//x
-                for (int j = 0; j < 21; j++)//y
+            { //x
+                for (int j = 0; j < 21; j++) //y
                 {
 
                     if (bricks[i, j] != null)
@@ -61,8 +61,8 @@ namespace ArkanoEgo.Classes.Bricks
                         Rectangle rec = new Rectangle()
                         {
                             Width = width / 13,
-                            Height = height / 26, // 26 albo 27
-                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bricks[i, j].Color)),//color pobierany z obiektu
+                            Height = height / 26,
+                            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bricks[i, j].Color)), //color pobierany z obiektu
                             Stroke = Brushes.Black,
                             StrokeThickness = 1,
                         };

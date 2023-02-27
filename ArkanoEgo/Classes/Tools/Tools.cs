@@ -1,11 +1,6 @@
 ﻿using ArkanoEgo.Classes.Bricks;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -34,12 +29,11 @@ namespace ArkanoEgo.Classes.Tools
         {
             return JustReadLvl("LVLS", "lvl_" + lvl.ToString());
         }
-
         public static Brick[,] ReadLvl(string path)
         {
             return JustReadLvl(@"..\..\CustomLVLS", path);
         }
-        private static Brick[,] JustReadLvl(string path, string lvl)//wstępne czytanie mapy z pliku
+        private static Brick[,] JustReadLvl(string path, string lvl) //wstępne czytanie mapy z pliku
         {
             Brick[,] Bricks = new Brick[13, 21];
             int bricksCount = 0;
@@ -53,7 +47,7 @@ namespace ArkanoEgo.Classes.Tools
             foreach (var Brick in listBricks.Bricks)
             {
                 levelPoints += Brick.Value;
-               info += "Brick: x" + Brick.PosX + ", y" + Brick.PosY + " ttb:> " + Brick.TimesToBreak + "\n";
+                info += "Brick: x" + Brick.PosX + ", y" + Brick.PosY + " ttb:> " + Brick.TimesToBreak + "\n";
                 switch (Brick.Type)
                 {
                     case 1:
@@ -71,7 +65,6 @@ namespace ArkanoEgo.Classes.Tools
                 }
             }
             
-
             NumberOfBricks = bricksCount;
             PointsAtLevel = levelPoints;
             return Bricks;
@@ -86,7 +79,7 @@ namespace ArkanoEgo.Classes.Tools
             Ellipse ballEclipse = new Ellipse()
             {
                 Width = 10,
-                Height = 10, // 26 albo 27
+                Height = 10,
                 Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0000ff")),
                 Tag = "ballEclipse",
             };
@@ -97,7 +90,6 @@ namespace ArkanoEgo.Classes.Tools
 
             Ball ball = new Ball();
             ball.InitBall(ballEclipse);
-
             balls.Add(ball);
         }
     }

@@ -3,20 +3,11 @@ using ArkanoEgo.Classes.Bricks;
 using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -28,35 +19,27 @@ namespace ArkanoEgo
         string maincolor = "violet";
         bool playerGoRight = false;
         bool playerGoLeft = false;
-        //bool raz = true;
-        int[] dane = new int[3]; // 0. indeks  | 1. posX  | 2. posY
-        // potrzebne to by ominąć błąd z liczeniem pozostałych klocków
-
-        //bool ok = true;
-        int nrr = 0;
+        bool gamePlay = true;
 
         public int levelek = 1;
         public int points = 0;
         public int allPoints = 0;
+        public int pointsLeft = 0;
+
         public int hearts = 3; // życia gracza
         public Brick[,] bricks = new Brick[13, 21];
-        //public int howManyBricksLeft = 0;
-
-        // test
-        public int numberOfChilds = 0;
         public int numberOfBricksLeft = 0;
 
         DispatcherTimer gameTimer = new DispatcherTimer();
-
         List<Ball> balls = new List<Ball>();
-
         Booster booster = new Booster();
-        int pointsLeft = 0;
+
+
         //wymiary Canvas'a / pola gry
         int height;
         int width;
 
-        public GamePage()
+        public GamePage() // normalna gra, lvl 1
         {
             InitializeComponent();
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
@@ -64,23 +47,22 @@ namespace ArkanoEgo
             Game();
         }
 
-        public GamePage(int level, int allpkt)
+        public GamePage(int level, int allpkt) // next level
         {
             InitializeComponent();
             levelek = level;
             allPoints = allpkt;
             levelTB.Text = "Level " + levelek;
             points = 0;
-            bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
+            bricks = Tools.ReadLvl(levelek);
             Game();
         }
-        public GamePage(string path)
+        public GamePage(string path) // custom level
         {
             InitializeComponent();
 
-            bricks = Tools.ReadLvl(path); //Wczytywanie mapy
+            bricks = Tools.ReadLvl(path);
             levelTB.Text = "Level " + (path.StartsWith("lvl_") ? path.Substring(4) : path);
-            // MessageBox.Show("Count b: " + bricks.Length);
             Game();
         }
 
@@ -88,7 +70,6 @@ namespace ArkanoEgo
         {
             height = (int)myCanvas.Height;
             width = (int)myCanvas.Width;
-
 
             foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(x => x.Tag.ToString() == "ballEclipse"))
             {
@@ -98,44 +79,30 @@ namespace ArkanoEgo
             }
 
             // to jest po to, by klocki nie miały wymiarów w double tak samo jak canvas
-            height = 800 / 13; //(int)SystemParameters.FullPrimaryScreenHeight / 13;
+            height = 800 / 13;
             height = height * 13;
 
-            /* np.
-             system -> 800
-             /13 -> 61
-             *13 -> 793 <= i to ma być szerokość i elo  */
-
-            //windowPage.SetValue(WidthProperty, (double)(height));
-            //windowPage.UpdateLayout();
-            //width = (int)windowPage.Width;
-
-            //bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
-            pointsLeft = Tools.PointsAtLevel;
-            // howManyBricksLeft = Tools.NumberOfBricks; // na razie ze ścieżką, zobaczymy jak będziemy wczytywać custom levele
-            nrr = Tools.NumberOfBricks;
-            //pointsLabel.Content = "Zostało: " + nrr; //+ pointsLeft;
-            pointsLabel.Content = "" + allPoints; //+ pointsLeft;
-            heatsLabel.Content = "" + hearts;
-            Brick.GenerateElements(ref myCanvas, ref bricks, width, height);//Przykładowa funkcja jak można przerzycić metody do innych klas
+            Brick.GenerateElements(ref myCanvas, ref bricks, width, height);
             myCanvas.Focus();
 
+            pointsLabel.Content = "" + allPoints;
+            heatsLabel.Content = "" + hearts;
+
+            pointsLeft = Tools.PointsAtLevel;
+            numberOfBricksLeft = Tools.NumberOfBricks;
+
             //Pętla gry
-            gameTimer.Interval = TimeSpan.FromMilliseconds(30);//TODO coś nie działa z tym czasem, gdy się ustawi na 0, to jest szybko, a od 1 do 20 prawie tak samo
+            gameTimer.Interval = TimeSpan.FromMilliseconds(30);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
-
-            numberOfChilds = myCanvas.Children.Count;
-            numberOfBricksLeft = Tools.NumberOfBricks;
         }
-
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
             heatsLabel.Content = "" + hearts;
             if (balls.Count == 0 && hearts == 0)
             {
-                MessageBox.Show("przegrana");
+                MessageBox.Show("Przegrana");
                 gameTimer.Stop();
                 NavigationService.Navigate(new MenuPage());
                 return;
@@ -148,14 +115,14 @@ namespace ArkanoEgo
 
             for (int i = 0; i < 10; i++)
             {
-                bool aaaa = false;
-                foreach (var x in myCanvas.Children.OfType<Rectangle>())//kolizja piłek
+                bool isTheSameBrick = false; // potrzebne, by naprawić błąd z kilkukrotnym zbiciem
+                foreach (var x in myCanvas.Children.OfType<Rectangle>()) //kolizja piłek
                 {
                     bool leave = false;
-                    if (!aaaa && x.Name != "player")//jeżeli element jest blokiem to go usun
+                    if (!isTheSameBrick && x.Name != "player") //jeżeli element jest blokiem to go usun
                     {
-                        int posX = (int)Canvas.GetLeft(x) / (width / 13);//element [x,0] tablicy
-                        int posY = (int)Canvas.GetTop(x) / (height / 26);//element [0,Y] tablicy
+                        int posX = (int)Canvas.GetLeft(x) / (width / 13); //element [x,0] tablicy
+                        int posY = (int)Canvas.GetTop(x) / (height / 26); //element [0,y] tablicy
                         Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                         Rect ballEclipseHitBox;
 
@@ -164,60 +131,53 @@ namespace ArkanoEgo
                             leave = false;
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
 
-                            if (!aaaa && ballEclipseHitBox.IntersectsWith(BlockHitBox))
+                            if (!isTheSameBrick && ballEclipseHitBox.IntersectsWith(BlockHitBox))
                             {
-                                //pointsLabel.Content = "Zostało: " + numberOfChilds; //+ pointsLeft;
-
-                                //MessageBox.Show("górna kraw " + Canvas.GetLeft(x) + " < " + balls[index].posX + " i " + balls[index].posX + " < " + ((Canvas.GetLeft(x)) + x.Width) + " i " + balls[index].posY + " < " + (Canvas.GetTop(x) + x.Height));
-                                //MessageBox.Show("dolna kraw " + Canvas.GetLeft(x) + " < " + balls[index].posX + " i " + balls[index].posX + " < " + ((Canvas.GetLeft(x)) + x.Width) + " i " + balls[index].posY + " > " + Canvas.GetTop(x));
-                                //MessageBox.Show("lewa kraw " + Canvas.GetTop(x) + " < " + balls[index].posY + " i " + balls[index].posX + " < " + ((Canvas.GetLeft(x)) + x.Width) + " i " + balls[index].posY + " < " + (Canvas.GetTop(x) + x.Height));
-                                //MessageBox.Show("prawa kraw " + Canvas.GetTop(x) + " < " + balls[index].posY + " i " + balls[index].posX + " > " + (Canvas.GetLeft(x)) + " i " + balls[index].posY + " < " + (Canvas.GetTop(x) + x.Height));
-
                                 // górna krawędź klocka
                                 if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].top = true;
-                                    //MessageBox.Show("górna kraw");
+
                                     HitBlock(posX, posY, x, index);
-                                    aaaa = true;
+                                    isTheSameBrick = true;
                                     leave = true;
                                 }
-                                else
+
                                 // dolna krawędź klocka
-                                if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
+                                else if(balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].top = false;
-                                    //MessageBox.Show("dolna kraw");
+
                                     HitBlock(posX, posY, x, index);
-                                    aaaa = true;
+                                    isTheSameBrick = true;
                                     leave = true;
                                 }
-                                else
-                // lewa krawędź klocka
-                if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
+
+                                // lewa krawędź klocka
+                                else if(balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = true;
-                                    //MessageBox.Show("lewa kraw");
+
                                     HitBlock(posX, posY, x, index);
-                                    aaaa = true;
+                                    isTheSameBrick = true;
                                     leave = true;
                                 }
-                                else
-                // prawa krawędź klocka
-                if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
+
+                                // prawa krawędź klocka
+                                else if(balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = false;
-                                    //MessageBox.Show("prawa kraw");
+
                                     HitBlock(posX, posY, x, index);
-                                    aaaa = true;
+                                    isTheSameBrick = true;
                                     leave = true;
                                 }
                             }
-                            if (leave || aaaa)//wyjście z foreacha, bo usuwamy jeden z jego elementów
+                            if (leave || isTheSameBrick) //wyjście z foreacha, bo usuwamy jeden z jego elementów
                                 break;
                         }
                         if (leave)
@@ -228,7 +188,7 @@ namespace ArkanoEgo
                         Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                         Rect ballEclipseHitBox;
 
-                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index)))//sprawdzanie czy jakaś piłka nie dotkła paletki
+                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
                         {
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
                             if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
@@ -296,12 +256,8 @@ namespace ArkanoEgo
                             }
                         }
                         //kolizja gracza z boostem
-                        if (PlayerCaughtABoost(BlockHitBox))//kontakt paletki z boostem
-                        {
-                            break;
-                        }
+                        if (PlayerCaughtABoost(BlockHitBox)) { break; }//kontakt paletki z boostem
                     }
-
                 }
 
                 if (playerGoRight && !playerGoLeft)
@@ -312,9 +268,7 @@ namespace ArkanoEgo
                 for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
                 {
                     BallMovement(j);
-
                 }
-
                 BoostMovement();
 
                 foreach (var (element, index) in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Select((element, index) => (element, index)))
@@ -336,9 +290,7 @@ namespace ArkanoEgo
                         break;
                     }
                 }
-
             }
-
         }
 
         private void BallMovement(int index, int goLeft = 0)
@@ -348,7 +300,7 @@ namespace ArkanoEgo
             balls[index].posY = Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
 
             // dodaj wykonywanie co ileś milisekund (chyba najlepiej 6-10)
-            if (balls[index].stop != true)//przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
+            if (balls[index].stop != true) //przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
             {
                 if (balls[index].left)
                     balls[index].posX -= balls[index].trajectoryX;
@@ -361,15 +313,7 @@ namespace ArkanoEgo
                     balls[index].posY += balls[index].trajectoryY;
             }
             else
-            {
                 balls[index].posX += goLeft;
-            }
-            //testowyLabel.Content = "w: " + ball.posX + " h: " + ball.posY;
-
-            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) - 10);    // do góry
-            //Canvas.SetTop(ballEclipse, Canvas.GetTop(ballEclipse) + 10);    // do dołu
-            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) - 10);  // w lewo
-            //Canvas.SetLeft(ballEclipse, Canvas.GetLeft(ballEclipse) + 10);  // w prawo
 
             Canvas.SetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posX);
             Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY);
@@ -378,8 +322,6 @@ namespace ArkanoEgo
 
         private void ChangeBallDirection(int index)
         {
-            //testowyLabel.Content = "PosY zwykłe: " + (ball.posY-ball.rad)  + "PosY: " + ball.posY + " Rad: " + ball.rad; // nie usuwajcie tego ~ Wika
-
             if (balls[index].posY <= 0)
             {// góra
                 balls[index].top = false; // odbicie
@@ -394,13 +336,6 @@ namespace ArkanoEgo
             {// prawy bok
                 balls[index].left = true;
             }
-
-            /*if (balls[index].posY >= height)
-            {// dół // jest na razie i gdy przegrana będzie zrobiona to do usunięcia
-                balls[index].top = true;
-                MessageBox.Show("qwe");
-            }*/
-            // dodaj jakiś if który sprawdza od czego odbiła się kulka + dodaj wymiary kulki i paletki (ale do zmiennych) ~ Wika
         }
 
         private void BoostMovement()
@@ -425,19 +360,15 @@ namespace ArkanoEgo
                 if (Canvas.GetLeft(player) + (player.Width) < width && direction)
                 {
                     Canvas.SetLeft(player, Canvas.GetLeft(player) + 1);
-
-                    for (int j = 0; j < balls.Count; j++)//ruch przyklejonych piłek do paletki
+                    for (int j = 0; j < balls.Count; j++) //ruch przyklejonych piłek do paletki
                     {
                         if (balls[j].stop == true)
                             BallMovement(j, 1);
                     }
-
                 }
                 if (Canvas.GetLeft(player) > 0 && !direction)
                 {
-
                     Canvas.SetLeft(player, Canvas.GetLeft(player) - 1);
-
                     for (int j = 0; j < balls.Count; j++)
                     {
                         if (balls[j].stop == true)
@@ -449,16 +380,13 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
-            //File.WriteAllText("WriteText.txt", Tools.info);
-            //MessageBox.Show("ok");
-            //myCanvas.Focus();
             if (e.Key == Key.D)
                 playerGoRight = true;
 
             if (e.Key == Key.A)
                 playerGoLeft = true;
 
-            if (e.Key == Key.Space)//wypuszczenie wszystkich piłek
+            if (e.Key == Key.Space) //wypuszczenie wszystkich piłek
             {
                 for (int j = 0; j < balls.Count; j++)
                 {
@@ -469,7 +397,6 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyUp(object sender, KeyEventArgs e)
         {
-            //myCanvas.Focus();
             if (e.Key == Key.D)
                 playerGoRight = false;
             if (e.Key == Key.A)
@@ -478,7 +405,6 @@ namespace ArkanoEgo
 
         public void SetBoost()
         {
-
             switch (booster.GetPower())
             {
                 case Power.PlayerLenght:
@@ -517,65 +443,22 @@ namespace ArkanoEgo
             }
         }
 
-        public void HitBlock(int posX, int posY, Rectangle rectangle, int indexOfBall)//akcja po trafieniu piłki w block
+        public void HitBlock(int posX, int posY, Rectangle rectangle, int indexOfBall) //akcja po trafieniu piłki w block
         {
-            //MessageBox.Show("wywołanie funkcji HitBlock");
-            /*
-            if (dane[0] != indexOfBall || dane[1] != balls[indexOfBall].posX && dane[2] != balls[indexOfBall].posY)
-            {// 0 indeks, 1 posX, 2 posY
-                dane[0] = indexOfBall;
-                dane[1] = balls[indexOfBall].posX;
-                dane[2] = balls[indexOfBall].posY;
-                ok = true;
-            }
-            else
-                ok = false;*/
-            if (bricks[posX, posY].GetType() != typeof(GoldBrick))//sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
+            if (bricks[posX, posY].GetType() != typeof(GoldBrick)) //sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
             {
-                //MessageBox.Show("ttb: " + bricks[posX, posY].TimesToBreak);
                 if (bricks[posX, posY].TimesToBreak < 2)
                 {
                     pointsLeft -= bricks[posX, posY].Value;
                     myCanvas.Children.Remove(rectangle);
-                    //howManyBricksLeft--;
                     RespawnBoost(indexOfBall);
 
-                    //MessageBox.Show("Ile: " + myCanvas.Children.Count);
-                    //MessageBox.Show("Dane kulki: "  + XX + " : " + YY + "");
-                    //if (ok)
-                    {
-                        nrr--;
-                        points += bricks[posX, posY].Value;
-                        allPoints += bricks[posX, posY].Value;
-                        pointsLabel.Content = "" + allPoints; //+ pointsLeft;
-                    }
-                    //MessageBox.Show("Pozycja: " +ok.ToString() + " -> " +  +"=="+ balls[indexOfBall].posX +", "+ YY +"=="+ balls[indexOfBall].posY);
-                    /*
-                    pointsLabel.Content = "Zostało: " + numberOfChilds; //+ pointsLeft;
-                    //MessageBox.Show("zbicie: -" + bricks[posX, posY].Value);
-                    if(levelek == 2 && howManyBricksLeft < 60)
-                    //if(howManyBricksLeft < 2)
-                    if (raz)
-                    //    MessageBox.Show("Left: " + howManyBricksLeft);
-                    raz = false;
-                    MessageBox.Show("Left wsm: " + myCanvas.Children.Count);
-                    MessageBox.Show("DANE: " + (numberOfChilds-1) + " : " + myCanvas.Children.Count);
-                    if (numberOfChilds - 1 == myCanvas.Children.Count)
-                    {
-                            MessageBox.Show("Znika jeden klocek");
-                        numberOfBricksLeft--;
-                        numberOfChilds = myCanvas.Children.Count;
-                    }
-                    else
-                        numberOfChilds = numberOfChilds+1;
-                    MessageBox.Show("Powinny być równe: " + numberOfChilds + " : " + myCanvas.Children.Count);*/
-                    //numberOfBricksLeft = Tools.NumberOfBricks;
+                    points += bricks[posX, posY].Value;
+                    allPoints += bricks[posX, posY].Value;
+                    pointsLabel.Content = "" + allPoints;
+                    
                     if (points == Tools.PointsAtLevel)
-                    {
-                        MessageBox.Show("points left: " + pointsLeft);
                         Next_Level();
-                    }
-
                 }
                 else
                 {
@@ -593,7 +476,6 @@ namespace ArkanoEgo
                 if (boosterEclipseHitBox.IntersectsWith(rect))
                 {
                     myCanvas.Children.Remove(g);
-                    numberOfChilds--;
                     StopBoost();
                     booster.RandomPower();
                     //booster.SetPower(Power.StrongerHit); testowanie PowerUp'ów
@@ -604,14 +486,10 @@ namespace ArkanoEgo
             return false;
         }
 
-        public void RespawnBoost(int indexOfBall)//Po zniszczeniu bloku, jest 10% szans na to, że sprespi się nowy boost. Poprzedni wciąż jest aktywny
+        public void RespawnBoost(int indexOfBall) //Po zniszczeniu bloku, jest 10% szans na to, że zrespi się nowy boost. Poprzedni wciąż jest aktywny
         {
-            //numberOfChilds = myCanvas.Children.Count;
             if (Tools.RundomNumber(1, 10) == 5)
-            {
-                numberOfChilds++;
                 booster = new Booster(balls[indexOfBall], ref myCanvas, booster);
-            }
         }
 
         public void Next_Level()
@@ -619,18 +497,9 @@ namespace ArkanoEgo
             gameTimer.Stop();
             levelek++;
 
-            MessageBox.Show("Lvl: " + levelek);
             NavigationService.Navigate(new GamePage(levelek, allPoints));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            gameTimer.Stop();
-            MessageBox.Show("ok"); // do usunięcia ten btn
-            gameTimer.Start();
-        }
-
-        bool gamePlay = true;
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;

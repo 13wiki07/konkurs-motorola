@@ -8,15 +8,15 @@
       d:DesignHeight="1030" d:DesignWidth="1920"
       Width="{x:Static SystemParameters.FullPrimaryScreenWidth}"
       Title="CreatorPage" Background="#454545">
+    
     <Page.Resources>
         <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientBlue}"/>
         <Thickness x:Key="thick" Top="1" Bottom="6" Left="6" Right="6"/>
-
+        
         <Style x:Key="btnStyleWithChange" BasedOn="{StaticResource btnStyleMini}" TargetType="Button">
             <EventSetter Event="MouseEnter" Handler="Button_MouseEvent"/>
             <EventSetter Event="MouseLeave" Handler="Button_MouseEvent"/>
         </Style>
-        
         <Style x:Key="valueLabel" TargetType="Label">
             <Setter Property="Foreground" Value="#cecece"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -55,7 +55,6 @@
                 </Setter.Value>
             </Setter>
             <EventSetter Event="PreviewTextInput" Handler="TextBoxes_PreviewTextInput"/>
-            <EventSetter Event="KeyUp" Handler="TextBoxes_KeyUp"/>
             <EventSetter Event="TextChanged" Handler="Info_TextChanged"/>
         </Style>
     </Page.Resources>
@@ -101,7 +100,6 @@
 
             <Label x:Name="svalue" Content="50" Style="{StaticResource valueLabel}"/>
             <Label Content="0"  Style="{StaticResource valueLabel}"/>
-
         </UniformGrid>
 
         <StackPanel Grid.Column="2" VerticalAlignment="Center">
@@ -154,9 +152,6 @@
 
             <Button x:Name="newLevelBtn" Content="NEW LEVEL"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20" Click="NewLevel_Click"/>
-
-            <Button Content="LOAD LEVEL" Click="SaveLevel_Click"
-                Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
 
             <Button x:Name="saveBtn" Content="SAVE" Click="SaveLevel_Click"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>

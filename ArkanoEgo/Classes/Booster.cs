@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -30,12 +26,12 @@ namespace ArkanoEgo.Classes
         private Power _power = Power.None;
 
         public Booster() { }
-        public Booster(Ball ball, ref Canvas myCanvas)// po wywołaniu tego konstruktora, booster zrespi się tma gdzie jest aktualnie piłka
+        public Booster(Ball ball, ref Canvas myCanvas) // po wywołaniu tego konstruktora, booster zrespi się tma gdzie jest aktualnie piłka
         {
             Ellipse boost = new Ellipse()
             {
                 Width = 20,
-                Height = 20, // 26 albo 27
+                Height = 20,
                 Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32")),
                 Tag = "Booster",
             };
@@ -47,12 +43,12 @@ namespace ArkanoEgo.Classes
             posY = ball.posY;
         }
 
-        public Booster(Ball ball, ref Canvas myCanvas, Booster booster)// po wywołaniu tego konstruktora, booster zrespi się tma gdzie jest aktualnie piłka
+        public Booster(Ball ball, ref Canvas myCanvas, Booster booster) // po wywołaniu tego konstruktora, booster zrespi się tma gdzie jest aktualnie piłka
         {
             Ellipse boost = new Ellipse()
             {
                 Width = 20,
-                Height = 20, // 26 albo 27
+                Height = 20,
                 Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32")),
                 Tag = "Booster",
             };
@@ -93,8 +89,7 @@ namespace ArkanoEgo.Classes
             }
         }
 
-
-        public void SetBoostPlayerLenght(ref Rectangle rectangle)//powiększamy gracza
+        public void SetBoostPlayerLenght(ref Rectangle rectangle) //powiększamy gracza
         {
             rectangle.Width = rectangle.Width * 2;
             Canvas.SetLeft(rectangle, Canvas.GetLeft(rectangle) - rectangle.ActualWidth / 2);
@@ -110,7 +105,7 @@ namespace ArkanoEgo.Classes
             Ellipse ballEclipse = new Ellipse()
             {
                 Width = 10,
-                Height = 10, // 26 albo 27
+                Height = 10,
                 Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0000ff")),
                 Tag = "ballEclipse",
             };
@@ -122,7 +117,6 @@ namespace ArkanoEgo.Classes
             Ball ball = new Ball();
             ball.InitBall(ballEclipse);
             ball.stop = false;
-
             ball.top = balls[0].top;
             if (balls[0].left)
                 ball.left = false;

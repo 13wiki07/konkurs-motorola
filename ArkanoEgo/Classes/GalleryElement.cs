@@ -19,17 +19,6 @@ namespace ArkanoEgo.Classes
         {
             this._nr = nr.ToString();
             this._name = name;
-
-            //BitmapImage src = new BitmapImage();
-            //src.BeginInit();
-            //src.UriSource = new Uri(sour, UriKind.Relative);
-            //src.CacheOption = BitmapCacheOption.OnLoad;
-            //src.EndInit();
-
-            //Image nImg = new Image();
-            //nImg.Source = src;
-            //this._bmpImage = nImg;
-
             this._image = path;
         }
 
