@@ -99,19 +99,7 @@ namespace ArkanoEgo
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
-            heatsLabel.Content = "" + hearts;
-            if (balls.Count == 0 && hearts == 0)
-            {
-                MessageBox.Show("Przegrana");
-                gameTimer.Stop();
-                NavigationService.Navigate(new MenuPage());
-                return;
-            }
-            else if(balls.Count == 0 && hearts > 0)
-            {
-                Tools.SpawnBall(ref myCanvas, ref balls, player);
-                hearts--;
-            }
+            OnLoseAllBalls();
 
             for (int i = 0; i < 10; i++)
             {
@@ -185,78 +173,16 @@ namespace ArkanoEgo
                     }
                     if (x.Name == "player") //jeżeli element jest graczem to się od niego odbij
                     {
-                        Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                        Rect blockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                         Rect ballEclipseHitBox;
 
                         foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
                         {
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
-                            if (ballEclipseHitBox.IntersectsWith(BlockHitBox))
-                            {
-                                if (Canvas.GetLeft(x) < Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = true;
-                                    balls[index].trajectoryX = 1.5;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 2 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = true;
-                                    balls[index].trajectoryX = 1.3;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 2 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 3 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = true;
-                                    balls[index].trajectoryX = 1;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 3 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 4 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = true;
-                                    balls[index].trajectoryX = 0.6;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 4 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 5 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = true;
-                                    balls[index].trajectoryX = 0.3;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 5 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 6 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = false;
-                                    balls[index].trajectoryX = 0.3;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 6 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 7 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = false;
-                                    balls[index].trajectoryX = 0.6;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 7 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 8 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = false;
-                                    balls[index].trajectoryX = 1;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 8 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 9 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = false;
-                                    balls[index].trajectoryX = 1.3;
-                                }
-                                else if (Canvas.GetLeft(x) + (x.Width / 10) * 9 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 10 > Canvas.GetLeft(ball) + ball.Width / 2)
-                                {
-                                    balls[index].top = true;
-                                    balls[index].left = false;
-                                    balls[index].trajectoryX = 1.5;
-                                }
-                            }
+                            Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index);
                         }
                         //kolizja gracza z boostem
-                        if (PlayerCaughtABoost(BlockHitBox)) { break; }//kontakt paletki z boostem
+                        if (PlayerCaughtABoost(blockHitBox)) { break; }//kontakt paletki z boostem
                     }
                 }
 
@@ -264,6 +190,7 @@ namespace ArkanoEgo
                     PlayerMovement(true);
                 if (playerGoLeft && !playerGoRight)
                     PlayerMovement(false);
+
 
                 for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
                 {
@@ -283,7 +210,6 @@ namespace ArkanoEgo
                 }
                 foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
                 {
-                    // Access `value` and `i` directly here.
                     if (Canvas.GetTop(x) > Canvas.GetTop(player))
                     {
                         myCanvas.Children.Remove(x);
@@ -304,16 +230,15 @@ namespace ArkanoEgo
             {
                 if (balls[index].left)
                     balls[index].posX -= balls[index].trajectoryX;
-                else if (!balls[index].left)
+                else
                     balls[index].posX += balls[index].trajectoryX;
 
                 if (balls[index].top)
                     balls[index].posY -= balls[index].trajectoryY;
-                else if (!balls[index].top)
+                else
                     balls[index].posY += balls[index].trajectoryY;
             }
-            else
-                balls[index].posX += goLeft;
+            else balls[index].posX += goLeft;
 
             Canvas.SetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posX);
             Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY);
@@ -322,20 +247,9 @@ namespace ArkanoEgo
 
         private void ChangeBallDirection(int index)
         {
-            if (balls[index].posY <= 0)
-            {// góra
-                balls[index].top = false; // odbicie
-            }
-
-            if (balls[index].posX <= 0)
-            { // lewy bok
-                balls[index].left = false;
-            }
-
-            if (balls[index].posX >= width - (balls[index].rad * 2))
-            {// prawy bok
-                balls[index].left = true;
-            }
+            if (balls[index].posY <= 0) balls[index].top = false; // góra
+            if (balls[index].posX <= 0) balls[index].left = false; // lewy bok
+            if (balls[index].posX >= width - (balls[index].rad * 2)) balls[index].left = true;// prawy bok
         }
 
         private void BoostMovement()
@@ -352,9 +266,8 @@ namespace ArkanoEgo
             }
         }
 
-        private void PlayerMovement(bool direction)
+        private void PlayerMovement(bool direction, int playerSpeed = 2)
         {
-            int playerSpeed = 2;
             for (int i = 0; i < playerSpeed; i++)
             {
                 if (Canvas.GetLeft(player) + (player.Width) < width && direction)
@@ -380,27 +293,23 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.D)
-                playerGoRight = true;
+            if (e.Key == Key.D) playerGoRight = true;
 
-            if (e.Key == Key.A)
-                playerGoLeft = true;
+            if (e.Key == Key.A) playerGoLeft = true;
 
             if (e.Key == Key.Space) //wypuszczenie wszystkich piłek
             {
-                for (int j = 0; j < balls.Count; j++)
+                for (int i = 0; i < balls.Count; i++)
                 {
-                    balls[j].stop = false;
+                    balls[i].stop = false;
                 }
             }
         }
 
         private void myCanvas_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.D)
-                playerGoRight = false;
-            if (e.Key == Key.A)
-                playerGoLeft = false;
+            if (e.Key == Key.D) playerGoRight = false;
+            if (e.Key == Key.A) playerGoLeft = false;
         }
 
         public void SetBoost()
@@ -449,16 +358,16 @@ namespace ArkanoEgo
             {
                 if (bricks[posX, posY].TimesToBreak < 2)
                 {
-                    pointsLeft -= bricks[posX, posY].Value;
                     myCanvas.Children.Remove(rectangle);
+
                     RespawnBoost(indexOfBall);
 
+                    pointsLeft -= bricks[posX, posY].Value;
                     points += bricks[posX, posY].Value;
                     allPoints += bricks[posX, posY].Value;
                     pointsLabel.Content = "" + allPoints;
-                    
-                    if (points == Tools.PointsAtLevel)
-                        Next_Level();
+
+                    if (points == Tools.PointsAtLevel) Next_Level();
                 }
                 else
                 {
@@ -478,7 +387,6 @@ namespace ArkanoEgo
                     myCanvas.Children.Remove(g);
                     StopBoost();
                     booster.RandomPower();
-                    //booster.SetPower(Power.StrongerHit); testowanie PowerUp'ów
                     SetBoost();
                     return true;
                 }
@@ -488,8 +396,26 @@ namespace ArkanoEgo
 
         public void RespawnBoost(int indexOfBall) //Po zniszczeniu bloku, jest 10% szans na to, że zrespi się nowy boost. Poprzedni wciąż jest aktywny
         {
-            if (Tools.RundomNumber(1, 10) == 5)
+            if (Tools.RundomNumber(1, 10) == 5) 
                 booster = new Booster(balls[indexOfBall], ref myCanvas, booster);
+        }
+
+        public void OnLoseAllBalls()
+        {
+            heatsLabel.Content = "" + hearts;
+
+            if (balls.Count == 0 && hearts == 0)//przegrana
+            {
+                MessageBox.Show("Przegrana");
+                gameTimer.Stop();
+                NavigationService.Navigate(new MenuPage());
+                return;
+            }
+            else if (balls.Count == 0 && hearts > 0)
+            {
+                Tools.SpawnBall(ref myCanvas, ref balls, player);
+                hearts--;
+            }
         }
 
         public void Next_Level()

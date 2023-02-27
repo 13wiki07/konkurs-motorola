@@ -1,6 +1,8 @@
 ﻿using ArkanoEgo.Classes.Bricks;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -91,6 +93,73 @@ namespace ArkanoEgo.Classes.Tools
             Ball ball = new Ball();
             ball.InitBall(ballEclipse);
             balls.Add(ball);
+        }
+
+        public static void CalculateTrajectory(Rect blockHitBox, Rect ballEclipseHitBox,Rectangle x, Ellipse ball, ref List<Ball> balls, int index)
+        {
+            if (ballEclipseHitBox.IntersectsWith(blockHitBox))
+            {
+                if (Canvas.GetLeft(x) < Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = true;
+                    balls[index].trajectoryX = 1.5;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 2 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = true;
+                    balls[index].trajectoryX = 1.3;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 2 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 3 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = true;
+                    balls[index].trajectoryX = 1;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 3 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 4 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = true;
+                    balls[index].trajectoryX = 0.6;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 4 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 5 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = true;
+                    balls[index].trajectoryX = 0.3;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 5 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 6 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = false;
+                    balls[index].trajectoryX = 0.3;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 6 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 7 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = false;
+                    balls[index].trajectoryX = 0.6;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 7 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 8 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = false;
+                    balls[index].trajectoryX = 1;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 8 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 9 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = false;
+                    balls[index].trajectoryX = 1.3;
+                }
+                else if (Canvas.GetLeft(x) + (x.Width / 10) * 9 <= Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) * 10 > Canvas.GetLeft(ball) + ball.Width / 2)
+                {
+                    balls[index].top = true;
+                    balls[index].left = false;
+                    balls[index].trajectoryX = 1.5;
+                }
+            }
         }
     }
 }
