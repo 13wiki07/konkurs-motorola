@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -78,5 +81,24 @@ namespace ArkanoEgo.Classes.Tools
         {
             return rnd.Next(from, to + 1);
         }
-}
+        public static void SpawnBall(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
+        {
+            Ellipse ballEclipse = new Ellipse()
+            {
+                Width = 10,
+                Height = 10, // 26 albo 27
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0000ff")),
+                Tag = "ballEclipse",
+            };
+
+            myCanvas.Children.Add(ballEclipse);
+            Canvas.SetTop(ballEclipse, Canvas.GetTop(rectangle) - ballEclipse.Height);
+            Canvas.SetLeft(ballEclipse, Canvas.GetLeft(rectangle) + (rectangle.Width/2) - (ballEclipse.Width/2));
+
+            Ball ball = new Ball();
+            ball.InitBall(ballEclipse);
+
+            balls.Add(ball);
+        }
+    }
 }

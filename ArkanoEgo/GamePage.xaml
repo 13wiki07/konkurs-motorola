@@ -23,6 +23,7 @@
             <Label x:Name="testowyLabel" Visibility="Collapsed" FontSize="20" Content="aa" Canvas.Bottom="20"/>
 
             <Label x:Name="pointsLabel" FontSize="50" Content="1700" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="10"/>
+            <Label x:Name="heatsLabel" FontSize="50" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="200"/>
             <TextBlock x:Name="levelTB" FontSize="20" Text="Level 1"  FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="360" Canvas.Top="10" HorizontalAlignment="Right" Width="423" TextAlignment="Right"/>
         </Canvas>
 
