@@ -3,32 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:ArkanoEgo"
         mc:Ignorable="d"
         Width="1920" Height="1000"
         WindowState="Maximized"
-        Title="ArkanoEgo" Background="#454545">
+        Title="ArkanoEgo" Background="#212735">
     <Window.Resources>
         <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientViolet}"/>
-
-        <Style x:Key="btnn" TargetType="Button">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" CornerRadius="10" Background="{StaticResource mainGradientColor}">
-                            <ContentPresenter Content="{TemplateBinding Content}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="WhiteSmoke" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
     <Grid>
+        <Image x:Name="gifek" gif:ImageBehavior.AnimatedSource="/Resources/Images/gifek.gif"></Image>
         <!-- frame potrzebne do GamePage itp -->
         <Frame x:Name="gridFrame"
                Source=".xaml" NavigationUIVisibility="Hidden"/>

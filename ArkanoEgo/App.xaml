@@ -15,6 +15,16 @@
             <Setter Property="Typography.Capitals" Value="Unicase"/>
         </Style>
 
+        <!-- new gradients -->
+        <GradientStopCollection x:Key="colorGray">
+            <GradientStop Color="#3A3F4B"/>
+        </GradientStopCollection>
+
+        <GradientStopCollection x:Key="gradientGray">
+            <GradientStop Color="#3A3F4B" Offset="0"/>
+            <GradientStop Color="#373d49" Offset="1"/>
+        </GradientStopCollection>
+        
         <!-- gradients -->
         <GradientStopCollection x:Key="gradientRed">
             <GradientStop Color="#FB9181"/>
@@ -49,15 +59,16 @@
             <Setter Property="Margin" Value="0 6"/>
             <Setter Property="FontSize" Value="34"/>
             <Setter Property="FontFamily" Value="/ArkanoEgo;component/Resources/Fonts/#Boink Std"/>
-            <Setter Property="Foreground" Value="{DynamicResource mainGradientColor}"/>
+            <Setter Property="Foreground" Value="#9699A0"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="3"/>
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" CornerRadius="20" BorderThickness="{DynamicResource thick}" Padding="10" 
-                                BorderBrush="{DynamicResource mainGradientColor}">
+                        <Border x:Name="border" CornerRadius="20" BorderThickness="{DynamicResource thick}" Padding="10"
+                                Background="#212735">
+                            <!--BorderBrush="{DynamicResource mainGradientColor}" Background="Transparent"-->
                             <ContentPresenter Content="{TemplateBinding Content}"
                                               VerticalAlignment="Center"
                                               HorizontalAlignment="Center"/>
@@ -65,8 +76,8 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" TargetName="border" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="WhiteSmoke" />
-                                <Setter Property="BorderBrush" TargetName="border" Value="White"/>
+                                <Setter Property="Foreground" Value="#F6F7F9"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#9699A0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

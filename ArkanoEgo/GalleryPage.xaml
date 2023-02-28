@@ -7,10 +7,10 @@
       xmlns:Classes="clr-namespace:ArkanoEgo.Classes" x:Class="ArkanoEgo.GalleryPage"
       mc:Ignorable="d" 
       d:DesignHeight="1000" d:DesignWidth="1900" Loaded="Window_OnLoad"
-      Title="GalleryPage">
+      Title="GalleryPage" Background="#212735">
 
     <Page.Resources>
-        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientBlue}"/>
+        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientGray}"/>
         <Thickness x:Key="thick" Top="1" Bottom="6" Left="6" Right="6"/>
 
         <Style x:Key="btnStyleWithChange" BasedOn="{StaticResource btnStyleMini}" TargetType="Button">
@@ -41,7 +41,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Tag="{Binding Path=_nr}" Height="250" Width="250"  Margin="5" BorderThickness="0" Padding="0" BorderBrush="Transparent"  Background="Transparent" Click="OpenLevel_Click">
-                            <Border Height="250" Background="#454545">
+                            <Border Height="250" Background="#212735">
                                 <Border Height="250" CornerRadius="10">
                                     <Border.Style>
                                         <Style>

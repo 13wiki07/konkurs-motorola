@@ -5,11 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArkanoEgo"
       mc:Ignorable="d"
+      d:Width="1500"
       x:Name="windowPage"
-      Title="GamePage">
+      Title="GamePage" Background="#212735">
     
     <Page.Resources>
-        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientViolet}"/>
+        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource colorGray}"/>
         <Style x:Key="btnStyleWithChange" BasedOn="{StaticResource btnStyleMini}" TargetType="Button">
             <EventSetter Event="MouseEnter" Handler="Button_MouseEvent"/>
             <EventSetter Event="MouseLeave" Handler="Button_MouseEvent"/>
@@ -17,14 +18,15 @@
     </Page.Resources>
     
     <Grid>
-        <Canvas Name="myCanvas" Height="826" Width="793" VerticalAlignment="Center" Background="LightBlue" Focusable="True" KeyDown="myCanvas_KeyDown" KeyUp="myCanvas_KeyUp" HorizontalAlignment="Center">
-            <Rectangle x:Name="player" Height="10" Width="150" Fill="Red" Canvas.Left="360" Canvas.Top="783"/>
-            <Ellipse Tag="ballEclipse" Height="10" Width="10" Fill="Blue" Canvas.Left="430" Canvas.Top="768"/>
-            <Label x:Name="pointsLabel" FontSize="50" Content="1700" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="10"/>
-            <Label x:Name="heatsLabel" FontSize="50" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="200"/>
-            <TextBlock x:Name="levelTB" FontSize="20" Text="Level 1"  FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="360" Canvas.Top="10" HorizontalAlignment="Right" Width="423" TextAlignment="Right"/>
-        </Canvas>
-
+        <Border CornerRadius="20" Background="#373d49" Height="826" Width="793">
+            <Canvas Name="myCanvas" Height="826" Width="793" VerticalAlignment="Center" Focusable="True" KeyDown="myCanvas_KeyDown" KeyUp="myCanvas_KeyUp" HorizontalAlignment="Center">
+                <Rectangle x:Name="player" Height="10" Width="150" Fill="#56668a" Canvas.Left="360" Canvas.Top="783"/>
+                <Ellipse Tag="ballEclipse" Height="10" Width="10" Fill="#8ba4df" Canvas.Left="430" Canvas.Top="768"/>
+                <Label x:Name="pointsLabel" Foreground="#F6F7F9" FontSize="50" Content="1700" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="10"/>
+                <Label x:Name="heatsLabel" Foreground="#F6F7F9" FontSize="50" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="200"/>
+                <TextBlock x:Name="levelTB" Foreground="#F6F7F9" FontSize="20" Text="Level 1" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="360" Canvas.Top="10" HorizontalAlignment="Right" Width="423" TextAlignment="Right"/>
+            </Canvas>
+        </Border>
         <Button x:Name="btnBack" Style="{DynamicResource btnStyleWithChange}" Click="Back_Click" Margin="10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Image Source="Resources/Images/left-arrow-violet.png"/>
         </Button>
