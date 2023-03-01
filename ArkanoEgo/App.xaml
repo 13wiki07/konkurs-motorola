@@ -24,7 +24,7 @@
             <GradientStop Color="#3A3F4B" Offset="0"/>
             <GradientStop Color="#373d49" Offset="1"/>
         </GradientStopCollection>
-        
+
         <!-- gradients -->
         <GradientStopCollection x:Key="gradientRed">
             <GradientStop Color="#FB9181"/>
@@ -47,8 +47,8 @@
             <GradientStop Color="#FFBF29" Offset="0"/>
             <GradientStop Color="#FFA80F" Offset="1"/>
         </GradientStopCollection>
-        
-        
+
+
         <LinearGradientBrush x:Key="gradientBrush" EndPoint="0.5,1" StartPoint="0.5,0"
                              GradientStops="{StaticResource gradientOrange}">
         </LinearGradientBrush>

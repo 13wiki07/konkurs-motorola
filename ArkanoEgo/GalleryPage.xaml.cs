@@ -47,7 +47,7 @@ namespace ArkanoEgo
                             src.BeginInit();
                             src.UriSource = new Uri(fileInfo.FullName, UriKind.Absolute);
                             src.EndInit();
-                            
+
                             newImage.Source = src;
                             levels.Add(new GalleryElement(nr, fileInfo.Name.Substring(0, fileInfo.Name.Length - 4), fileInfo.FullName));
                             nr++;

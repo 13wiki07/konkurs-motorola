@@ -45,7 +45,7 @@
                                 <Border Height="250" CornerRadius="10">
                                     <Border.Style>
                                         <Style>
-                                            <Setter Property="Border.Background" Value="{StaticResource mainGradientColor}"/>
+                                            <Setter Property="Border.Background" Value="#434f6b"/>
                                             <Style.Triggers>
                                                 <Trigger Property="Border.IsMouseOver" Value="True">
                                                     <Setter Property="Border.Background" Value="WhiteSmoke" />

@@ -8,29 +8,29 @@
       d:DesignHeight="1030" d:DesignWidth="1920"
       Width="{x:Static SystemParameters.FullPrimaryScreenWidth}"
       Title="CreatorPage" Background="#212735">
-    
+
     <Page.Resources>
-        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientBlue}"/>
+        <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientGray}"/>
+        <LinearGradientBrush x:Key="blue" GradientStops="{StaticResource gradientBlue}"/>
         <Thickness x:Key="thick" Top="1" Bottom="6" Left="6" Right="6"/>
-        
+
         <Style x:Key="btnStyleWithChange" BasedOn="{StaticResource btnStyleMini}" TargetType="Button">
             <EventSetter Event="MouseEnter" Handler="Button_MouseEvent"/>
             <EventSetter Event="MouseLeave" Handler="Button_MouseEvent"/>
         </Style>
         <Style x:Key="valueLabel" TargetType="Label">
-            <Setter Property="Foreground" Value="#cecece"/>
+            <Setter Property="Foreground" Value="#F6F7F9"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="20 0 0 0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         <Style x:Key="infoLabel" TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="Foreground" Value="#F6F7F9"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontFamily" Value="Yu Gothic"/>
         </Style>
 
         <Style x:Key="tbox" TargetType="TextBox">
-            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="Foreground" Value="#F6F7F9"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -38,12 +38,12 @@
             <Setter Property="Width" Value="50"/>
             <Setter Property="Height" Value="28"/>
             <Setter Property="Padding" Value="6 0"/>
-            <Setter Property="CaretBrush" Value="WhiteSmoke"/>
+            <Setter Property="CaretBrush" Value="#F6F7F9"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Border Name="border" CornerRadius="10" BorderThickness="2"
-                                Background="#5a5a5a">
+                                Background="#444f6a">
                             <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -65,86 +65,92 @@
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        
+
         <Button x:Name="btnBack" Style="{DynamicResource btnStyleWithChange}" Click="Back_Click" Margin="10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left" >
             <Image Source="Resources/Images/left-arrow-blue.png"/>
         </Button>
-        
-        <UniformGrid Columns="2" Height="320" Margin="30">
-            <Button Background="#FFFFFF" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="#F8B34B" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-            <Label Content="50" Style="{StaticResource valueLabel}"/>
-            <Label Content="60" Style="{StaticResource valueLabel}"/>
+        <Border BorderBrush="{StaticResource mainGradientColor}" BorderThickness="3" Height="440" CornerRadius="10" Margin="30 0">
+            <Border BorderBrush="{StaticResource blue}" BorderThickness="2" CornerRadius="8" Margin="0" Background="#2c3345">
+                <UniformGrid Columns="2" Width="200" Height="400">
+                    <Button Background="#FFFFFF" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Button Background="#F8B34B" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-            <Button Background="#6CD4C5" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="#98E677" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Label Content="50" Style="{StaticResource valueLabel}"/>
+                    <Label Content="60" Style="{StaticResource valueLabel}"/>
 
-            <Label Content="70" Style="{StaticResource valueLabel}"/>
-            <Label Content="80" Style="{StaticResource valueLabel}"/>
+                    <Button Background="#6CD4C5" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Button Background="#98E677"  BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-            <Button Background="#FD6B6B" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="#79A5F2" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Label Content="70" Style="{StaticResource valueLabel}"/>
+                    <Label Content="80" Style="{StaticResource valueLabel}"/>
 
-            <Label Content="90"  Style="{StaticResource valueLabel}"/>
-            <Label Content="100" Style="{StaticResource valueLabel}"/>
+                    <Button Background="#FD6B6B" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Button Background="#79A5F2"  BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-            <Button Background="#E5989B" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button Background="#FFDC6C" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Label Content="90"  Style="{StaticResource valueLabel}"/>
+                    <Label Content="100" Style="{StaticResource valueLabel}"/>
 
-            <Label Content="110" Style="{StaticResource valueLabel}"/>
-            <Label Content="120" Style="{StaticResource valueLabel}"/>
+                    <Button Background="#E5989B" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Button Background="#FFDC6C"  BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-            <Button x:Name="btnSilver" Background="#626161" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
-            <Button x:Name="btnGold"   Background="#C69245" Margin="20 0 0 0" BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Label Content="110" Style="{StaticResource valueLabel}"/>
+                    <Label Content="120" Style="{StaticResource valueLabel}"/>
 
-            <Label x:Name="svalue" Content="50" Style="{StaticResource valueLabel}"/>
-            <Label Content="0"  Style="{StaticResource valueLabel}"/>
-        </UniformGrid>
+                    <Button x:Name="btnSilver" Background="#626161"  BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
+                    <Button x:Name="btnGold"   Background="#C69245"  BorderBrush="Transparent" Height="25" Width="45" Click="TemplateBtn_Click"/>
 
-        <StackPanel Grid.Column="2" VerticalAlignment="Center">
-            <Border BorderBrush="{StaticResource mainGradientColor}" BorderThickness="3" CornerRadius="10" Margin="10">
-                <StackPanel Margin="15 10">
-                    <DockPanel LastChildFill="False">
-                        <Label Content="Name" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <TextBlock FontSize="15" x:Name="tbFileName" Text="nmb of level and name file" Foreground="WhiteSmoke" FontFamily="Yu Gothic" DockPanel.Dock="Right"/>
-                    </DockPanel>
+                    <Label x:Name="svalue" Content="50" Style="{StaticResource valueLabel}"/>
+                    <Label Content="0"  Style="{StaticResource valueLabel}"/>
+                </UniformGrid>
+            </Border>
+        </Border>
 
-                    <Label Content="Silver blocks" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                    <DockPanel LastChildFill="False">
-                        <Label FontSize="14" Content="Value" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <TextBox x:Name="silverValue" Text="50" MaxLength="4" DockPanel.Dock="Left" Style="{StaticResource tbox}" LostFocus="SValue_LostFocus"/>
-                        <TextBox x:Name="silverTimesToBreak" Text="1" MaxLength="4" DockPanel.Dock="Right" Style="{StaticResource tbox}" LostFocus="TtB_LostFocus"/>
-                        <Label FontSize="14" Content="Times to break" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
-                    </DockPanel>
-                    
-                    <Border Height="2" Background="{StaticResource mainGradientColor}" Margin="-15 10"/>
+        <StackPanel Grid.Column="2" VerticalAlignment="Center" MinWidth="350" Margin="10 0" HorizontalAlignment="Center">
+            <Border BorderBrush="{StaticResource mainGradientColor}" BorderThickness="3" CornerRadius="10">
+                <Border BorderBrush="{StaticResource blue}" BorderThickness="2" CornerRadius="8" Margin="0" Background="#2c3345">
+                    <StackPanel Margin="15 10">
+                        <DockPanel LastChildFill="False">
+                            <Label Content="Name" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                            <TextBlock FontSize="15" x:Name="tbFileName" Text="nmb of level and name file" Foreground="WhiteSmoke" FontFamily="Yu Gothic" DockPanel.Dock="Right"/>
+                        </DockPanel>
 
-                    <DockPanel LastChildFill="False">
-                        <Label Content="Blocks at this level" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label x:Name="lbBlocksAtLevel" Content="0" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
-                    </DockPanel>
+                        <Label Content="Silver blocks" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                        <DockPanel LastChildFill="False">
+                            <Label FontSize="14" Content="Value" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                            <TextBox x:Name="silverValue" Text="50" MaxLength="4" DockPanel.Dock="Left" Style="{StaticResource tbox}" LostFocus="SValue_LostFocus"/>
+                            <TextBox x:Name="silverTimesToBreak" Text="1" MaxLength="4" DockPanel.Dock="Right" Style="{StaticResource tbox}" LostFocus="TtB_LostFocus"/>
+                            <Label FontSize="14" Content="Times to break" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                        </DockPanel>
 
-                    <DockPanel LastChildFill="False">
-                        <Label Content="Color blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label x:Name="howManyColor" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
-                    </DockPanel>
-                    
-                    <DockPanel LastChildFill="False">
-                        <Label Content="Silver blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label x:Name="howManySilver" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
-                    </DockPanel>
+                        <Border Height="2" Background="{StaticResource mainGradientColor}" Margin="-15 10"/>
 
-                    <DockPanel LastChildFill="False">
-                        <Label Content="Gold blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label x:Name="howManyGold" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
-                    </DockPanel>
+                        <DockPanel LastChildFill="False">
+                            <Label Content="Blocks at this level" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                            <Label x:Name="lbBlocksAtLevel" Content="0" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                        </DockPanel>
 
-                    <DockPanel LastChildFill="False">
-                        <Label Content="Total points" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                        <Label x:Name="lbTotalPoints" Content="0" Foreground="White" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
-                    </DockPanel>
-                </StackPanel>
+                        <DockPanel LastChildFill="False">
+                            <Label Content="Color blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                            <Label x:Name="howManyColor" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                        </DockPanel>
+
+                        <DockPanel LastChildFill="False">
+                            <Label Content="Silver blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                            <Label x:Name="howManySilver" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                        </DockPanel>
+
+                        <DockPanel LastChildFill="False">
+                            <Label Content="Gold blocks" FontSize="13" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                            <Label x:Name="howManyGold" Content="0" FontSize="13" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                        </DockPanel>
+
+                        <DockPanel LastChildFill="False">
+                            <Label Content="Total points" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
+                            <Label x:Name="lbTotalPoints" Content="0" Foreground="White" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </Border>
             </Border>
 
             <Button x:Name="clearBtn" Content="CLEAR MAP" Click="ClearMap_Click"
@@ -158,48 +164,53 @@
 
             <Button x:Name="playBtn" Content="PLAY" Click="Play_Click"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
-            
+
         </StackPanel>
         <!-- 13 x 21 -->
-        <Grid x:Name="gridCreator" Grid.Column="1" Margin="0 20" Height="693" Width="858">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-        </Grid>
+
+        <Border BorderBrush="{StaticResource mainGradientColor}" Grid.Column="1" Height="707" Width="872" BorderThickness="3" CornerRadius="5">
+            <Border BorderBrush="{StaticResource blue}" BorderThickness="2" Height="701" Width="866" Margin="0" Background="#2c3345" CornerRadius="2">
+                <Grid x:Name="gridCreator" Height="693" Width="858">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                </Grid>
+            </Border>
+        </Border>
     </Grid>
 </Page>
