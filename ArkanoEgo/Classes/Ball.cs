@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace ArkanoEgo.Classes
@@ -30,6 +31,7 @@ namespace ArkanoEgo.Classes
             posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
             posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));
 
+            ballEclipse.Fill = new SolidColorBrush(Color.FromRgb(139, 164, 223));
             trajectoryX = 1;
             trajectoryY = 1;
 

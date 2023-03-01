@@ -17,7 +17,7 @@ namespace ArkanoEgo
     {
         Button wybrany = new Button();
         Button emptyBtn = new Button();
-        List<Button> allButtons= new List<Button>();
+        List<Button> allButtons = new List<Button>();
 
         int totalPoints = 0;
         int totalBlocks = 0;
@@ -52,17 +52,17 @@ namespace ArkanoEgo
 
         private void newMap()
         {
-            for(int i = 0; i < 13; i++) //x
+            for (int i = 0; i < 13; i++) //x
             {
-                for(int j = 0; j < 21; j++) //y
+                for (int j = 0; j < 21; j++) //y
                 {
                     Button btn = new Button();
                     btn.SetValue(Grid.ColumnProperty, i);
                     btn.SetValue(Grid.RowProperty, j);
                     btn.Click += Field_LeftClick;
-                    btn.MouseDown+= Field_RightClick;
-                    btn.Background = new SolidColorBrush(Color.FromRgb(49, 49, 49));
-                    btn.BorderBrush = Brushes.Black;
+                    btn.MouseDown += Field_RightClick;
+                    btn.Background = new SolidColorBrush(Color.FromRgb(58, 63, 75));//58, 63, 75));
+                    btn.BorderBrush = new SolidColorBrush(Color.FromRgb(24, 29, 41));//33, 39, 53));
                     btn.BorderThickness = new Thickness(1.5);
                     gridCreator.Children.Add(btn);
                     emptyBtn.Background = btn.Background;
@@ -189,7 +189,7 @@ namespace ArkanoEgo
             saveBtn.Visibility = Visibility.Collapsed;
             playBtn.Visibility = Visibility.Visible;
         }
-        
+
         private void NewLevel_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new CreatorPage());
@@ -249,7 +249,7 @@ namespace ArkanoEgo
         private void Info_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            
+
             if (tb.Text.StartsWith("0"))
                 tb.Text = tb.Text.Substring(1);
 
@@ -293,7 +293,8 @@ namespace ArkanoEgo
                     else if (kolor(allButtons[n]) == yellow)
                         totalPoints += 120;
 
-                    else if (kolor(allButtons[n]) == silver){
+                    else if (kolor(allButtons[n]) == silver)
+                    {
                         totalPoints += Convert.ToInt32(silverTimesToBreak.Text);
                         silverCount++;
                     }

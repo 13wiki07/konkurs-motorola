@@ -86,7 +86,7 @@ namespace ArkanoEgo
             myCanvas.Focus();
 
             pointsLabel.Content = "" + allPoints;
-            heatsLabel.Content = "" + hearts;
+            heartsTextBlock.Text = "" + hearts;
 
             pointsLeft = Tools.PointsAtLevel;
             numberOfBricksLeft = Tools.NumberOfBricks;
@@ -133,7 +133,7 @@ namespace ArkanoEgo
                                 }
 
                                 // dolna krawędź klocka
-                                else if(balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
+                                else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].top = false;
@@ -144,7 +144,7 @@ namespace ArkanoEgo
                                 }
 
                                 // lewa krawędź klocka
-                                else if(balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
+                                else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = true;
@@ -155,7 +155,7 @@ namespace ArkanoEgo
                                 }
 
                                 // prawa krawędź klocka
-                                else if(balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
+                                else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
                                 {
                                     if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
                                         balls[index].left = false;
@@ -396,13 +396,13 @@ namespace ArkanoEgo
 
         public void RespawnBoost(int indexOfBall) //Po zniszczeniu bloku, jest 10% szans na to, że zrespi się nowy boost. Poprzedni wciąż jest aktywny
         {
-            if (Tools.RundomNumber(1, 10) == 5) 
+            if (Tools.RundomNumber(1, 10) == 5)
                 booster = new Booster(balls[indexOfBall], ref myCanvas, booster);
         }
 
         public void OnLoseAllBalls()
         {
-            heatsLabel.Content = "" + hearts;
+            heartsTextBlock.Text = "" + hearts;
 
             if (balls.Count == 0 && hearts == 0)//przegrana
             {
