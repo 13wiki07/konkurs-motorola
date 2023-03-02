@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace ArkanoEgo
@@ -12,6 +13,7 @@ namespace ArkanoEgo
         {
             InitializeComponent();
             gridFrame.Navigate(new GamePage()); // tutaj decydujemy jaką stronę wyświetlamy
+            this.Cursor = new Cursor(Application.GetResourceStream(new Uri("/Resources/kursorek.cur", UriKind.Relative)).Stream);
         }
 
         // do wszystkich pages
