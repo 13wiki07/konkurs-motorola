@@ -26,6 +26,8 @@ namespace ArkanoEgo
         public int allPoints = 0;
         public int pointsLeft = 0;
 
+        public int skipSpace = 0;
+
         public int hearts = 3; // życia gracza
         public Brick[,] bricks = new Brick[13, 21];
         public int numberOfBricksLeft = 0;
@@ -164,6 +166,12 @@ namespace ArkanoEgo
                                     isTheSameBrick = true;
                                     leave = true;
                                 }
+                                if (balls[index].iAmShoot)
+                                {
+                                    balls.RemoveAt(index);
+                                    myCanvas.Children.Remove(ball);
+                                    leave = true;
+                                }
                             }
                             if (leave || isTheSameBrick) //wyjście z foreacha, bo usuwamy jeden z jego elementów
                                 break;
@@ -194,7 +202,10 @@ namespace ArkanoEgo
 
                 for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
                 {
-                    BallMovement(j);
+                    if (!BallMovement(j))
+                    {
+                        break;
+                    }
                 }
                 BoostMovement();
 
@@ -217,9 +228,10 @@ namespace ArkanoEgo
                     }
                 }
             }
+            if (Canvas.GetLeft(player) >= width) Next_Level();
         }
 
-        private void BallMovement(int index, int goLeft = 0)
+        private bool BallMovement(int index, int goLeft = 0)
         {
             //tablica balls i jej odpowiednik na planszy mają ten sem index
             balls[index].posX = Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
@@ -242,14 +254,28 @@ namespace ArkanoEgo
 
             Canvas.SetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posX);
             Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY);
-            ChangeBallDirection(index);
+
+            if (!ChangeBallDirection(index)) {
+                myCanvas.Children.Remove(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
+                return false; 
+            }
+            return true;
         }
 
-        private void ChangeBallDirection(int index)
+        private bool ChangeBallDirection(int index)
         {
-            if (balls[index].posY <= 0) balls[index].top = false; // góra
+            if (balls[index].posY <= 0)// góra
+            {
+                if (balls[index].iAmShoot)
+                {
+                    balls.RemoveAt(index);
+                    return false;
+                }
+                balls[index].top = false;
+            }
             if (balls[index].posX <= 0) balls[index].left = false; // lewy bok
             if (balls[index].posX >= width - (balls[index].rad * 2)) balls[index].left = true;// prawy bok
+            return true;
         }
 
         private void BoostMovement()
@@ -270,7 +296,7 @@ namespace ArkanoEgo
         {
             for (int i = 0; i < playerSpeed; i++)
             {
-                if (Canvas.GetLeft(player) + (player.Width) < width && direction)
+                if (Canvas.GetLeft(player) + (player.Width) < width + skipSpace && direction)
                 {
                     Canvas.SetLeft(player, Canvas.GetLeft(player) + 1);
                     for (int j = 0; j < balls.Count; j++) //ruch przyklejonych piłek do paletki
@@ -296,6 +322,10 @@ namespace ArkanoEgo
             if (e.Key == Key.D) playerGoRight = true;
 
             if (e.Key == Key.A) playerGoLeft = true;
+
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) Shot();
+
+            if (e.Key == Key.Z) SkipLvl();
 
             if (e.Key == Key.Space) //wypuszczenie wszystkich piłek
             {
@@ -455,6 +485,21 @@ namespace ArkanoEgo
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new MenuPage());
+        }
+        private void Shot()
+        {
+            Tools.SpawnShoots(ref myCanvas, ref balls, player);
+        }
+        private void SkipLvl()
+        {
+            if (skipSpace == 0)
+                skipSpace = (int)player.Width;
+            else
+            {
+                skipSpace = 0;
+                if(Canvas.GetLeft(player)+ player.Width > width)
+                Canvas.SetLeft(player, width-player.Width);
+            }
         }
     }
 }

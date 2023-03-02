@@ -1,6 +1,7 @@
 ﻿using ArkanoEgo.Classes.Bricks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -92,6 +93,48 @@ namespace ArkanoEgo.Classes.Tools
 
             Ball ball = new Ball();
             ball.InitBall(ballEclipse);
+            balls.Add(ball);
+        }
+        public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
+        {
+            Ellipse ballEclipse = new Ellipse()
+            {
+                Width = 5,
+                Height = 5,
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffffff")),
+                Tag = "ballEclipse",
+            };
+
+            myCanvas.Children.Add(ballEclipse);
+
+            Canvas.SetTop(ballEclipse, Canvas.GetTop(rectangle) - ballEclipse.Height - 3);
+            Canvas.SetLeft(ballEclipse, Canvas.GetLeft(rectangle));
+
+            Ball ball = new Ball();
+            ball.InitBall(ballEclipse);
+            ball.trajectoryX = 0;
+            ball.iAmShoot = true;
+            ball.stop = false;
+            balls.Add(ball);
+
+            ballEclipse = new Ellipse()
+            {
+                Width = 5,
+                Height = 5,
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffffff")),
+                Tag = "ballEclipse",
+            };
+
+            myCanvas.Children.Add(ballEclipse);
+
+            Canvas.SetTop(ballEclipse, Canvas.GetTop(rectangle) - ballEclipse.Height - 3);
+            Canvas.SetLeft(ballEclipse, Canvas.GetLeft(rectangle) + rectangle.Width);
+
+            ball = new Ball();
+            ball.InitBall(ballEclipse);
+            ball.trajectoryX = 0;
+            ball.iAmShoot = true;
+            ball.stop = false;
             balls.Add(ball);
         }
 
