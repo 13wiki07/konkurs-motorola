@@ -105,7 +105,6 @@ namespace ArkanoEgo
         private void SaveMapToFile()
         {
             aktualizuj_dane();
-            XmlDocument doc = new XmlDocument();
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = ("    ");

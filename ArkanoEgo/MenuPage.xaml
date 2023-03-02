@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:ArkanoEgo"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
       mc:Ignorable="d"
       d:DesignHeight="1000" d:DesignWidth="1920"
       Width="{x:Static SystemParameters.MaximizedPrimaryScreenWidth}"
@@ -15,8 +16,14 @@
     </Page.Resources>
 
     <Grid>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-            <Label Content="Arkanoego (logo)" FontSize="100" Margin="0 90"/>
+
+        <Image x:Name="gifek" Visibility="Visible" gif:AnimationBehavior.SourceUri="/Resources/Images/gifek.gif"></Image>
+
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Margin="0 50">
+                <TextBlock Text="Witamy w grze" FontSize="30" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" TextAlignment="Center" Foreground="#FFA4A4A4"/>
+                <TextBlock Text="ArkanoEgo!" FontSize="100" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" TextAlignment="Center" Foreground="#FFF6F7F9"/>
+            </StackPanel>
             <Button Content="play" Click="Game_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="level creator" Click="Kreator_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="gallery" Click="Gallery_Click" Style="{StaticResource btnStyle}"/>
