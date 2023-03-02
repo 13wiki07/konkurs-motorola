@@ -22,6 +22,7 @@ namespace ArkanoEgo.Classes
         public bool left { get; set; } // left = true; right = false;
 
         public bool stop { get; set; }
+        public bool iAmShoot { get; set; }
 
         public void InitBall(Ellipse ballEclipse)
         {
@@ -37,6 +38,7 @@ namespace ArkanoEgo.Classes
 
             top = true;
             left = true;
+            iAmShoot = false;
         }
     }
 }
