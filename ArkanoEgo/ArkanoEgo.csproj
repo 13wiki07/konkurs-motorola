@@ -316,5 +316,10 @@
     </Content>
     <Resource Include="LVLS\Brick.txt" />
   </ItemGroup>
+	<ItemGroup>
+		<Content Include="CustomLVLS\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
