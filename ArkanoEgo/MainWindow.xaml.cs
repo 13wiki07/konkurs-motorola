@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -25,11 +26,6 @@ namespace ArkanoEgo
             else
                 path = path.Replace(color, "white");
             img.Source = new BitmapImage(new Uri(path));
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

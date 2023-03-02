@@ -24,8 +24,8 @@
             <Image Source="Resources/Images/left-arrow-blue.png"/>
         </Button>
 
-        <Border x:Name="ss" HorizontalAlignment="Center" VerticalAlignment="Top" Height="89" Width="392" Background="{StaticResource mainGradientColor}">
-            <Label Content="GALLERY" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Border x:Name="ss" HorizontalAlignment="Center" CornerRadius="0 0 16 16" VerticalAlignment="Top" Height="89" Width="392" Background="{StaticResource mainGradientColor}">
+            <Label Content="level gallery" Foreground="#F6F7F9" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Boink Std" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
         </Border>
 
         <ScrollViewer x:Name="scrollV" Width="{x:Static SystemParameters.FullPrimaryScreenWidth}" Padding="190,0" HorizontalAlignment="Center" Margin="0,110,0,50" HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Hidden">

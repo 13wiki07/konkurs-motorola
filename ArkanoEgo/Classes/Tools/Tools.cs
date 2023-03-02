@@ -33,7 +33,7 @@ namespace ArkanoEgo.Classes.Tools
         }
         public static Brick[,] ReadLvl(string path)
         {
-            return JustReadLvl(@"..\..\CustomLVLS", path);
+            return JustReadLvl(@"CustomLVLS", path);
         }
         private static Brick[,] JustReadLvl(string path, string lvl) //wstępne czytanie mapy z pliku
         {
