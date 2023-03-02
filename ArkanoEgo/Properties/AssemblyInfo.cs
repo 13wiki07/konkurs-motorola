@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("ArkanoEgo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Kwara")]
 [assembly: AssemblyProduct("ArkanoEgo")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

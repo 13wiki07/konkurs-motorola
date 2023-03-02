@@ -114,7 +114,7 @@ namespace ArkanoEgo
             DateTime today = DateTime.Now; // domyślnie będzie tworzona nazwa z daty
             string nazwa = "" + today.ToShortDateString() + today.Hour + today.Minute + today.Millisecond;
 
-            XmlWriter writer = XmlWriter.Create(@"..\..\CustomLVLS\lvl_" + nazwa + ".xml", settings);
+            XmlWriter writer = XmlWriter.Create(@"CustomLVLS\lvl_" + nazwa + ".xml", settings);
             writer.WriteStartElement("XMLBricks");
 
             tbFileName.Text = @"lvl_" + nazwa;
@@ -358,7 +358,7 @@ namespace ArkanoEgo
                 img.Source = bitmap;
 
                 imgEncoder.Frames.Add(BitmapFrame.Create(bitmap));
-                using (Stream stream = File.Create("../../CustomLVLS/CustomLevelImages/" + nazwa + ".png"))
+                using (Stream stream = File.Create("CustomLVLS/CustomLevelImages/" + nazwa + ".png"))
                 {
                     imgEncoder.Save(stream);
                 }

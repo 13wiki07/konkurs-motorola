@@ -57,6 +57,9 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Test\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AE-ArkanoEgo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -147,6 +150,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\kursorek.cur" />
+    <Resource Include="CustomLVLS\CustomLevelImages\01.03.2023215919.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CustomLVLS\lvl_01.03.2023215919.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ArkanoEgo-icon.ico" />
+    <Resource Include="AE-ArkanoEgo.ico" />
     <Content Include="LVLS\lvl_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -245,6 +257,7 @@
     </Content>
     <Resource Include="Resources\Images\heart.png" />
     <Resource Include="Resources\Images\gifek.gif" />
+    <Resource Include="Resources\ArkanoEgo-icon.ico" />
     <Content Include="Resources\Images\ezgif.com-gif-maker.gif" />
     <Resource Include="Resources\Images\background-anim.gif" />
     <Resource Include="Resources\Fonts\Audiowide-Regular.ttf" />
@@ -277,9 +290,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CustomLVLS\CustomLevelImages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="LVLS\Brick.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -30,7 +30,7 @@ namespace ArkanoEgo
         }
         private void Window_OnLoad(object sender, RoutedEventArgs e)
         {
-            string path = @"..\..\CustomLVLS\CustomLevelImages";
+            string path = @"CustomLVLS\CustomLevelImages";
             int nr = 1;
             try
             {
