@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:ArkanoEgo"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
       mc:Ignorable="d"
       d:DesignHeight="1000" d:DesignWidth="1920"
       Width="{x:Static SystemParameters.MaximizedPrimaryScreenWidth}"
@@ -15,6 +16,9 @@
     </Page.Resources>
 
     <Grid>
+
+        <Image x:Name="gifek" Visibility="Visible" gif:AnimationBehavior.SourceUri="/Resources/Images/gifek.gif"></Image>
+
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Margin="0 50">
                 <TextBlock Text="Witamy w grze" FontSize="30" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" TextAlignment="Center" Foreground="#FFA4A4A4"/>
