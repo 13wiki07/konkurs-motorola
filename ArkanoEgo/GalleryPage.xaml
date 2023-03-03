@@ -29,6 +29,11 @@
             <Label Content="level gallery" Foreground="#F6F7F9" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Boink Std" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
         </Border>
 
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label x:Name="emptyLB" Content="Create new level to see it!" Foreground="#F6F7F9" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" FontSize="70"/>
+            <Button x:Name="emptyBTN" Content="Create" Style="{StaticResource btnStyle}" Click="ToCreatorPage_Click"/>
+        </StackPanel>
+
         <ScrollViewer x:Name="scrollV" Width="{x:Static SystemParameters.FullPrimaryScreenWidth}" Padding="190,0" HorizontalAlignment="Center" Margin="0,110,0,50" HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Hidden">
             <ItemsControl x:Name="levelList"><!--MouseRightButtonUp="Element_MouseRightClick"-->
                 <ItemsControl.DataContext>

@@ -9,9 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Xml;
 
 namespace ArkanoEgo
@@ -42,6 +40,7 @@ namespace ArkanoEgo
             aktualizuj_dane();
             newLevelBtn.Visibility = Visibility.Collapsed;
             nameFile = fileName;
+            tbFileName.Text = nameFile;
             LoadLevel(nameFile);
         }
         
@@ -137,10 +136,6 @@ namespace ArkanoEgo
 
             string nazwa = "" + today.ToShortDateString() + today.Hour + today.Minute + today.Millisecond;
 
-           // if (edycja)
-              //  nazwa = nameFile.Replace("lvl_", "");
-
-            MessageBox.Show(nameFile + " --name");
             XmlWriter writer = XmlWriter.Create(@"CustomLVLS\lvl_" + nazwa + ".xml", settings);
             writer.WriteStartElement("XMLBricks");
 
@@ -209,39 +204,6 @@ namespace ArkanoEgo
             writer.Flush();
             writer.Close();
 
-            MessageBox.Show("USUWANIE START");
-            MessageBox.Show("USUWANIE END");
-
-            if (edycja)
-            {/*
-                MessageBox.Show("edycja");
-                File.Delete(@"CustomLVLS/Images/03.03.2023943773.png");
-                File.Delete(@"CustomLVLS/Images/lvl_03.03.2023943773.xml");
-                MessageBox.Show("usunięto");
-
-                MessageBox.Show("usuwanko");
-                DirectoryInfo directoryXML = new DirectoryInfo("CustomLVLS");
-                DirectoryInfo directoryPNG = new DirectoryInfo(@"CustomLVLS\Images");
-                
-                foreach (FileInfo file in directoryXML.GetFiles()) // usuwamy z xml
-                {
-                    if (file.Name == "lvl_03.03.2023943773.xml")
-                    {
-                        MessageBox.Show("i usuwamy xml " + directoryXML.GetFiles().Length);
-                        //file.Delete();
-                    }
-                }
-
-                foreach (FileInfo file in directoryPNG.GetFiles()) // usuwamy z png
-                {
-                    if (file.Name == "03.03.2023943773.png")
-                    {
-                        MessageBox.Show("i usuwamy png " + directoryPNG.GetFiles().Length);
-                        file.Delete();
-                        break;
-                    }
-                }*/
-            }
             createLevelImage(nazwa);
             
 
@@ -252,7 +214,7 @@ namespace ArkanoEgo
         }
         public Brick[,] bricks = new Brick[13, 21]; // przenieś potem do góry kodu
 
-        private void LoadLevel(string fileName)// str path
+        private void LoadLevel(string fileName)// tekstDoPliku path
         {
             edycja = true;
             bricks = Tools.ReadLvl(fileName);

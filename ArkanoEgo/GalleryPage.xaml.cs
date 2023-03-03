@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Windows;
@@ -11,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.WebRequestMethods;
 
 namespace ArkanoEgo
 {
     public partial class GalleryPage : Page
     {
         List<GalleryElement> levels = new List<GalleryElement>();
-
+        string toDeleteFile = "";
         public GalleryPage()
         {
             InitializeComponent();
@@ -26,8 +28,6 @@ namespace ArkanoEgo
         public GalleryPage(string fileToDelete)
         {
             InitializeComponent();
-            MessageBox.Show("CZY: " + IsFileLocked(new FileInfo("CustomLVLS/Images/03.03.20231148916.png")));
-            File.Delete("CustomLVLS/Images/" + "03.03.20231148916.png");
         }
 
         private void Button_MouseEvent(object sender, MouseEventArgs e)
@@ -45,58 +45,89 @@ namespace ArkanoEgo
             int nr = 1; // pozycja w galerii
             try
             {
-                DirectoryInfo info = new DirectoryInfo(path); // potrzebne do pełnej ścieżki
                 string[] filesFolder = Directory.GetFiles(path);
 
-                foreach (string file in filesFolder)
+                Image newImage = new Image();
+                BitmapImage src = new BitmapImage();
+
+                var lines = System.IO.File.ReadAllLines("dataDelete");
+                List<string> pominiete = new List<string>();
+                if (lines.Length == 0)
                 {
-                    string fullPath = info.FullName + file.Replace(@"CustomLVLS\Images\", @"\");
-
-                    if (file.EndsWith(".png"))
+                    for (int i = 0; i < filesFolder.Length; i++)
                     {
-                        Image newImage = new Image();
-                        BitmapImage src = new BitmapImage();
-
-                        src.BeginInit();
-                        src.UriSource = new Uri(fullPath, UriKind.Absolute);
-                        src.EndInit();
-
-                        newImage.Source = src;
-                        levels.Add(new GalleryElement(nr, file.Substring(0, file.Length - 4).Replace(@"CustomLVLS\Images\", ""), fullPath));
-                        nr++;
-                    }
-                }
-
-                ///////////////// STARA METODA /////////////////
-                /*DirectoryInfo folder = new DirectoryInfo(path);
-                if (folder.Exists)
-                {
-                    for(int i = 0; i < folder.GetFiles().Length; i++)
-                    {
-                        //
-                        //using (FileInfo fileInfo = new FileInfo)
-                    }
-                    foreach (FileInfo fileInfo in folder.GetFiles())
-                    {
-                        MessageBox.Show("f: " + fileInfo.FullName);
-                        if (".png".Contains(fileInfo.Extension.ToLower()))
+                        FileInfo file2 = new FileInfo(filesFolder[i]);
+                        using (FileStream stream = file2.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
-                            Image newImage = new Image();
-                            BitmapImage src = new BitmapImage();
-
-                            src.BeginInit();
-                            src.UriSource = new Uri(fileInfo.FullName, UriKind.Absolute);
-                            src.EndInit();
-                            
+                            src.UriSource = new Uri(new FileInfo(filesFolder[i]).FullName, UriKind.Absolute);
                             newImage.Source = src;
-                            levels.Add(new GalleryElement(nr, fileInfo.Name.Substring(0, fileInfo.Name.Length - 4), fileInfo.FullName));
+                            GalleryElement lvl = new GalleryElement(nr, new FileInfo(filesFolder[i]).Name.Substring(0, new FileInfo(filesFolder[i]).Name.Length - 4), new FileInfo(filesFolder[i]).FullName);
+                            levels.Add(lvl);
+                            GC.Collect();
+                            GC.WaitForPendingFinalizers();
+                            stream.Dispose();
+                            stream.Close();
                             nr++;
                         }
                     }
-                }*/
+                }
+                else
+                {
+                    for (int x = 0; x < lines.Length; x++)
+                    {
+                        for (int i = 0; i < filesFolder.Length; i++)
+                        {
+                            if (filesFolder[i].Contains(lines[x]))
+                                pominiete.Add(filesFolder[i]);
+                        }
+                    }
+                }
+
+                string tekstDoPliku = "";
+                for(int a = 0; a < pominiete.Count; a++)
+                {
+                    tekstDoPliku += pominiete[a] + "\n";
+                }
+                System.IO.File.WriteAllText("dataDelete",tekstDoPliku);
+                for (int i = 0; i < filesFolder.Length; i++)
+                {
+                    FileInfo file2 = new FileInfo(filesFolder[i]);
+                    foreach (string pominiety in pominiete)
+                    {
+                        if (!System.IO.File.ReadAllText("dataDelete").Contains(file2.Name))
+                        {
+                            using (FileStream stream = file2.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                            {
+                                src.UriSource = new Uri(new FileInfo(filesFolder[i]).FullName, UriKind.Absolute);
+                                newImage.Source = src;
+                                GalleryElement lvl = new GalleryElement(nr, new FileInfo(filesFolder[i]).Name.Substring(0, new FileInfo(filesFolder[i]).Name.Length - 4), new FileInfo(filesFolder[i]).FullName);
+                                levels.Add(lvl);
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                stream.Dispose();
+                                stream.Close();
+                                nr++;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (levels.Count == 0)
+                {
+                    scrollV.Visibility = Visibility.Collapsed;
+                    emptyBTN.Visibility = Visibility.Visible;
+                    emptyLB.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    scrollV.Visibility = Visibility.Visible;
+                    emptyBTN.Visibility = Visibility.Collapsed;
+                    emptyLB.Visibility = Visibility.Collapsed;
+                }
                 levelList.ItemsSource = levels;
             }
-            catch { MessageBox.Show("catch"); } // todo kangurek do usunięcia 
+            catch { }
         }
 
         private void OpenLevel_Click(object sender, RoutedEventArgs e)
@@ -110,9 +141,7 @@ namespace ArkanoEgo
 
         private void Element_MouseRightClick(object sender, MouseButtonEventArgs e)
         {
-            //MessageBox.Show("okk");
-            MessageBox.Show((sender as Button).Tag.ToString() + "okk");
-            var dialog = MessageBox.Show("Yes - creator, No - usuń", "aa", MessageBoxButton.YesNo);
+            var dialog = MessageBox.Show("Yes - Otwórz kreator, No - Usuń level", "Level", MessageBoxButton.YesNo);
 
             if (dialog == MessageBoxResult.Yes)
             {
@@ -122,54 +151,30 @@ namespace ArkanoEgo
                         NavigationService.Navigate(new CreatorPage("lvl_" + level._name));
                 }
             }
-            //File.Copy(@"CustomLVLS/Images/03.03.2023104650.png", @"CustomLVLS/Images/03.03.aa.png");
-            System.GC.Collect();
-            System.GC.WaitForPendingFinalizers();
 
-            MessageBox.Show("CZY: " + IsFileLocked(new FileInfo("CustomLVLS/Images/03.03.20231148916.png")));
-            //File.Delete("CustomLVLS/Images/" + "03.03.20231148916.png");
-
-            //File.Delete(@"CustomLVLS/Images/03.03.2023104650.png");
             if (dialog == MessageBoxResult.No)
             {
-                //MessageBox.Show("teraz nowa page");
-                //NavigationService.Navigate(new MenuPage("s"));
-                //NavigationService.Navigate(new GalleryPage("str"));
+
                 foreach (GalleryElement level in levels)
                 {
                     if ((sender as Button).Tag.ToString() == level._nr)
                     {
-                        //System.IO.File.Delete("CustomLVLS/Images/" + level._name + ".png");
-
-                        //System.GC.Collect();
-                        //System.GC.WaitForPendingFinalizers();
-                        //File.Delete("CustomLVLS/Images/" + level._name + ".png");
+                        toDeleteFile = level._name + ".png";
+                        string all = System.IO.File.ReadAllText("dataDelete");
+                        if(all == "")
+                            System.IO.File.WriteAllText("dataDelete", toDeleteFile);
+                        else
+                            System.IO.File.WriteAllText("dataDelete", all + "\n" + toDeleteFile);
                         break;
                     }
                 }
+            NavigationService.Navigate(new GalleryPage(toDeleteFile));
             }
         }
-        protected virtual bool IsFileLocked(FileInfo file)
-        {
-            try
-            {
-                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-                {
-                    stream.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                MessageBox.Show(ex.ToString());
-                return true;
-            }
 
-            //file is not locked
-            return false;
+        private void ToCreatorPage_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new CreatorPage());
         }
     }
 }

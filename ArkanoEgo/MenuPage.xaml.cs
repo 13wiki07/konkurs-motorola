@@ -3,6 +3,8 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace ArkanoEgo
 {
@@ -11,6 +13,9 @@ namespace ArkanoEgo
         public MenuPage()
         {
             InitializeComponent();
+            //MessageBox.Show("CZY menu: " + IsFileLocked(new FileInfo("CustomLVLS/Images/03.03.202316282.png")));
+            //File.Create("pliczek.txt");
+            
         }
         protected virtual bool IsFileLocked(FileInfo file)
         {

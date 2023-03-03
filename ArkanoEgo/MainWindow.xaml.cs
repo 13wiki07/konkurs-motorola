@@ -12,7 +12,28 @@ namespace ArkanoEgo
         public MainWindow()
         {
             InitializeComponent();
-            gridFrame.Navigate(new GamePage()); // tutaj decydujemy jaką stronę wyświetlamy
+            string path = @"CustomLVLS\Images";
+            string path2 = @"CustomLVLS\";
+            string[] filesFolder = Directory.GetFiles(path);
+            string[] filesFolder2 = Directory.GetFiles(path2);
+
+            if (filesFolder.Length > 1)
+            {
+                for (int i = 0; i < filesFolder.Length; i++)
+                {
+                    FileInfo file2 = new FileInfo(filesFolder[i]);
+                    FileInfo file22 = new FileInfo(filesFolder2[i]);
+                    
+                    if (File.ReadAllText("dataDelete").Contains(file2.Name))
+                    {
+                        file2.Delete();
+                        file22.Delete();
+                    }
+                }
+            }
+            File.WriteAllText("dataDelete", "");
+
+            gridFrame.Navigate(new MenuPage()); // tutaj decydujemy jaką stronę wyświetlamy
             this.Cursor = new Cursor(Application.GetResourceStream(new Uri("/Resources/kursorek.cur", UriKind.Relative)).Stream);
         }
 
