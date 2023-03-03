@@ -16,6 +16,7 @@ namespace ArkanoEgo
 {
     public partial class GamePage : Page
     {
+        bool customLvl = false;
         string maincolor = "violet";
         bool playerGoRight = false;
         bool playerGoLeft = false;
@@ -36,7 +37,6 @@ namespace ArkanoEgo
         List<Ball> balls = new List<Ball>();
         Booster booster = new Booster();
 
-
         //wymiary Canvas'a / pola gry
         int height;
         int width;
@@ -44,6 +44,7 @@ namespace ArkanoEgo
         public GamePage() // normalna gra, lvl 1
         {
             InitializeComponent();
+            customLvl = false;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
             levelTB.Text = "Level " + levelek;
             Game();
@@ -52,6 +53,7 @@ namespace ArkanoEgo
         public GamePage(int level, int allpkt) // next level
         {
             InitializeComponent();
+            customLvl = false;
             levelek = level;
             allPoints = allpkt;
             levelTB.Text = "Level " + levelek;
@@ -62,7 +64,7 @@ namespace ArkanoEgo
         public GamePage(string path) // custom level
         {
             InitializeComponent();
-
+            customLvl = true;
             bricks = Tools.ReadLvl(path);
             levelTB.Text = "Level " + (path.StartsWith("lvl_") ? path.Substring(4) : path);
             Game();
@@ -453,7 +455,14 @@ namespace ArkanoEgo
             gameTimer.Stop();
             levelek++;
 
-            NavigationService.Navigate(new GamePage(levelek, allPoints));
+            if (customLvl)
+            {
+                MessageBox.Show("Koniec poziomu. Kliknij OK, alby przejść do galerii.", "Koniec gry", MessageBoxButton.OK);
+                //MessageBox.Show("End of the level. Click OK to go back to gallery.", "Test end", MessageBoxButton.OK);
+                NavigationService.Navigate(new GalleryPage());
+            }
+            else
+                NavigationService.Navigate(new GamePage(levelek, allPoints));
         }
 
         private void Pause_Click(object sender, RoutedEventArgs e)
