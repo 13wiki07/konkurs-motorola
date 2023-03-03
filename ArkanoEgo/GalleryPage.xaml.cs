@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,15 +41,34 @@ namespace ArkanoEgo
         }
         private void Window_OnLoad(object sender, RoutedEventArgs e)
         {
-            string path1 = @"Image/";
-
-            DirectoryInfo dir2 = new DirectoryInfo("CustomLVLS/Images");
-            
             string path = @"CustomLVLS\Images";
-            int nr = 1;
-            //try
+            int nr = 1; // pozycja w galerii
+            try
             {
-                DirectoryInfo folder = new DirectoryInfo(path);
+                DirectoryInfo info = new DirectoryInfo(path); // potrzebne do pełnej ścieżki
+                string[] filesFolder = Directory.GetFiles(path);
+
+                foreach (string file in filesFolder)
+                {
+                    string fullPath = info.FullName + file.Replace(@"CustomLVLS\Images\", @"\");
+
+                    if (file.EndsWith(".png"))
+                    {
+                        Image newImage = new Image();
+                        BitmapImage src = new BitmapImage();
+
+                        src.BeginInit();
+                        src.UriSource = new Uri(fullPath, UriKind.Absolute);
+                        src.EndInit();
+
+                        newImage.Source = src;
+                        levels.Add(new GalleryElement(nr, file.Substring(0, file.Length - 4).Replace(@"CustomLVLS\Images\", ""), fullPath));
+                        nr++;
+                    }
+                }
+
+                ///////////////// STARA METODA /////////////////
+                /*DirectoryInfo folder = new DirectoryInfo(path);
                 if (folder.Exists)
                 {
                     for(int i = 0; i < folder.GetFiles().Length; i++)
@@ -58,6 +78,7 @@ namespace ArkanoEgo
                     }
                     foreach (FileInfo fileInfo in folder.GetFiles())
                     {
+                        MessageBox.Show("f: " + fileInfo.FullName);
                         if (".png".Contains(fileInfo.Extension.ToLower()))
                         {
                             Image newImage = new Image();
@@ -72,10 +93,10 @@ namespace ArkanoEgo
                             nr++;
                         }
                     }
-                }
+                }*/
                 levelList.ItemsSource = levels;
             }
-            //catch { MessageBox.Show("catch"); }
+            catch { MessageBox.Show("catch"); } // todo kangurek do usunięcia 
         }
 
         private void OpenLevel_Click(object sender, RoutedEventArgs e)
@@ -111,7 +132,7 @@ namespace ArkanoEgo
             //File.Delete(@"CustomLVLS/Images/03.03.2023104650.png");
             if (dialog == MessageBoxResult.No)
             {
-                MessageBox.Show("teraz nowa page");
+                //MessageBox.Show("teraz nowa page");
                 //NavigationService.Navigate(new MenuPage("s"));
                 //NavigationService.Navigate(new GalleryPage("str"));
                 foreach (GalleryElement level in levels)
@@ -125,8 +146,6 @@ namespace ArkanoEgo
                         //File.Delete("CustomLVLS/Images/" + level._name + ".png");
                         break;
                     }
-
-
                 }
             }
         }
@@ -154,3 +173,4 @@ namespace ArkanoEgo
         }
     }
 }
+

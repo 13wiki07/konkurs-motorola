@@ -112,7 +112,7 @@
                     <StackPanel Margin="15 10">
                         <DockPanel LastChildFill="False">
                             <Label Content="Name" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
-                            <TextBlock FontSize="15" x:Name="tbFileName" Text="nmb of level and name file" Foreground="WhiteSmoke" FontFamily="Yu Gothic" DockPanel.Dock="Right"/>
+                            <TextBlock FontSize="15" x:Name="tbFileName" Text="(safe file first)" Foreground="WhiteSmoke" FontFamily="Yu Gothic" DockPanel.Dock="Right"/>
                         </DockPanel>
 
                         <Label Content="Silver blocks" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
