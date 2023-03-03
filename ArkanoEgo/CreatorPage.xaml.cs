@@ -1,4 +1,5 @@
-﻿using ArkanoEgo.Classes.Tools;
+﻿using ArkanoEgo.Classes.Bricks;
+using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,17 +9,21 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Xml;
 
 namespace ArkanoEgo
 {
     public partial class CreatorPage : Page
     {
+        bool edycja = false;
+        string nameFile = "";
         Button wybrany = new Button();
         Button emptyBtn = new Button();
         List<Button> allButtons = new List<Button>();
-
+        DateTime today = new DateTime();
         int totalPoints = 0;
         int totalBlocks = 0;
         int silverCount = 0;
@@ -26,15 +31,37 @@ namespace ArkanoEgo
 
         string white, orange, aqua, green, rose, blue, pink, yellow, silver, gold;
 
+        public CreatorPage(string fileName)
+        {
+            InitializeComponent();
+            today = DateTime.Now; // domyślnie będzie tworzona nazwa z daty
+
+            edycja = true;
+            wybrany = emptyBtn;
+            Colors();
+            aktualizuj_dane();
+            newLevelBtn.Visibility = Visibility.Collapsed;
+            nameFile = fileName;
+            LoadLevel(nameFile);
+        }
+        
         public CreatorPage()
         {
             InitializeComponent();
+            today = DateTime.Now; // domyślnie będzie tworzona nazwa z daty
+            edycja = false;
             howManySilver.Content = "0";
-
             newMap();
             aktualizuj_dane();
             wybrany = emptyBtn;
+            Colors();
+            
+            aktualizuj_dane();
+            newLevelBtn.Visibility = Visibility.Collapsed;
+        }
 
+        private void Colors()
+        {
             white = ColorConverter.ConvertFromString("#FFFFFF").ToString(); // biały
             orange = ColorConverter.ConvertFromString("#F8B34B").ToString(); // pomarańczowy
             aqua = ColorConverter.ConvertFromString("#6CD4C5").ToString(); // aqua
@@ -46,10 +73,7 @@ namespace ArkanoEgo
             silver = ColorConverter.ConvertFromString("#626161").ToString(); // srebrny
             gold = ColorConverter.ConvertFromString("#C69245").ToString(); // złoty
 
-            aktualizuj_dane();
-            newLevelBtn.Visibility = Visibility.Collapsed;
         }
-
         private void newMap()
         {
             for (int i = 0; i < 13; i++) //x
@@ -105,14 +129,18 @@ namespace ArkanoEgo
         private void SaveMapToFile()
         {
             aktualizuj_dane();
+
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = ("    ");
             settings.OmitXmlDeclaration = true;
 
-            DateTime today = DateTime.Now; // domyślnie będzie tworzona nazwa z daty
             string nazwa = "" + today.ToShortDateString() + today.Hour + today.Minute + today.Millisecond;
 
+           // if (edycja)
+              //  nazwa = nameFile.Replace("lvl_", "");
+
+            MessageBox.Show(nameFile + " --name");
             XmlWriter writer = XmlWriter.Create(@"CustomLVLS\lvl_" + nazwa + ".xml", settings);
             writer.WriteStartElement("XMLBricks");
 
@@ -181,14 +209,81 @@ namespace ArkanoEgo
             writer.Flush();
             writer.Close();
 
+            MessageBox.Show("USUWANIE START");
+            MessageBox.Show("USUWANIE END");
+
+            if (edycja)
+            {/*
+                MessageBox.Show("edycja");
+                File.Delete(@"CustomLVLS/Images/03.03.2023943773.png");
+                File.Delete(@"CustomLVLS/Images/lvl_03.03.2023943773.xml");
+                MessageBox.Show("usunięto");
+
+                MessageBox.Show("usuwanko");
+                DirectoryInfo directoryXML = new DirectoryInfo("CustomLVLS");
+                DirectoryInfo directoryPNG = new DirectoryInfo(@"CustomLVLS\Images");
+                
+                foreach (FileInfo file in directoryXML.GetFiles()) // usuwamy z xml
+                {
+                    if (file.Name == "lvl_03.03.2023943773.xml")
+                    {
+                        MessageBox.Show("i usuwamy xml " + directoryXML.GetFiles().Length);
+                        //file.Delete();
+                    }
+                }
+
+                foreach (FileInfo file in directoryPNG.GetFiles()) // usuwamy z png
+                {
+                    if (file.Name == "03.03.2023943773.png")
+                    {
+                        MessageBox.Show("i usuwamy png " + directoryPNG.GetFiles().Length);
+                        file.Delete();
+                        break;
+                    }
+                }*/
+            }
             createLevelImage(nazwa);
+            
 
             MessageBox.Show("Pomyślnie zapisano level");
             newLevelBtn.Visibility = Visibility.Visible;
             saveBtn.Visibility = Visibility.Collapsed;
             playBtn.Visibility = Visibility.Visible;
         }
+        public Brick[,] bricks = new Brick[13, 21]; // przenieś potem do góry kodu
 
+        private void LoadLevel(string fileName)// str path
+        {
+            edycja = true;
+            bricks = Tools.ReadLvl(fileName);
+            
+            for (int i = 0; i < 13; i++) //x
+            {
+                for (int j = 0; j < 21; j++) //y
+                {
+                    Button btn = new Button();
+                    btn.SetValue(Grid.ColumnProperty, i);
+                    btn.SetValue(Grid.RowProperty, j);
+                    btn.Click += Field_LeftClick;
+                    btn.MouseDown += Field_RightClick;
+
+                    if (bricks[i, j] != null) // jeśli jest klocek kolorowy
+                        btn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bricks[i, j].Color));
+                        
+                    else // jeśli jest empty
+                        btn.Background = new SolidColorBrush(Color.FromRgb(58, 63, 75));//58, 63, 75));
+
+                    btn.BorderBrush = new SolidColorBrush(Color.FromRgb(24, 29, 41));//33, 39, 53));
+                    btn.BorderThickness = new Thickness(1.5);
+                    gridCreator.Children.Add(btn);
+                    emptyBtn.Background = btn.Background;
+                    allButtons.Add(btn);
+                }
+            }
+            playBtn.Visibility = Visibility.Visible;
+            aktualizuj_dane();
+        }
+        #region funkcje
         private void NewLevel_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new CreatorPage());
@@ -334,6 +429,7 @@ namespace ArkanoEgo
         {
             NavigationService.Navigate(new MenuPage());
         }
+        #endregion
 
         private void createLevelImage(string nazwa)
         {
@@ -356,12 +452,17 @@ namespace ArkanoEgo
                 Image img = new Image();
                 img.Source = bitmap;
 
+                if (System.IO.File.Exists("CustomLVLS/Images/" + nazwa + ".png")) // nadpisanie pliku
+                    System.IO.File.Delete("CustomLVLS/Images/" + nazwa + ".png");
+
                 imgEncoder.Frames.Add(BitmapFrame.Create(bitmap));
-                using (Stream stream = File.Create("CustomLVLS/CustomLevelImages/" + nazwa + ".png"))
+                using (Stream stream = File.Create("CustomLVLS/Images/" + nazwa + ".png"))
                 {
                     imgEncoder.Save(stream);
+                    stream.Close();
+                    stream.Dispose();
                 }
-            }
+            }         
         }
     }
 }

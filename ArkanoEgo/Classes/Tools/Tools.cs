@@ -46,6 +46,8 @@ namespace ArkanoEgo.Classes.Tools
             using (var reader = XmlReader.Create($@"{path}\{lvl}.xml"))
             {
                 listBricks = (ListBricks)serializer.Deserialize(reader);
+                reader.Close();
+                reader.Dispose();
             }
             foreach (var Brick in listBricks.Bricks)
             {
@@ -67,7 +69,6 @@ namespace ArkanoEgo.Classes.Tools
                     default: break;
                 }
             }
-            
             NumberOfBricks = bricksCount;
             PointsAtLevel = levelPoints;
             return Bricks;

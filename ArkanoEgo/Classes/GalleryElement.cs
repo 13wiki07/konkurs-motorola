@@ -13,13 +13,15 @@ namespace ArkanoEgo.Classes
         public string _nr { get; set; }
         public string _name { get; set; }
         public string _image { get; set; }
+        public string _pathLvL { get; set; }
 
         public GalleryElement() { }
-        public GalleryElement(int nr, string name, string path)
+        public GalleryElement(int nr, string name, string imagePath)
         {
             this._nr = nr.ToString();
             this._name = name;
-            this._image = path;
+            this._image = imagePath;
+            this._pathLvL = imagePath.Replace(@"\Images", "");
         }
 
     }

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
@@ -9,6 +11,28 @@ namespace ArkanoEgo
         public MenuPage()
         {
             InitializeComponent();
+        }
+        protected virtual bool IsFileLocked(FileInfo file)
+        {
+            try
+            {
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                MessageBox.Show(ex.ToString());
+                return true;
+            }
+
+            //file is not locked
+            return false;
         }
 
         private void Game_Click(object sender, RoutedEventArgs e)

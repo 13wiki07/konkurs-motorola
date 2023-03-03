@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace ArkanoEgo
 {
@@ -17,6 +20,13 @@ namespace ArkanoEgo
         public GalleryPage()
         {
             InitializeComponent();
+        }
+
+        public GalleryPage(string fileToDelete)
+        {
+            InitializeComponent();
+            MessageBox.Show("CZY: " + IsFileLocked(new FileInfo("CustomLVLS/Images/03.03.20231148916.png")));
+            File.Delete("CustomLVLS/Images/" + "03.03.20231148916.png");
         }
 
         private void Button_MouseEvent(object sender, MouseEventArgs e)
@@ -30,13 +40,22 @@ namespace ArkanoEgo
         }
         private void Window_OnLoad(object sender, RoutedEventArgs e)
         {
-            string path = @"CustomLVLS\CustomLevelImages";
+            string path1 = @"Image/";
+
+            DirectoryInfo dir2 = new DirectoryInfo("CustomLVLS/Images");
+            
+            string path = @"CustomLVLS\Images";
             int nr = 1;
-            try
+            //try
             {
                 DirectoryInfo folder = new DirectoryInfo(path);
                 if (folder.Exists)
                 {
+                    for(int i = 0; i < folder.GetFiles().Length; i++)
+                    {
+                        //
+                        //using (FileInfo fileInfo = new FileInfo)
+                    }
                     foreach (FileInfo fileInfo in folder.GetFiles())
                     {
                         if (".png".Contains(fileInfo.Extension.ToLower()))
@@ -47,7 +66,7 @@ namespace ArkanoEgo
                             src.BeginInit();
                             src.UriSource = new Uri(fileInfo.FullName, UriKind.Absolute);
                             src.EndInit();
-
+                            
                             newImage.Source = src;
                             levels.Add(new GalleryElement(nr, fileInfo.Name.Substring(0, fileInfo.Name.Length - 4), fileInfo.FullName));
                             nr++;
@@ -56,7 +75,7 @@ namespace ArkanoEgo
                 }
                 levelList.ItemsSource = levels;
             }
-            catch { MessageBox.Show("catch"); }
+            //catch { MessageBox.Show("catch"); }
         }
 
         private void OpenLevel_Click(object sender, RoutedEventArgs e)
@@ -66,6 +85,72 @@ namespace ArkanoEgo
                 if ((sender as Button).Tag.ToString() == level._nr)
                     NavigationService.Navigate(new GamePage("lvl_" + level._name));
             }
+        }
+
+        private void Element_MouseRightClick(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("okk");
+            MessageBox.Show((sender as Button).Tag.ToString() + "okk");
+            var dialog = MessageBox.Show("Yes - creator, No - usuń", "aa", MessageBoxButton.YesNo);
+
+            if (dialog == MessageBoxResult.Yes)
+            {
+                foreach (GalleryElement level in levels)
+                {
+                    if ((sender as Button).Tag.ToString() == level._nr)
+                        NavigationService.Navigate(new CreatorPage("lvl_" + level._name));
+                }
+            }
+            //File.Copy(@"CustomLVLS/Images/03.03.2023104650.png", @"CustomLVLS/Images/03.03.aa.png");
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
+
+            MessageBox.Show("CZY: " + IsFileLocked(new FileInfo("CustomLVLS/Images/03.03.20231148916.png")));
+            //File.Delete("CustomLVLS/Images/" + "03.03.20231148916.png");
+
+            //File.Delete(@"CustomLVLS/Images/03.03.2023104650.png");
+            if (dialog == MessageBoxResult.No)
+            {
+                MessageBox.Show("teraz nowa page");
+                //NavigationService.Navigate(new MenuPage("s"));
+                //NavigationService.Navigate(new GalleryPage("str"));
+                foreach (GalleryElement level in levels)
+                {
+                    if ((sender as Button).Tag.ToString() == level._nr)
+                    {
+                        //System.IO.File.Delete("CustomLVLS/Images/" + level._name + ".png");
+
+                        //System.GC.Collect();
+                        //System.GC.WaitForPendingFinalizers();
+                        //File.Delete("CustomLVLS/Images/" + level._name + ".png");
+                        break;
+                    }
+
+
+                }
+            }
+        }
+        protected virtual bool IsFileLocked(FileInfo file)
+        {
+            try
+            {
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                MessageBox.Show(ex.ToString());
+                return true;
+            }
+
+            //file is not locked
+            return false;
         }
     }
 }
