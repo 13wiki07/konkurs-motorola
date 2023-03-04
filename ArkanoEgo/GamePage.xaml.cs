@@ -23,7 +23,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 1;
+        public int levelek = 0;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -113,7 +113,7 @@ namespace ArkanoEgo
                 foreach (var x in myCanvas.Children.OfType<Rectangle>()) //kolizja piłek
                 {
                     bool leave = false;
-                    if (!isTheSameBrick && x.Name != "player") //jeżeli element jest blokiem to go usun
+                    if (!isTheSameBrick && x.Name != "player" && x.Name != "boss") //jeżeli element jest blokiem to go usun
                     {
                         int posX = (int)Canvas.GetLeft(x) / (width / 13); //element [x,0] tablicy
                         int posY = (int)Canvas.GetTop(x) / (height / 26); //element [0,y] tablicy
@@ -195,6 +195,42 @@ namespace ArkanoEgo
                         }
                         //kolizja gracza z boostem
                         if (PlayerCaughtABoost(blockHitBox)) { break; }//kontakt paletki z boostem
+                    }
+                    if (x.Name == "boss") //jeżeli element jest graczem to się od niego odbij
+                    {
+                        Rect blockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                        Rect ballEclipseHitBox;
+                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
+                        {
+                            ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                            if (ballEclipseHitBox.IntersectsWith(blockHitBox))
+                            {
+                                if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
+                                {
+                                   balls[index].top = true;
+                                }
+
+                                // dolna krawędź klocka
+                                else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
+                                {
+                                        balls[index].top = false;
+                                }
+
+                                // lewa krawędź klocka
+                                else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
+                                {
+                                        balls[index].left = true;
+                                }
+
+                                // prawa krawędź klocka
+                                else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
+                                {
+                                        balls[index].left = false;
+                                }
+                                shoots++;
+                                shootsLabel.Content = "Shoots: " + shoots;
+                            }
+                        }
                     }
                 }
 
@@ -331,6 +367,9 @@ namespace ArkanoEgo
 
             if (e.Key == Key.Z) SkipLvl(true);
             if (e.Key == Key.X) SkipLvl(false);
+
+            if (e.Key == Key.C) RotateCanvas();
+            if (e.Key == Key.V) UnRotateCanvas();
 
             if (e.Key == Key.Space) //wypuszczenie wszystkich piłek
             {
@@ -526,6 +565,33 @@ namespace ArkanoEgo
                 if(Canvas.GetLeft(player)+ player.Width > width)
                 Canvas.SetLeft(player, width-player.Width);
             }
+        }
+
+        private void RotateCanvas()
+        {
+            RotateTransform rotateTransform = new RotateTransform(180);
+            rotateTransform.CenterX = 396;
+            rotateTransform.CenterY = 413;
+            myCanvas.RenderTransform = rotateTransform;
+
+            rotateTransform = new RotateTransform(180);
+            rotateTransform.CenterX = 100;
+            rotateTransform.CenterY = 150;
+            boss.RenderTransform = rotateTransform;
+
+
+        }
+        private void UnRotateCanvas()
+        {
+            RotateTransform rotateTransform = new RotateTransform(0);
+            rotateTransform.CenterX = 396;
+            rotateTransform.CenterY = 413;
+            myCanvas.RenderTransform = rotateTransform;
+
+            rotateTransform = new RotateTransform(0);
+            rotateTransform.CenterX = 100;
+            rotateTransform.CenterY = 150;
+            boss.RenderTransform = rotateTransform;
         }
     }
 }
