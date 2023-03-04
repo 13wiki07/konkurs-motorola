@@ -4,6 +4,8 @@ using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,7 +25,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 0;
+        public int levelek = 1;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -107,22 +109,14 @@ namespace ArkanoEgo
             pointsLeft = Tools.PointsAtLevel;
             numberOfBricksLeft = Tools.NumberOfBricks;
 
-
-            for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
-            {
-                int randomNumber = Tools.RundomNumber(1, 4);
-                headsDirections.Add(randomNumber);
+            if (levelek == 0) {
+                DohLvL();
             }
 
 
             //Pętla gry
             gameTimer.Interval = TimeSpan.FromMilliseconds(30);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
-
-            changeHeadsDirectionsTimer.Interval= TimeSpan.FromMilliseconds(300);
-            changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
-
-            changeHeadsDirectionsTimer.Start();
             gameTimer.Start();
         }
 
@@ -296,6 +290,7 @@ namespace ArkanoEgo
                         break;
                     }
                 }
+
                 foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
                 {
                     if (Canvas.GetTop(x) > Canvas.GetTop(player))
@@ -307,7 +302,6 @@ namespace ArkanoEgo
             }
             if (Canvas.GetLeft(player) >= width) Next_Level();
         }
-
 
         private void BossHeadsMovement(int index)
         {
@@ -637,7 +631,7 @@ namespace ArkanoEgo
         }
         private void Shot()
         {
-            Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
+           // Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
 
             if (shoots > 0)
             {
@@ -668,7 +662,10 @@ namespace ArkanoEgo
             rotateTransform = new RotateTransform(180);
             rotateTransform.CenterX = 100;
             rotateTransform.CenterY = 150;
-            boss.RenderTransform = rotateTransform;
+            foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "boss"))
+            {
+                x.RenderTransform = rotateTransform;
+            }
 
             rotateTransform = new RotateTransform(180);
             rotateTransform.CenterX = 25;
@@ -685,10 +682,14 @@ namespace ArkanoEgo
             rotateTransform.CenterY = 413;
             myCanvas.RenderTransform = rotateTransform;
 
+
             rotateTransform = new RotateTransform(0);
             rotateTransform.CenterX = 100;
             rotateTransform.CenterY = 150;
-            boss.RenderTransform = rotateTransform;
+            foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "boss"))
+            {
+                x.RenderTransform = rotateTransform;
+            }
 
              rotateTransform = new RotateTransform(0);
              rotateTransform.CenterX = 25;
@@ -713,6 +714,22 @@ namespace ArkanoEgo
         {
             (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\LobbyMusic_v11.mp3", UriKind.RelativeOrAbsolute);
             (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
+
+        private void DohLvL()
+        {
+            Tools.SpawnBoss(ref myCanvas);
+            for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
+            {
+                int randomNumber = Tools.RundomNumber(1, 4);
+                headsDirections.Add(randomNumber);
+            }
+
+
+            changeHeadsDirectionsTimer.Interval = TimeSpan.FromMilliseconds(300);
+            changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
+
+            changeHeadsDirectionsTimer.Start();
+
         }
     }
 }

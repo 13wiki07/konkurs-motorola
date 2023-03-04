@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace ArkanoEgo.Classes.Tools
@@ -105,6 +106,21 @@ namespace ArkanoEgo.Classes.Tools
             ball.InitBall(ballEclipse);
             balls.Add(ball);
         }
+        public static void SpawnBoss(ref Canvas myCanvas)
+        {
+            Rectangle RectangleEclipse = new Rectangle()
+            {
+                Width = 200,
+                Height = 300,
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
+                Tag = "boss",
+                Name = "boss",
+
+            };
+            myCanvas.Children.Add(RectangleEclipse);
+            Canvas.SetTop(RectangleEclipse, 263);
+            Canvas.SetLeft(RectangleEclipse, 300);
+        }
         public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list)
         {
             Rectangle RectangleEclipse = new Rectangle()
@@ -119,7 +135,7 @@ namespace ArkanoEgo.Classes.Tools
             Canvas.SetLeft(RectangleEclipse, 375);
             list.Add(1);
         }
-            public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
+        public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
         {
             Ellipse ballEclipse = new Ellipse()
             {
