@@ -93,6 +93,25 @@ namespace ArkanoEgo.Classes
             }
         }
 
+        public void RandomPowerWithCondition()
+        {
+            switch (Tools.Tools.RundomNumber(1, 3))
+            {
+                case 1:
+                    _power = Power.PlayerLenght;
+                    break;
+                case 2:
+                    _power = Power.NewBall;
+                    break;
+                case 3:
+                    _power = Power.StrongerHit;
+                    break;
+                default:
+                    _power = Power.None;
+                    break;
+            }
+        }
+
         public void SetBoostPlayerLenght(ref Rectangle rectangle) //powiększamy gracza
         {
             rectangle.Width = rectangle.Width * 2;

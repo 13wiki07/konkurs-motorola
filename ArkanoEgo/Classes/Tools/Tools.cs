@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -78,6 +79,12 @@ namespace ArkanoEgo.Classes.Tools
         {
             return rnd.Next(from, to + 1);
         }
+        public static int RundomNumberWithConditions(List<int> conditions)
+        {
+            int num = rnd.Next(0, conditions.Count);
+            return conditions[num];
+        }
+
         public static void SpawnBall(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
         {
             Ellipse ballEclipse = new Ellipse()

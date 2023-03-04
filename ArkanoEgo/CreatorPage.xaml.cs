@@ -1,4 +1,5 @@
-﻿using ArkanoEgo.Classes.Bricks;
+﻿using ArkanoEgo.Classes;
+using ArkanoEgo.Classes.Bricks;
 using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
@@ -276,6 +277,11 @@ namespace ArkanoEgo
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            getBoostersFromCheckboxes();
+        }
+
         private void SValue_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = sender as TextBox;
@@ -424,7 +430,36 @@ namespace ArkanoEgo
                     stream.Close();
                     stream.Dispose();
                 }
-            }         
+            }
+        }
+
+        private void getBoostersFromCheckboxes()
+        {
+            List<int> powers = new List<int>();
+
+            //case 1:_power = Power.PlayerLenght;
+            //case 2:_power = Power.NewBall;
+            //case 3:_power = Power.StrongerHit;
+            //case 4:_power = Power.SkipLevel;
+            //case 5:_power = Power.CatchBall;
+
+            if ((bool)checkIncerasePlayerLength.IsChecked)
+                powers.Add(1);
+
+            if ((bool)checkAddNewBall.IsChecked)
+                powers.Add(2);
+            
+            if ((bool)checkStrongerHitBall.IsChecked)
+                powers.Add(3);
+            
+            if ((bool)checkSkipLevel.IsChecked)
+                powers.Add(4);
+            
+            if ((bool)checkCatchBall.IsChecked)
+                powers.Add(5);
+
+            //if (powers.Count > 0)
+            //    a = Tools.RundomNumberWithConditions(powers);
         }
     }
 }

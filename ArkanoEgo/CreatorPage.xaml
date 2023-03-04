@@ -57,6 +57,66 @@
             <EventSetter Event="PreviewTextInput" Handler="TextBoxes_PreviewTextInput"/>
             <EventSetter Event="TextChanged" Handler="Info_TextChanged"/>
         </Style>
+
+        <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}">
+            <Setter Property="SnapsToDevicePixels" Value="False" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <BulletDecorator Background="Transparent">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="Border"
+                                    Width="18" Height="18"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="0"
+                                    ClipToBounds="True">
+                                    <Grid>
+                                        <Path x:Name="CheckMark" Visibility="Visible"
+                                              Width="12" Height="12"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Data="M27.903015,0L32,4.0970465 12.369019,23.728029 11.685974,24.520998 0,14.441042 3.7819824,10.054994 11.330017,16.567019z"
+                                              Fill="{StaticResource blue}"
+                                              Stretch="Fill"
+                                              Stroke="{StaticResource blue}"
+                                              StrokeEndLineCap="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="1"/>
+                                        <Path x:Name="UnCheckMark" Visibility="Collapsed"
+                                              Width="10" Height="10"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Data="M 0 0 L 7 7 M 0 7 L 7 0"
+                                              Stretch="Fill"
+                                              Stroke="#FF6F6F6F"
+                                              StrokeEndLineCap="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeThickness="2"/>
+                                    </Grid>
+                                </Border>
+                            </BulletDecorator.Bullet>
+                            <ContentPresenter Margin="4,0,0,0"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          RecognizesAccessKey="True" />
+                        </BulletDecorator>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="UnCheckMark" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="BorderBrush" Value="Gray" />
+                                <Setter TargetName="CheckMark" Property="Stroke" Value="Gray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -149,10 +209,37 @@
                             <Label Content="Total points" DockPanel.Dock="Left" Style="{StaticResource infoLabel}"/>
                             <Label x:Name="lbTotalPoints" Content="0" Foreground="White" DockPanel.Dock="Right" Style="{StaticResource infoLabel}"/>
                         </DockPanel>
+                    
+                        <Border Height="2" Background="{StaticResource mainGradientColor}" Margin="-15 10"/>
+
+                        <Label Content="Boosters" Style="{StaticResource infoLabel}" HorizontalAlignment="Left"/>
+                        <UniformGrid Columns="2" MinWidth="290">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="checkAddNewBall" IsChecked="true" VerticalAlignment="Center"/>
+                                <Label Content="add new ball" Style="{StaticResource infoLabel}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="checkStrongerHitBall" IsChecked="true" VerticalAlignment="Center"/>
+                                <Label Content="ball stronger hit" Style="{StaticResource infoLabel}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="checkSkipLevel" IsChecked="true" VerticalAlignment="Center"/>
+                                <Label Content="skip level" Style="{StaticResource infoLabel}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="checkCatchBall" IsChecked="true" VerticalAlignment="Center"/>
+                                <Label Content="catch ball mode" Style="{StaticResource infoLabel}"/>
+                            </StackPanel>
+                        </UniformGrid>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="checkIncerasePlayerLength" IsChecked="true" VerticalAlignment="Center"/>
+                            <Label Content="incerase player length" Style="{StaticResource infoLabel}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </Border>
-
+            <Button Content="okkk" Height="50" Click="Button_Click"/>
             <Button x:Name="clearBtn" Content="CLEAR MAP" Click="ClearMap_Click"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
 

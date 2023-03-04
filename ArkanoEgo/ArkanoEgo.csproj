@@ -280,6 +280,7 @@
     <Resource Include="Resources\Images\heart.png" />
     <Resource Include="Resources\Images\gifek.gif" />
     <Resource Include="Resources\ArkanoEgo-icon.ico" />
+    <Resource Include="Resources\Images\ammo.png" />
     <Resource Include="Resources\Images\doh.png" />
     <Content Include="Resources\Images\ezgif.com-gif-maker.gif" />
     <Resource Include="Resources\Images\background-anim.gif" />
