@@ -21,8 +21,14 @@
         <Border CornerRadius="20" Background="#373d49" Height="826" Width="793">
             <Canvas Name="myCanvas" Height="826" Width="793" VerticalAlignment="Center" Focusable="True" KeyDown="myCanvas_KeyDown" KeyUp="myCanvas_KeyUp" HorizontalAlignment="Center">
                 <Rectangle x:Name="player" Height="10" Width="150" Fill="#56668a" Canvas.Left="360" Canvas.Top="783"/>
-                <Ellipse Tag="ballEclipse" Height="10" Width="10" Fill="#8ba4df" Canvas.Left="430" Canvas.Top="768"/>
+                <Rectangle x:Name="boss" Height="300" Width="200" Canvas.Left="300" Canvas.Top="263">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Images/doh.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                    <Ellipse Tag="ballEclipse" Height="10" Width="10" Fill="#8ba4df" Canvas.Left="430" Canvas.Top="768"/>
                 <Label x:Name="pointsLabel" HorizontalContentAlignment="Right" Foreground="#F6F7F9" FontSize="50" Content="1700" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="10"/>
+                <Label x:Name="shootsLabel" HorizontalContentAlignment="Right" Foreground="#F6F7F9" FontSize="50" Content="Shoots: 5" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="200"/>
                 <TextBlock x:Name="heartsTextBlock" Text="" Foreground="#F6F7F9" FontSize="26" Panel.ZIndex="200" Canvas.Top="46" FontFamily="Agency FB" Canvas.Left="679" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="63" TextAlignment="Right"/>
                 <Image Source="/Resources/Images/heart.png" Canvas.Left="750" Canvas.Top="45" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" />
                 <TextBlock x:Name="levelTB" Foreground="#F6F7F9" FontSize="20" Text="Level 1" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="360" Canvas.Top="10" HorizontalAlignment="Right" Width="423" TextAlignment="Right"/>
