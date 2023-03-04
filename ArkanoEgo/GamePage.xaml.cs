@@ -677,8 +677,6 @@ namespace ArkanoEgo
             {
                 x.RenderTransform = rotateTransform;
             }
-
-
         }
         private void UnRotateCanvas()
         {
@@ -709,6 +707,12 @@ namespace ArkanoEgo
                 int randomNumber = Tools.RundomNumber(1, 4);
                 headsDirections.Add(randomNumber);
             }
+        }
+
+        private void PlayMusic_Loaded(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\LobbyMusic_v11.mp3", UriKind.RelativeOrAbsolute);
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
         }
     }
 }

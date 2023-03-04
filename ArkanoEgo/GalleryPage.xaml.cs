@@ -35,6 +35,9 @@ namespace ArkanoEgo
         }
         private void Window_OnLoad(object sender, RoutedEventArgs e)
         {
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\Prequel_lvl1.mp3", UriKind.RelativeOrAbsolute);
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
+            
             string path = @"CustomLVLS\Images";
             int nr = 1; // pozycja w galerii
             try

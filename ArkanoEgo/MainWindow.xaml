@@ -10,10 +10,11 @@
         Title="ArkanoEgo" Background="#212735">
     <Window.Resources>
         <LinearGradientBrush x:Key="mainGradientColor" GradientStops="{StaticResource gradientViolet}"/>
+        
     </Window.Resources>
     <Grid>
         <!-- frame potrzebne do GamePage itp -->
-        <Frame x:Name="gridFrame"
-               Source=".xaml" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="gridFrame" Source=".xaml" NavigationUIVisibility="Hidden"/>
+        <MediaElement LoadedBehavior="Manual" Name="musicPlayer" VerticalAlignment="Top" MediaEnded="Music_Ended"/>
     </Grid>
 </Window>

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ArkanoEgo"
       mc:Ignorable="d"
       d:Width="1500"
-      x:Name="windowPage"
+      x:Name="windowPage" Loaded="PlayMusic_Loaded"
       Title="GamePage" Background="#212735">
 
     <Page.Resources>
