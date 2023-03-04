@@ -12,6 +12,8 @@ namespace ArkanoEgo
         public MainWindow()
         {
             InitializeComponent();
+            musicPlayer.Volume = 0.1;
+
             string path = @"CustomLVLS\Images";
             string path2 = @"CustomLVLS\";
             string[] filesFolder = Directory.GetFiles(path);
@@ -49,6 +51,12 @@ namespace ArkanoEgo
             else
                 path = path.Replace(color, "white");
             img.Source = new BitmapImage(new Uri(path));
+        }
+
+        private void Music_Ended(object sender, RoutedEventArgs e)
+        {
+            musicPlayer.Position = TimeSpan.Zero;
+            musicPlayer.Play();
         }
     }
 }

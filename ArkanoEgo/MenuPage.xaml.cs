@@ -5,6 +5,10 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System.Media;
+using Microsoft.Win32;
+using System.Windows.Media;
+using System.Threading.Tasks;
 
 namespace ArkanoEgo
 {
@@ -14,6 +18,7 @@ namespace ArkanoEgo
         {
             InitializeComponent();
         }
+
         protected virtual bool IsFileLocked(FileInfo file)
         {
             try
@@ -39,6 +44,7 @@ namespace ArkanoEgo
 
         private void Game_Click(object sender, RoutedEventArgs e)
         {
+            //player1.Stop();
             NavigationService.Navigate(new GamePage());
         }
 
@@ -54,11 +60,18 @@ namespace ArkanoEgo
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            SystemSounds.Beep.Play();
             var dialog = MessageBox.Show("Are you sure you want to leave the game?", "Exit", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (dialog == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
             }
+        }
+
+        private void PlayMusic_Loaded(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\NieMamIdeaForNazwa.mp3", UriKind.RelativeOrAbsolute);
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
         }
     }
 }

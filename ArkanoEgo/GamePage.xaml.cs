@@ -674,8 +674,6 @@ namespace ArkanoEgo
             {
                 x.RenderTransform = rotateTransform;
             }
-
-
         }
         private void UnRotateCanvas()
         {
@@ -711,6 +709,12 @@ namespace ArkanoEgo
                 headsDirections.Add(randomNumber);
             }
         }
+
+        private void PlayMusic_Loaded(object sender, RoutedEventArgs e)
+        {
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\LobbyMusic_v11.mp3", UriKind.RelativeOrAbsolute);
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
+
         private void DohLvL()
         {
             Tools.SpawnBoss(ref myCanvas);
@@ -725,6 +729,7 @@ namespace ArkanoEgo
             changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
 
             changeHeadsDirectionsTimer.Start();
+
         }
     }
 }
