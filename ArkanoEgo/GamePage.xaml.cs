@@ -284,6 +284,7 @@ namespace ArkanoEgo
                         break;
                     }
                 }
+
                 foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
                 {
                     if (Canvas.GetTop(x) > Canvas.GetTop(player))
@@ -295,7 +296,6 @@ namespace ArkanoEgo
             }
             if (Canvas.GetLeft(player) >= width) Next_Level();
         }
-
 
         private void BossHeadsMovement(int index)
         {
@@ -688,7 +688,7 @@ namespace ArkanoEgo
                 x.RenderTransform = rotateTransform;
             }
 
-            rotateTransform = new RotateTransform(0);
+             rotateTransform = new RotateTransform(0);
              rotateTransform.CenterX = 25;
              rotateTransform.CenterY = 38;
              foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
