@@ -135,7 +135,7 @@ namespace ArkanoEgo.Classes.Tools
             Canvas.SetLeft(RectangleEclipse, 375);
             list.Add(1);
         }
-            public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
+        public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
         {
             Ellipse ballEclipse = new Ellipse()
             {

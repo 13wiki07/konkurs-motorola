@@ -626,7 +626,7 @@ namespace ArkanoEgo
         }
         private void Shot()
         {
-            Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
+           // Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
 
             if (shoots > 0)
             {
