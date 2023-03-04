@@ -438,7 +438,10 @@ namespace ArkanoEgo
         public void RespawnBoost(int indexOfBall) //Po zniszczeniu bloku, jest 10% szans na to, że zrespi się nowy boost. Poprzedni wciąż jest aktywny
         {
             if (Tools.RundomNumber(1, 10) == 5)
+            {
+                if (myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster").Count() == 0)
                 booster = new Booster(balls[indexOfBall], ref myCanvas, booster);
+            }
         }
 
         public void OnLoseAllBalls()
