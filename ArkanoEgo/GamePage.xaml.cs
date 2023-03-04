@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,7 +25,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 0;
+        public int levelek = 1;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -102,22 +103,14 @@ namespace ArkanoEgo
             pointsLeft = Tools.PointsAtLevel;
             numberOfBricksLeft = Tools.NumberOfBricks;
 
-
-            for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
-            {
-                int randomNumber = Tools.RundomNumber(1, 4);
-                headsDirections.Add(randomNumber);
+            if (levelek == 0) {
+                DohLvL();
             }
 
 
             //Pętla gry
             gameTimer.Interval = TimeSpan.FromMilliseconds(30);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
-
-            changeHeadsDirectionsTimer.Interval= TimeSpan.FromMilliseconds(300);
-            changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
-
-            changeHeadsDirectionsTimer.Start();
             gameTimer.Start();
         }
 
@@ -664,7 +657,10 @@ namespace ArkanoEgo
             rotateTransform = new RotateTransform(180);
             rotateTransform.CenterX = 100;
             rotateTransform.CenterY = 150;
-            boss.RenderTransform = rotateTransform;
+            foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "boss"))
+            {
+                x.RenderTransform = rotateTransform;
+            }
 
             rotateTransform = new RotateTransform(180);
             rotateTransform.CenterX = 25;
@@ -683,12 +679,16 @@ namespace ArkanoEgo
             rotateTransform.CenterY = 413;
             myCanvas.RenderTransform = rotateTransform;
 
+
             rotateTransform = new RotateTransform(0);
             rotateTransform.CenterX = 100;
             rotateTransform.CenterY = 150;
-            boss.RenderTransform = rotateTransform;
+            foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "boss"))
+            {
+                x.RenderTransform = rotateTransform;
+            }
 
-             rotateTransform = new RotateTransform(0);
+            rotateTransform = new RotateTransform(0);
              rotateTransform.CenterX = 25;
              rotateTransform.CenterY = 38;
              foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
@@ -705,6 +705,21 @@ namespace ArkanoEgo
                 int randomNumber = Tools.RundomNumber(1, 4);
                 headsDirections.Add(randomNumber);
             }
+        }
+        private void DohLvL()
+        {
+            Tools.SpawnBoss(ref myCanvas);
+            for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
+            {
+                int randomNumber = Tools.RundomNumber(1, 4);
+                headsDirections.Add(randomNumber);
+            }
+
+
+            changeHeadsDirectionsTimer.Interval = TimeSpan.FromMilliseconds(300);
+            changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
+
+            changeHeadsDirectionsTimer.Start();
         }
 
     }
