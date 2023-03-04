@@ -277,6 +277,7 @@
     <Resource Include="Resources\Images\heart.png" />
     <Resource Include="Resources\Images\gifek.gif" />
     <Resource Include="Resources\ArkanoEgo-icon.ico" />
+    <Resource Include="Resources\Images\ammo.png" />
     <Content Include="Resources\Images\ezgif.com-gif-maker.gif" />
     <Resource Include="Resources\Images\background-anim.gif" />
     <Resource Include="Resources\Fonts\Audiowide-Regular.ttf" />
