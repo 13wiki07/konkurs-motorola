@@ -4,6 +4,7 @@ using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -35,7 +36,11 @@ namespace ArkanoEgo
         public Brick[,] bricks = new Brick[13, 21];
         public int numberOfBricksLeft = 0;
 
+        public bool changeHeadsDirections;
+        public List<int> headsDirections = new List<int>();
+
         DispatcherTimer gameTimer = new DispatcherTimer();
+        DispatcherTimer changeHeadsDirectionsTimer = new DispatcherTimer();
         List<Ball> balls = new List<Ball>();
         Booster booster = new Booster();
 
@@ -97,9 +102,22 @@ namespace ArkanoEgo
             pointsLeft = Tools.PointsAtLevel;
             numberOfBricksLeft = Tools.NumberOfBricks;
 
+
+            for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
+            {
+                int randomNumber = Tools.RundomNumber(1, 4);
+                headsDirections.Add(randomNumber);
+            }
+
+
             //Pętla gry
             gameTimer.Interval = TimeSpan.FromMilliseconds(30);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
+
+            changeHeadsDirectionsTimer.Interval= TimeSpan.FromMilliseconds(300);
+            changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
+
+            changeHeadsDirectionsTimer.Start();
             gameTimer.Start();
         }
 
@@ -227,11 +245,19 @@ namespace ArkanoEgo
                                 {
                                         balls[index].left = false;
                                 }
-                                shoots++;
-                                shootsLabel.Content = "Shoots: " + shoots;
+                                if (balls[index].iAmShoot)
+                                {
+                                    balls.RemoveAt(index);
+                                    myCanvas.Children.Remove(ball);
+                                    leave = true;
+                                }
                             }
+                            if (leave)
+                                break;
                         }
                     }
+                    if (leave)
+                        break;
                 }
 
                 if (playerGoRight && !playerGoLeft)
@@ -247,6 +273,12 @@ namespace ArkanoEgo
                         break;
                     }
                 }
+
+                for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
+                {
+                    BossHeadsMovement(j);
+                }
+
                 BoostMovement();
 
                 foreach (var (element, index) in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Select((element, index) => (element, index)))
@@ -271,6 +303,54 @@ namespace ArkanoEgo
             if (Canvas.GetLeft(player) >= width) Next_Level();
         }
 
+
+        private void BossHeadsMovement(int index)
+        {
+            double posX = Canvas.GetLeft(myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").ElementAt(index));
+            double posY = Canvas.GetTop(myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").ElementAt(index));
+
+
+
+            if (posX < 15 || posX + 50 > 780 || posY > 600 || posY < 15)
+            {
+                if(posX > 400 && posY > 400)
+                    headsDirections[index] = 4;
+                if(posX < 400 && posY > 400)
+                    headsDirections[index] = 3;
+                if(posX > 400 && posY < 400)
+                    headsDirections[index] = 2;
+                if(posX < 400 && posY < 400)
+                    headsDirections[index] = 1;
+            }
+
+            if (headsDirections.Count == 0)
+            {
+                return;
+            }
+
+            switch (headsDirections[index])
+            {
+            case 1:
+                    posX += 0.5;
+                    posY += 0.5;
+            break;
+            case 2:
+                    posX += -0.5;
+                    posY += 0.5;
+                    break;
+            case 3:
+                    posX += 0.5;
+                    posY += -0.5;
+                    break;
+            case 4:
+                    posX += -0.5;
+                    posY += -0.5;
+                    break;
+            }
+
+            Canvas.SetLeft(myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").ElementAt(index), posX);
+            Canvas.SetTop(myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").ElementAt(index), posY);
+        }
         private bool BallMovement(int index, int goLeft = 0)
         {
             //tablica balls i jej odpowiednik na planszy mają ten sem index
@@ -434,6 +514,11 @@ namespace ArkanoEgo
 
         public void HitBlock(int posX, int posY, Rectangle rectangle, int indexOfBall) //akcja po trafieniu piłki w block
         {
+            if(rectangle.Tag.ToString() == "bossHeads")
+            {
+                myCanvas.Children.Remove(rectangle);
+                return;
+            }
             if (bricks[posX, posY].GetType() != typeof(GoldBrick)) //sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
             {
                 if (bricks[posX, posY].TimesToBreak < 2)
@@ -548,6 +633,8 @@ namespace ArkanoEgo
         }
         private void Shot()
         {
+            Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
+
             if (shoots > 0)
             {
                 Tools.SpawnShoots(ref myCanvas, ref balls, player);
@@ -579,6 +666,14 @@ namespace ArkanoEgo
             rotateTransform.CenterY = 150;
             boss.RenderTransform = rotateTransform;
 
+            rotateTransform = new RotateTransform(180);
+            rotateTransform.CenterX = 25;
+            rotateTransform.CenterY = 38;
+            foreach(var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
+            {
+                x.RenderTransform = rotateTransform;
+            }
+
 
         }
         private void UnRotateCanvas()
@@ -592,6 +687,25 @@ namespace ArkanoEgo
             rotateTransform.CenterX = 100;
             rotateTransform.CenterY = 150;
             boss.RenderTransform = rotateTransform;
+
+             rotateTransform = new RotateTransform(0);
+             rotateTransform.CenterX = 25;
+             rotateTransform.CenterY = 38;
+             foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
+             {
+                 x.RenderTransform = rotateTransform;
+             }
         }
+
+        private void ChangeHeadsDirection(object sender, EventArgs e)
+        {
+            headsDirections.Clear();
+            for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
+            {
+                int randomNumber = Tools.RundomNumber(1, 4);
+                headsDirections.Add(randomNumber);
+            }
+        }
+
     }
 }

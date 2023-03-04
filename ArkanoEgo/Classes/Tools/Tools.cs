@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Serialization;
@@ -96,7 +98,21 @@ namespace ArkanoEgo.Classes.Tools
             ball.InitBall(ballEclipse);
             balls.Add(ball);
         }
-        public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
+        public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list)
+        {
+            Rectangle RectangleEclipse = new Rectangle()
+            {
+                Width = 50,
+                Height = 76,
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
+                Tag = "bossHeads",
+            };
+            myCanvas.Children.Add(RectangleEclipse);
+            Canvas.SetTop(RectangleEclipse, 375);
+            Canvas.SetLeft(RectangleEclipse, 375);
+            list.Add(1);
+        }
+            public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
         {
             Ellipse ballEclipse = new Ellipse()
             {
