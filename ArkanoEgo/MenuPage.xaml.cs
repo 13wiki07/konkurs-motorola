@@ -13,9 +13,6 @@ namespace ArkanoEgo
         public MenuPage()
         {
             InitializeComponent();
-            //MessageBox.Show("CZY menu: " + IsFileLocked(new FileInfo("CustomLVLS/Images/03.03.202316282.png")));
-            //File.Create("pliczek.txt");
-            
         }
         protected virtual bool IsFileLocked(FileInfo file)
         {
@@ -57,7 +54,7 @@ namespace ArkanoEgo
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = MessageBox.Show("Czy napewno chcesz zamknąć grę?", "Zamykanie", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            var dialog = MessageBox.Show("Are you sure you want to leave the game?", "Exit", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (dialog == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();

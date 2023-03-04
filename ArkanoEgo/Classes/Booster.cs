@@ -11,7 +11,7 @@ namespace ArkanoEgo.Classes
         PlayerLenght = 1,
         NewBall = 2,
         StrongerHit = 3,
-        escape = 4,
+        SkipLevel = 4,
     }
     public class Booster
     {
@@ -85,7 +85,7 @@ namespace ArkanoEgo.Classes
                     _power = Power.StrongerHit;
                     break;
                 case 4:
-                    _power = Power.escape;
+                    _power = Power.SkipLevel;
                     break;
                 default:
                     _power = Power.None;

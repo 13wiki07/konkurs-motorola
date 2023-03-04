@@ -1,5 +1,4 @@
-﻿using ArkanoEgo.Classes;
-using ArkanoEgo.Classes.Bricks;
+﻿using ArkanoEgo.Classes.Bricks;
 using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
@@ -207,8 +206,7 @@ namespace ArkanoEgo
 
             createLevelImage(nazwa);
             
-
-            MessageBox.Show("Pomyślnie zapisano level");
+            MessageBox.Show("Level saved successfully");
             newLevelBtn.Visibility = Visibility.Visible;
             saveBtn.Visibility = Visibility.Collapsed;
             playBtn.Visibility = Visibility.Visible;
@@ -270,16 +268,6 @@ namespace ArkanoEgo
         private void TextBoxes_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
-
-            if (new Regex("( ^[0-9]*$)").IsMatch(e.Text))
-            {
-                TextBox tb = sender as TextBox;
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            getBoostersFromCheckboxes();
         }
 
         private void SValue_LostFocus(object sender, RoutedEventArgs e)
@@ -420,8 +408,8 @@ namespace ArkanoEgo
                 Image img = new Image();
                 img.Source = bitmap;
 
-                if (System.IO.File.Exists("CustomLVLS/Images/" + nazwa + ".png")) // nadpisanie pliku
-                    System.IO.File.Delete("CustomLVLS/Images/" + nazwa + ".png");
+                if (File.Exists("CustomLVLS/Images/" + nazwa + ".png")) // nadpisanie pliku
+                    File.Delete("CustomLVLS/Images/" + nazwa + ".png");
 
                 imgEncoder.Frames.Add(BitmapFrame.Create(bitmap));
                 using (Stream stream = File.Create("CustomLVLS/Images/" + nazwa + ".png"))
