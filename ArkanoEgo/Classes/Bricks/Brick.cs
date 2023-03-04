@@ -65,6 +65,7 @@ namespace ArkanoEgo.Classes.Bricks
                             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bricks[i, j].Color)), //color pobierany z obiektu
                             Stroke = Brushes.Black,
                             StrokeThickness = 1,
+                            Tag = "brick"
                         };
 
                         // Add to a canvas for example
