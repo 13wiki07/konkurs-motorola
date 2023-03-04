@@ -215,32 +215,31 @@
                         <Label Content="Boosters" Style="{StaticResource infoLabel}" HorizontalAlignment="Left"/>
                         <UniformGrid Columns="2" MinWidth="290">
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="true" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkAddNewBall" IsChecked="true" VerticalAlignment="Center"/>
                                 <Label Content="add new ball" Style="{StaticResource infoLabel}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="true" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkStrongerHitBall" IsChecked="true" VerticalAlignment="Center"/>
                                 <Label Content="ball stronger hit" Style="{StaticResource infoLabel}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="true" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkSkipLevel" IsChecked="true" VerticalAlignment="Center"/>
                                 <Label Content="skip level" Style="{StaticResource infoLabel}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="true" VerticalAlignment="Center"/>
+                                <CheckBox x:Name="checkCatchBall" IsChecked="true" VerticalAlignment="Center"/>
                                 <Label Content="catch ball mode" Style="{StaticResource infoLabel}"/>
                             </StackPanel>
-                            
                         </UniformGrid>
 
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="true" VerticalAlignment="Center"/>
+                            <CheckBox x:Name="checkIncerasePlayerLength" IsChecked="true" VerticalAlignment="Center"/>
                             <Label Content="incerase player length" Style="{StaticResource infoLabel}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
             </Border>
-
+            <Button Content="okkk" Height="50" Click="Button_Click"/>
             <Button x:Name="clearBtn" Content="CLEAR MAP" Click="ClearMap_Click"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
 
