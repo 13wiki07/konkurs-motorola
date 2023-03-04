@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -30,6 +31,7 @@ namespace ArkanoEgo
         public int skipSpace = 0;
 
         public int hearts = 3; // życia gracza
+        public int shoots = 5; // życia gracza
         public Brick[,] bricks = new Brick[13, 21];
         public int numberOfBricksLeft = 0;
 
@@ -327,7 +329,8 @@ namespace ArkanoEgo
 
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) Shot();
 
-            if (e.Key == Key.Z) SkipLvl();
+            if (e.Key == Key.Z) SkipLvl(true);
+            if (e.Key == Key.X) SkipLvl(false);
 
             if (e.Key == Key.Space) //wypuszczenie wszystkich piłek
             {
@@ -357,6 +360,9 @@ namespace ArkanoEgo
                 case Power.StrongerHit:
                     booster.SetPower(Power.StrongerHit);
                     break;
+                case Power.escape:
+                    SkipLvl();
+                    break;
                 case Power.None:
                     break;
                 default:
@@ -376,6 +382,9 @@ namespace ArkanoEgo
                     break;
                 case Power.StrongerHit:
                     booster.SetPower(Power.None);
+                    break;
+                case Power.escape:
+                    SkipLvl(false);
                     break;
                 case Power.None:
                     break;
@@ -497,11 +506,16 @@ namespace ArkanoEgo
         }
         private void Shot()
         {
-            Tools.SpawnShoots(ref myCanvas, ref balls, player);
+            if (shoots > 0)
+            {
+                Tools.SpawnShoots(ref myCanvas, ref balls, player);
+                shoots--;
+                shootsLabel.Content = "Shoots: " + shoots;
+            }
         }
-        private void SkipLvl()
+        private void SkipLvl(bool skip = true)
         {
-            if (skipSpace == 0)
+            if (skip)
                 skipSpace = (int)player.Width;
             else
             {
