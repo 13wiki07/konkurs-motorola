@@ -33,7 +33,7 @@ namespace ArkanoEgo
         public int skipSpace = 0;
 
         public int hearts = 3; // życia gracza
-        public int shoots = 5; // życia gracza
+        public int shoots = 5;
         public Brick[,] bricks = new Brick[13, 21];
         public int numberOfBricksLeft = 0;
 
@@ -54,7 +54,10 @@ namespace ArkanoEgo
             InitializeComponent();
             customLvl = false;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
-            levelTB.Text = "Level " + levelek;
+            if (levelek == 0 || levelek == 33)
+                levelTB.Text = "Level DOH";
+            else
+                levelTB.Text = "Level " + levelek;
             Game();
         }
 
@@ -64,7 +67,10 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = level;
             allPoints = allpkt;
-            levelTB.Text = "Level " + levelek;
+            if(levelek == 0 || levelek == 33)
+                levelTB.Text = "Level DOH";
+            else
+                levelTB.Text = "Level " + levelek;
             points = 0;
             bricks = Tools.ReadLvl(levelek);
             Game();
@@ -350,7 +356,6 @@ namespace ArkanoEgo
             balls[index].posX = Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
             balls[index].posY = Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
 
-            // dodaj wykonywanie co ileś milisekund (chyba najlepiej 6-10)
             if (balls[index].stop != true) //przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
             {
                 if (balls[index].left)
@@ -472,7 +477,7 @@ namespace ArkanoEgo
                 case Power.StrongerHit:
                     booster.SetPower(Power.StrongerHit);
                     break;
-                case Power.escape:
+                case Power.SkipLevel:
                     SkipLvl();
                     break;
                 case Power.None:
@@ -495,7 +500,7 @@ namespace ArkanoEgo
                 case Power.StrongerHit:
                     booster.SetPower(Power.None);
                     break;
-                case Power.escape:
+                case Power.SkipLevel:
                     SkipLvl(false);
                     break;
                 case Power.None:
@@ -586,7 +591,7 @@ namespace ArkanoEgo
 
             if (customLvl)
             {
-                MessageBox.Show("Koniec poziomu. Kliknij OK, alby przejść do galerii.", "Koniec gry", MessageBoxButton.OK);
+                MessageBox.Show("End of level. Click OK to back to the gallery.", "Test end", MessageBoxButton.OK);
                 //MessageBox.Show("End of the level. Click OK to go back to gallery.", "Test end", MessageBoxButton.OK);
                 NavigationService.Navigate(new GalleryPage());
             }
@@ -632,7 +637,7 @@ namespace ArkanoEgo
             {
                 Tools.SpawnShoots(ref myCanvas, ref balls, player);
                 shoots--;
-                shootsLabel.Content = "Shoots: " + shoots;
+                shootsTextBlock.Text = shoots.ToString();
             }
         }
         private void SkipLvl(bool skip = true)
@@ -721,6 +726,5 @@ namespace ArkanoEgo
 
             changeHeadsDirectionsTimer.Start();
         }
-
     }
 }

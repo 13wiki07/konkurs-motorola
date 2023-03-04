@@ -21,8 +21,8 @@
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Margin="0 50">
-                <TextBlock Text="Witamy w grze" FontSize="30" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" TextAlignment="Center" Foreground="#FFA4A4A4"/>
-                <TextBlock Text="ArkanoEgo!" FontSize="100" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" TextAlignment="Center" Foreground="#FFF6F7F9"/>
+                <TextBlock Text="Welcome in" FontSize="30" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" TextAlignment="Center" Foreground="#FFA4A4A4"/>
+                <TextBlock Text="ArkaNoego!" FontSize="100" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" TextAlignment="Center" Foreground="#FFF6F7F9"/>
             </StackPanel>
             <Button Content="play" Click="Game_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="level creator" Click="Kreator_Click" Style="{StaticResource btnStyle}"/>

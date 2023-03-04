@@ -2,17 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Net.WebRequestMethods;
 
 namespace ArkanoEgo
 {
@@ -50,7 +44,7 @@ namespace ArkanoEgo
                 Image newImage = new Image();
                 BitmapImage src = new BitmapImage();
 
-                var lines = System.IO.File.ReadAllLines("dataDelete");
+                var lines = File.ReadAllLines("dataDelete");
                 List<string> pominiete = new List<string>();
                 if (lines.Length == 0)
                 {
@@ -88,13 +82,13 @@ namespace ArkanoEgo
                 {
                     tekstDoPliku += pominiete[a] + "\n";
                 }
-                System.IO.File.WriteAllText("dataDelete",tekstDoPliku);
+                File.WriteAllText("dataDelete",tekstDoPliku);
                 for (int i = 0; i < filesFolder.Length; i++)
                 {
                     FileInfo file2 = new FileInfo(filesFolder[i]);
                     foreach (string pominiety in pominiete)
                     {
-                        if (!System.IO.File.ReadAllText("dataDelete").Contains(file2.Name))
+                        if (!File.ReadAllText("dataDelete").Contains(file2.Name))
                         {
                             using (FileStream stream = file2.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
                             {
@@ -141,7 +135,7 @@ namespace ArkanoEgo
 
         private void Element_MouseRightClick(object sender, MouseButtonEventArgs e)
         {
-            var dialog = MessageBox.Show("Yes - Otwórz kreator, No - Usuń level", "Level", MessageBoxButton.YesNo);
+            var dialog = MessageBox.Show("Yes - Open creator, No - Delete level", "Level info", MessageBoxButton.YesNo);
 
             if (dialog == MessageBoxResult.Yes)
             {
@@ -160,15 +154,15 @@ namespace ArkanoEgo
                     if ((sender as Button).Tag.ToString() == level._nr)
                     {
                         toDeleteFile = level._name + ".png";
-                        string all = System.IO.File.ReadAllText("dataDelete");
+                        string all = File.ReadAllText("dataDelete");
                         if(all == "")
-                            System.IO.File.WriteAllText("dataDelete", toDeleteFile);
+                            File.WriteAllText("dataDelete", toDeleteFile);
                         else
-                            System.IO.File.WriteAllText("dataDelete", all + "\n" + toDeleteFile);
+                            File.WriteAllText("dataDelete", all + "\n" + toDeleteFile);
                         break;
                     }
                 }
-            NavigationService.Navigate(new GalleryPage(toDeleteFile));
+                NavigationService.Navigate(new GalleryPage(toDeleteFile));
             }
         }
 

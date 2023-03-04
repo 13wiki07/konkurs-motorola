@@ -239,7 +239,6 @@
                     </StackPanel>
                 </Border>
             </Border>
-            <Button Content="okkk" Height="50" Click="Button_Click"/>
             <Button x:Name="clearBtn" Content="CLEAR MAP" Click="ClearMap_Click"
                 Style="{StaticResource btnStyle}" Height="60" FontSize="20"/>
 
