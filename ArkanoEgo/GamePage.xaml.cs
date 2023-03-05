@@ -26,7 +26,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 33;
+        public int levelek = 1;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -70,7 +70,7 @@ namespace ArkanoEgo
             InitializeComponent();
             customLvl = false;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
-            if (levelek == 33)
+            if (levelek == 33 && customLvl == false)
                 levelTB.Text = "Level DOH";
             else
                 levelTB.Text = "Level " + levelek;
@@ -83,7 +83,7 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = level;
             allPoints = allpkt;
-            if (levelek == 33)
+            if (levelek == 33 && customLvl == false)
                 levelTB.Text = "Level DOH";
             else
                 levelTB.Text = "Level " + levelek;
@@ -125,7 +125,7 @@ namespace ArkanoEgo
             pointsLeft = Tools.PointsAtLevel;
             numberOfBricksLeft = Tools.NumberOfBricks;
 
-            if (levelek == 33)
+            if (levelek == 33 && customLvl == false)
             {
                 DohLvL();
                 Tools.PointsAtLevel = 3500;
@@ -535,6 +535,24 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
+            switch (e.Key)
+            {
+                case Key.Left:
+                    e.Handled = true;
+                    break;
+                case Key.Right:
+                    e.Handled = true;
+                    break;
+                case Key.Up:
+                    e.Handled = true;
+                    break;
+                case Key.Down:
+                    e.Handled = true;
+                    break;
+                default:
+                    break;
+            }
+
             if (e.Key == Key.D) playerGoRight = true;
 
             if (e.Key == Key.A) playerGoLeft = true;
@@ -666,7 +684,7 @@ namespace ArkanoEgo
                 {
                     myCanvas.Children.Remove(g);
                     StopBoost();
-                    if (levelek == 33)
+                    if (levelek == 33 && customLvl == false)
                         booster.RandomPower(5);
                     else
                         booster.RandomPower();
@@ -888,6 +906,25 @@ namespace ArkanoEgo
         private void Shooting(object sender, EventArgs e)
         {
             reloadedShoot = true;
+        }
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1 || e.ChangedButton == MouseButton.XButton2)
+            {
+                e.Handled = true;
+            }
+
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1 || e.ChangedButton == MouseButton.XButton2)
+            {
+                e.Handled = true;
+            }
+
+            base.OnMouseUp(e);
         }
     }
 }
