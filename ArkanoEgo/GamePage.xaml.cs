@@ -32,7 +32,7 @@ namespace ArkanoEgo
         public int pointsLeft = 0;
 
         public int skipSpace = 0;
-
+        public int shoots = 0;
         public int hearts = 3; // życia gracza
         public bool reloadedShoot = true;
         public bool stickyPlayer = false;
@@ -76,10 +76,8 @@ namespace ArkanoEgo
             InitializeComponent();
             customLvl = false;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
-
             levelTB.Text = "Level " + levelek;
             Game();
-            points = Tools.PointsAtLevel-70;
         }
 
         public GamePage(int level, int allpkt) // next level
@@ -110,8 +108,8 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = 33;
             levelTB.Text = "Level DOH";
-            //shootsTextBlock.Visibility = Visibility.Visible;
-            shootsIcon.Visibility = Visibility.Visible;
+            //powerTextBlock.Visibility = Visibility.Visible;
+            powerIcon.Visibility = Visibility.Visible;
             Game();
             DohLvL();
         }
@@ -553,6 +551,25 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
+            /*booster.SetPower(Power.None);
+            SetBoost();
+            MessageBox.Show("Booster: " + booster.GetPower());
+            booster.SetPower(Power.NewBall);
+            SetBoost();
+            MessageBox.Show("Booster: " + booster.GetPower());
+            booster.SetPower(Power.PlayerLenght);
+            SetBoost();
+            MessageBox.Show("Booster: " + booster.GetPower());
+            booster.SetPower(Power.StickyPlayer);
+            SetBoost();
+            MessageBox.Show("Booster: " + booster.GetPower());
+            booster.SetPower(Power.Shooting);
+            SetBoost();
+            MessageBox.Show("Booster: " + booster.GetPower());
+            booster.SetPower(Power.StrongerHit);
+            SetBoost();
+            MessageBox.Show("Booster: " + booster.GetPower());*/
+
             switch (e.Key)
             {
                 case Key.Left:
@@ -600,33 +617,42 @@ namespace ArkanoEgo
 
         public void SetBoost()
         {
+            if(booster.GetPower() != Power.None)
+                powerIcon.Visibility = Visibility.Visible;
+
             switch (booster.GetPower())
             {
                 case Power.PlayerLenght:
                     booster.SetBoostPlayerLenght(ref player);
-                    shootsTextBlock.Text = "PlayerLenght";
+                    powerTextBlock.Text = "Player lenght";
+                    powerIcon.Source = new BitmapImage(new Uri(@"Resources/Images/player-length.png", UriKind.Relative));
                     break;
                 case Power.NewBall:
                     booster.NewBallSetBoost(ref myCanvas, ref balls);
-                    shootsTextBlock.Text = "NewBall";
+                    powerTextBlock.Text = "New ball";
+                    powerIcon.Source = new BitmapImage(new Uri(@"Resources/Images/add-ball.png", UriKind.Relative));
                     break;
                 case Power.StrongerHit:
                     booster.SetPower(Power.StrongerHit);
-                    shootsTextBlock.Text = "StrongerHit";
+                    powerTextBlock.Text = "Stronger hit";
+                    powerIcon.Source = new BitmapImage(new Uri(@"Resources/Images/stronger-hit.png", UriKind.Relative));
                     break;
                 case Power.SkipLevel:
-                    shootsTextBlock.Text = "SkipLevel";
+                    powerTextBlock.Text = "SkipLevel";
                     SkipLvl();
                     break;
                 case Power.Shooting:
-                    shootsTextBlock.Text = "Shooting";
+                    powerTextBlock.Text = "Shooting";
+                    powerIcon.Source = new BitmapImage(new Uri(@"Resources/Images/shooting-mode.png", UriKind.Relative));
                     reloadingShoot.Start();
                     break;
                 case Power.StickyPlayer:
-                    shootsTextBlock.Text = "StickyPlayer";
+                    powerTextBlock.Text = "Sticky player";
+                    powerIcon.Source = new BitmapImage(new Uri(@"Resources/Images/sticky-player.png", UriKind.Relative));
                     stickyPlayer = true;
                     break;
                 case Power.None:
+                    powerTextBlock.Text = "";
                     break;
                 default:
                     break;
@@ -635,6 +661,11 @@ namespace ArkanoEgo
 
         public void StopBoost()
         {
+            powerIcon.Visibility = Visibility.Collapsed;
+
+            if (booster.GetPower() != Power.None)
+                powerIcon.Visibility = Visibility.Visible;
+
             switch (booster.GetPower())
             {
                 case Power.PlayerLenght:
@@ -898,12 +929,12 @@ namespace ArkanoEgo
         private void Grid_MouseMove(object sender, MouseEventArgs e)
         {
             // Get the x and y coordinates of the mouse pointer.
-            System.Windows.Point position = e.GetPosition(this);
+            /*System.Windows.Point position = e.GetPosition(this);
             double pX = position.X;
 
             // Sets the Height/Width of the circle to the mouse coordinates.
             Canvas.SetLeft(player, pX);
-            myCanvas.Focus();
+            myCanvas.Focus();*/
 
             /* tu zrób tą cudowną funkcję, gl <33 */
         }
