@@ -34,7 +34,7 @@ namespace ArkanoEgo
         public int skipSpace = 0;
 
         public int hearts = 3; // życia gracza
-        public bool reloadedShoot = false;
+        public bool reloadedShoot = true;
         public bool stickyPlayer = false;
 
         //boss mechanicks
@@ -108,7 +108,7 @@ namespace ArkanoEgo
             foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(x => x.Tag.ToString() == "ballEclipse"))
             {
                 Ball ball = new Ball();
-                ball.InitBall(x);
+                ball.InitBall(x, 0);
                 balls.Add(ball);
             }
 
@@ -267,7 +267,7 @@ namespace ArkanoEgo
                             {
                                 bool gotHit = false;
                                 ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
-                                gotHit = Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index, stickyPlayer);
+                                gotHit = Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index, stickyPlayer, tickRate);
                                 if (!gotHit)
                                 {
                                     for (int b = 0; b < myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").Count(); b++)
@@ -454,7 +454,7 @@ namespace ArkanoEgo
             //tablica balls i jej odpowiednik na planszy mają ten sem index
             balls[index].posX = Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
             balls[index].posY = Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
-            CurrentPosition = Physics.ExtractValue(balls[index].left, balls[index].top);
+            CurrentPosition = Physics.ExtractValue(balls[index].left, balls[index].top, balls[index].position);
             if (balls[index].stop != true) //przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
             {
                 balls[index].posX += CurrentPosition.HorizontalPosition;
