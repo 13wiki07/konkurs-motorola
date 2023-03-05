@@ -25,6 +25,8 @@
                 <Label x:Name="pointsLabel" HorizontalContentAlignment="Right" Foreground="#F6F7F9" FontSize="50" Content="1700" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="10"/>
                 <TextBlock x:Name="levelTB" Foreground="#F6F7F9" FontSize="20" Text="Level 1" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="360" Canvas.Top="10" HorizontalAlignment="Right" Width="423" TextAlignment="Right"/>
 
+                <Image x:Name="door" Source="Resources/Images/door.png" Canvas.Top="726" Canvas.Left="793" Height="100" Width="300"  Visibility="Hidden"></Image>
+                
                 <TextBlock x:Name="heartsTextBlock" Text="" Foreground="#F6F7F9" FontSize="26" Panel.ZIndex="200" Canvas.Top="46" FontFamily="Agency FB" Canvas.Left="679" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="63" TextAlignment="Right"/>
                 <Image Source="/Resources/Images/heart.png" Canvas.Left="750" Canvas.Top="45" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
