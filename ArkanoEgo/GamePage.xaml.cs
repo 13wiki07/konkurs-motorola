@@ -591,6 +591,9 @@ namespace ArkanoEgo
                 case Key.Down:
                     e.Handled = true;
                     break;
+                case Key.Tab:
+                    e.Handled = true;
+                    break;
                 default:
                     break;
             }
