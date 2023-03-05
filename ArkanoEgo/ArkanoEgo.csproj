@@ -173,6 +173,7 @@
     <Content Include="LVLS\lvl_33.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\door.png" />
     <Content Include="Resources\Music\LobbyMusic_v11.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
