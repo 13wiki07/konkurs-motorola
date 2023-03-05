@@ -26,7 +26,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 33;
+        public int levelek = 1;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -888,6 +888,25 @@ namespace ArkanoEgo
         private void Shooting(object sender, EventArgs e)
         {
             reloadedShoot = true;
+        }
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1 || e.ChangedButton == MouseButton.XButton2)
+            {
+                e.Handled = true;
+            }
+
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1 || e.ChangedButton == MouseButton.XButton2)
+            {
+                e.Handled = true;
+            }
+
+            base.OnMouseUp(e);
         }
     }
 }
