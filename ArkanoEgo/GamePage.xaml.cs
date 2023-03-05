@@ -1,5 +1,6 @@
 ﻿using ArkanoEgo.Classes;
 using ArkanoEgo.Classes.Bricks;
+using ArkanoEgo.Classes.Struct;
 using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,14 @@ namespace ArkanoEgo
         public int skipSpace = 0;
 
         public int hearts = 3; // życia gracza
-        public int shoots = 5;
+        public bool reloadedShoot = false;
+        public bool stickyPlayer = false;
+
+        //boss mechanicks
+        public bool betterHit = false;
+        public int changeOrientation = 0;
+        public bool UnChangeOrientation = false;
+
         public Brick[,] bricks = new Brick[13, 21];
         public int numberOfBricksLeft = 0;
 
@@ -41,7 +49,9 @@ namespace ArkanoEgo
         public List<int> headsDirections = new List<int>();
 
         DispatcherTimer gameTimer = new DispatcherTimer();
+        DispatcherTimer reloadingShoot = new DispatcherTimer();
         DispatcherTimer changeHeadsDirectionsTimer = new DispatcherTimer();
+        DispatcherTimer BossHitTimer = new DispatcherTimer();
         List<Ball> balls = new List<Ball>();
         Booster booster = new Booster();
 
@@ -49,6 +59,10 @@ namespace ArkanoEgo
         int height;
         int width;
 
+        const int tickRate = 10;
+        Physics Physics = new Physics(tickRate);
+        CartesianPosition CurrentPosition;
+        
         private void PlayMusic_Loaded(object sender, RoutedEventArgs e)
         {
             if(levelek == 32)
@@ -57,13 +71,13 @@ namespace ArkanoEgo
                 (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\Prequel_lvl1.mp3", UriKind.RelativeOrAbsolute);
             (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
         }
-
         public GamePage() // normalna gra, lvl 1
         {
             InitializeComponent();
             customLvl = false;
-            levelek = 32;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
+
+            levelTB.Text = "Level " + levelek;
             Game();
             points = Tools.PointsAtLevel-70;
         }
@@ -74,6 +88,7 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = level;
             allPoints = allpkt;
+            levelTB.Text = "Level " + levelek;
             points = 0;
             bricks = Tools.ReadLvl(levelek);
             levelTB.Text = "Level DOH";
@@ -126,207 +141,283 @@ namespace ArkanoEgo
 
             pointsLabel.Content = "" + allPoints;
             heartsTextBlock.Text = "" + hearts;
+            pointsLeft = Tools.PointsAtLevel;
+            numberOfBricksLeft = Tools.NumberOfBricks;
+
+            if (levelek == 33 && customLvl == false)
+            {
+                DohLvL();
+                Tools.PointsAtLevel = 3500;
+            }
 
             //Pętla gry
             gameTimer.Interval = TimeSpan.FromMilliseconds(30);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
+            reloadingShoot.Interval = TimeSpan.FromMilliseconds(3000);
+            reloadingShoot.Tick += new EventHandler(Shooting);
         }
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
-            OnLoseAllBalls();
-
-            for (int i = 0; i < 10; i++)
+            try
             {
-                bool isTheSameBrick = false; // potrzebne, by naprawić błąd z kilkukrotnym zbiciem
-                foreach (var x in myCanvas.Children.OfType<Rectangle>()) //kolizja piłek
+                OnLoseAllBalls();
+
+                for (int i = 0; i < tickRate; i++)
                 {
-                    bool leave = false;
-                    if (!isTheSameBrick && x.Name != "player" && x.Name != "boss") //jeżeli element jest blokiem to go usun
+                    bool isTheSameBrick = false; // potrzebne, by naprawić błąd z kilkukrotnym zbiciem
+                    foreach (var x in myCanvas.Children.OfType<Rectangle>()) //kolizja piłek
                     {
-                        int posX = (int)Canvas.GetLeft(x) / (width / 13); //element [x,0] tablicy
-                        int posY = (int)Canvas.GetTop(x) / (height / 26); //element [0,y] tablicy
-                        Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                        Rect ballEclipseHitBox;
-
-                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index)))
+                        bool leave = false;
+                        if (!isTheSameBrick && x.Name != "player" && x.Name != "boss") //jeżeli element jest blokiem to go usun
                         {
-                            leave = false;
-                            ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                            int posX = (int)Canvas.GetLeft(x) / (width / 13); //element [x,0] tablicy
+                            int posY = (int)Canvas.GetTop(x) / (height / 26); //element [0,y] tablicy
+                            Rect BlockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                            Rect ballEclipseHitBox;
 
-                            if (!isTheSameBrick && ballEclipseHitBox.IntersectsWith(BlockHitBox))
+                            foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index)))
                             {
-                                // górna krawędź klocka
-                                if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
+                                leave = false;
+                                ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+
+                                if (!isTheSameBrick && ballEclipseHitBox.IntersectsWith(BlockHitBox))
                                 {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].top = true;
+                                    // górna krawędź klocka
+                                    if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
+                                    {
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
+                                        {
+                                            balls[index].top = true;
+                                        }
+                                        else if (levelek != 0 && levelek != 33)
+                                        {
+                                            if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                            {
+                                                balls[index].top = true;
+                                            }
+                                        }
 
-                                    HitBlock(posX, posY, x, index);
-                                    isTheSameBrick = true;
-                                    leave = true;
+                                        HitBlock(posX, posY, x, index);
+                                        isTheSameBrick = true;
+                                        leave = true;
+                                    }
+
+                                    // dolna krawędź klocka
+                                    else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
+                                    {
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
+                                        {
+                                            balls[index].top = false;
+                                        }
+                                        else if (levelek != 0 && levelek != 33)
+                                        {
+                                            if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                            {
+                                                balls[index].top = false;
+                                            }
+                                        }
+
+                                        HitBlock(posX, posY, x, index);
+                                        isTheSameBrick = true;
+                                        leave = true;
+                                    }
+
+                                    // lewa krawędź klocka
+                                    else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
+                                    {
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
+                                        {
+                                            balls[index].left = true;
+                                        }
+                                        else if (levelek != 0 && levelek != 33)
+                                        {
+                                            if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                            {
+                                                balls[index].left = true;
+                                            }
+                                        }
+
+                                        HitBlock(posX, posY, x, index);
+                                        isTheSameBrick = true;
+                                        leave = true;
+                                    }
+
+                                    // prawa krawędź klocka
+                                    else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
+                                    {
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
+                                        {
+                                            balls[index].left = false;
+                                        }
+                                        else if (levelek != 0 && levelek != 33)
+                                        {
+                                            if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                            {
+                                                balls[index].left = false;
+                                            }
+                                        }
+
+                                        HitBlock(posX, posY, x, index);
+                                        isTheSameBrick = true;
+                                        leave = true;
+                                    }
+                                    if (balls[index].iAmShoot)
+                                    {
+                                        balls.RemoveAt(index);
+                                        myCanvas.Children.Remove(ball);
+                                        leave = true;
+                                    }
                                 }
-
-                                // dolna krawędź klocka
-                                else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
-                                {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].top = false;
-
-                                    HitBlock(posX, posY, x, index);
-                                    isTheSameBrick = true;
-                                    leave = true;
-                                }
-
-                                // lewa krawędź klocka
-                                else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
-                                {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].left = true;
-
-                                    HitBlock(posX, posY, x, index);
-                                    isTheSameBrick = true;
-                                    leave = true;
-                                }
-
-                                // prawa krawędź klocka
-                                else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
-                                {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].left = false;
-
-                                    HitBlock(posX, posY, x, index);
-                                    isTheSameBrick = true;
-                                    leave = true;
-                                }
-                                if (balls[index].iAmShoot)
-                                {
-                                    balls.RemoveAt(index);
-                                    myCanvas.Children.Remove(ball);
-                                    leave = true;
-                                }
-                            }
-                            if (leave || isTheSameBrick) //wyjście z foreacha, bo usuwamy jeden z jego elementów
-                                break;
-                        }
-                        if (leave)
-                            break;
-                    }
-                    if (x.Name == "player") //jeżeli element jest graczem to się od niego odbij
-                    {
-                        Rect blockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                        Rect ballEclipseHitBox;
-
-                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
-                        {
-                            bool gotHit = false;
-                            ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
-                            gotHit = Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index);
-
-                            if (!gotHit)
-                            {
-                                for (int b = 0; b < myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").Count(); b++)
-                                {
-                                    balls.RemoveAt(b);
-                                    myCanvas.Children.Remove(myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").ElementAt(b));
-                                }
-                                OnLoseAllBalls();
-                                return;
-                            }
-                        }
-                        //kolizja gracza z boostem
-                        if (PlayerCaughtABoost(blockHitBox)) { break; }//kontakt paletki z boostem
-                    }
-                    if (x.Name == "boss") //jeżeli element jest graczem to się od niego odbij
-                    {
-                        Rect blockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                        Rect ballEclipseHitBox;
-                        foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
-                        {
-                            if (balls[index].iAmBossShoot) break;
-                            ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
-                            if (ballEclipseHitBox.IntersectsWith(blockHitBox))
-                            {
-                                if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
-                                {
-                                   balls[index].top = true;
-                                }
-
-                                // dolna krawędź klocka
-                                else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
-                                {
-                                        balls[index].top = false;
-                                }
-
-                                // lewa krawędź klocka
-                                else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
-                                {
-                                        balls[index].left = true;
-                                }
-
-                                // prawa krawędź klocka
-                                else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
-                                {
-                                        balls[index].left = false;
-                                }
-                                if (balls[index].iAmShoot)
-                                {
-                                    balls.RemoveAt(index);
-                                    myCanvas.Children.Remove(ball);
-                                    leave = true;
-                                }
+                                if (leave || isTheSameBrick) //wyjście z foreacha, bo usuwamy jeden z jego elementów
+                                    break;
                             }
                             if (leave)
                                 break;
                         }
+                        if (x.Name == "player") //jeżeli element jest graczem to się od niego odbij
+                        {
+                            Rect blockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                            Rect ballEclipseHitBox;
+
+                            foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
+                            {
+                                bool gotHit = false;
+                                ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                                gotHit = Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index, stickyPlayer);
+                                if (!gotHit)
+                                {
+                                    for (int b = 0; b < myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").Count(); b++)
+                                    {
+                                        balls.RemoveAt(b);
+                                        myCanvas.Children.Remove(myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").ElementAt(b));
+                                    }
+                                    //OnLoseAllBalls();
+                                    return;
+                                }
+                            }
+                            //kolizja gracza z boostem
+                            if (PlayerCaughtABoost(blockHitBox)) { break; }//kontakt paletki z boostem
+                        }
+                        if (x.Name == "boss")
+                        {
+                            Rect blockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                            Rect ballEclipseHitBox;
+                            foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
+                            {
+                                if (balls[index].iAmBossShoot) break;
+                                ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
+                                if (ballEclipseHitBox.IntersectsWith(blockHitBox))
+                                {
+                                    if (booster.GetPower() == Power.StrongerHit)
+                                    {
+                                        points += 210;
+                                        allPoints += 210;
+                                    }
+                                    else
+                                    {
+                                        points += 70;
+                                        allPoints += 70;
+                                    }
+                                    pointsLabel.Content = "" + allPoints;
+
+                                    if (points >= Tools.PointsAtLevel)
+                                    {
+                                        MessageBox.Show("Wygrana");
+                                        gameTimer.Stop();
+                                        NavigationService.Navigate(new MenuPage());
+                                    }
+                                    RespawnBoost(index);
+                                    if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
+                                    {
+                                        balls[index].top = true;
+                                        leave = true;
+                                    }
+
+                                    // dolna krawędź klocka
+                                    else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
+                                    {
+                                        balls[index].top = false;
+                                        leave = true;
+                                    }
+
+                                    // lewa krawędź klocka
+                                    else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
+                                    {
+                                        balls[index].left = true;
+                                        leave = true;
+                                    }
+
+                                    // prawa krawędź klocka
+                                    else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
+                                    {
+                                        balls[index].left = false;
+                                        leave = true;
+                                    }
+                                    if (balls[index].iAmShoot)
+                                    {
+                                        balls.RemoveAt(index);
+                                        myCanvas.Children.Remove(ball);
+                                        leave = true;
+                                    }
+                                }
+                                if (leave)
+                                    break;
+                            }
+                        }
+                        if (leave)
+                            break;
                     }
-                    if (leave)
-                        break;
-                }
 
-                if (playerGoRight && !playerGoLeft)
-                    PlayerMovement(true);
-                if (playerGoLeft && !playerGoRight)
-                    PlayerMovement(false);
+                    if (playerGoRight && !playerGoLeft)
+                        PlayerMovement(true);
+                    if (playerGoLeft && !playerGoRight)
+                        PlayerMovement(false);
 
 
-                for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
-                {
-                    if (!BallMovement(j))
+                    for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
                     {
-                        break;
+                        if (!BallMovement(j))
+                        {
+                            break;
+                        }
                     }
-                }
 
-                for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
-                {
-                    BossHeadsMovement(j);
-                }
-
-                BoostMovement();
-
-                foreach (var (element, index) in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Select((element, index) => (element, index)))
-                {
-                    if (Canvas.GetTop(element) > Canvas.GetTop(player))
+                    for (int j = 0; j < myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads").Count(); j++)
                     {
-                        myCanvas.Children.Remove(element);
-                        balls.RemoveAt(index);
-                        if (balls.Count == 0) return;
-                        break;
+                        BossHeadsMovement(j);
                     }
-                }
 
-                foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
-                {
-                    if (Canvas.GetTop(x) > Canvas.GetTop(player))
+                    BoostMovement();
+
+                    foreach (var (element, index) in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Select((element, index) => (element, index)))
                     {
-                        myCanvas.Children.Remove(x);
-                        break;
+                        if (Canvas.GetTop(element) > Canvas.GetTop(player))
+                        {
+                            myCanvas.Children.Remove(element);
+                            balls.RemoveAt(index);
+                            if (balls.Count == 0) return;
+                            break;
+                        }
+                    }
+
+                    foreach (var x in myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster"))
+                    {
+                        if (Canvas.GetTop(x) > Canvas.GetTop(player))
+                        {
+                            myCanvas.Children.Remove(x);
+                            break;
+                        }
                     }
                 }
+                if (Canvas.GetLeft(player) >= width) Next_Level();
             }
-            if (Canvas.GetLeft(player) >= width) Next_Level();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "" + ex.StackTrace);
+            }
+
         }
 
         private void BossHeadsMovement(int index)
@@ -338,13 +429,13 @@ namespace ArkanoEgo
 
             if (posX < 15 || posX + 50 > 780 || posY > 600 || posY < 15)
             {
-                if(posX > 400 && posY > 400)
+                if (posX > 400 && posY > 400)
                     headsDirections[index] = 4;
-                if(posX < 400 && posY > 400)
+                if (posX < 400 && posY > 400)
                     headsDirections[index] = 3;
-                if(posX > 400 && posY < 400)
+                if (posX > 400 && posY < 400)
                     headsDirections[index] = 2;
-                if(posX < 400 && posY < 400)
+                if (posX < 400 && posY < 400)
                     headsDirections[index] = 1;
             }
 
@@ -355,19 +446,19 @@ namespace ArkanoEgo
 
             switch (headsDirections[index])
             {
-            case 1:
+                case 1:
                     posX += 0.5;
                     posY += 0.5;
-            break;
-            case 2:
+                    break;
+                case 2:
                     posX += -0.5;
                     posY += 0.5;
                     break;
-            case 3:
+                case 3:
                     posX += 0.5;
                     posY += -0.5;
                     break;
-            case 4:
+                case 4:
                     posX += -0.5;
                     posY += -0.5;
                     break;
@@ -381,27 +472,26 @@ namespace ArkanoEgo
             //tablica balls i jej odpowiednik na planszy mają ten sem index
             balls[index].posX = Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
             balls[index].posY = Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
-
+            CurrentPosition = Physics.ExtractValue(balls[index].left, balls[index].top);
             if (balls[index].stop != true) //przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
             {
-                if (balls[index].left)
-                    balls[index].posX -= balls[index].trajectoryX;
-                else
-                    balls[index].posX += balls[index].trajectoryX;
-
-                if (balls[index].top)
-                    balls[index].posY -= balls[index].trajectoryY;
-                else
-                    balls[index].posY += balls[index].trajectoryY;
+                balls[index].posX += CurrentPosition.HorizontalPosition;
+                balls[index].posY += CurrentPosition.VerticalPosition;
+            }
+            else if (balls[index].stop && balls[index].posY + balls[index].rad * 2 > Canvas.GetTop(player) - 3)
+            {
+                balls[index].posY -= 3;
+                Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY - 3);
             }
             else balls[index].posX += goLeft;
 
             Canvas.SetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posX);
             Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY);
 
-            if (!ChangeBallDirection(index)) {
+            if (!ChangeBallDirection(index))
+            {
                 myCanvas.Children.Remove(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
-                return false; 
+                return false;
             }
             return true;
         }
@@ -463,6 +553,24 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
+            switch (e.Key)
+            {
+                case Key.Left:
+                    e.Handled = true;
+                    break;
+                case Key.Right:
+                    e.Handled = true;
+                    break;
+                case Key.Up:
+                    e.Handled = true;
+                    break;
+                case Key.Down:
+                    e.Handled = true;
+                    break;
+                default:
+                    break;
+            }
+
             if (e.Key == Key.D) playerGoRight = true;
 
             if (e.Key == Key.A) playerGoLeft = true;
@@ -496,15 +604,27 @@ namespace ArkanoEgo
             {
                 case Power.PlayerLenght:
                     booster.SetBoostPlayerLenght(ref player);
+                    shootsTextBlock.Text = "PlayerLenght";
                     break;
                 case Power.NewBall:
                     booster.NewBallSetBoost(ref myCanvas, ref balls);
+                    shootsTextBlock.Text = "NewBall";
                     break;
                 case Power.StrongerHit:
                     booster.SetPower(Power.StrongerHit);
+                    shootsTextBlock.Text = "StrongerHit";
                     break;
                 case Power.SkipLevel:
+                    shootsTextBlock.Text = "SkipLevel";
                     SkipLvl();
+                    break;
+                case Power.Shooting:
+                    shootsTextBlock.Text = "Shooting";
+                    reloadingShoot.Start();
+                    break;
+                case Power.StickyPlayer:
+                    shootsTextBlock.Text = "StickyPlayer";
+                    stickyPlayer = true;
                     break;
                 case Power.None:
                     break;
@@ -529,6 +649,13 @@ namespace ArkanoEgo
                 case Power.SkipLevel:
                     SkipLvl(false);
                     break;
+                case Power.Shooting:
+                    reloadedShoot = false;
+                    reloadingShoot.Stop();
+                    break;
+                case Power.StickyPlayer:
+                    stickyPlayer = false;
+                    break;
                 case Power.None:
                     break;
                 default:
@@ -538,9 +665,10 @@ namespace ArkanoEgo
 
         public void HitBlock(int posX, int posY, Rectangle rectangle, int indexOfBall) //akcja po trafieniu piłki w block
         {
-            if(rectangle.Tag.ToString() == "bossHeads")
+            if (rectangle.Tag.ToString() == "bossHeads")
             {
                 myCanvas.Children.Remove(rectangle);
+                headsDirections.RemoveAt(headsDirections.Count - 1);
                 return;
             }
             if (bricks[posX, posY].GetType() != typeof(GoldBrick)) //sprawdzanie czy obiekt nie jest GoldBrick (ten obiekt nie ma Value)
@@ -551,7 +679,6 @@ namespace ArkanoEgo
 
                     RespawnBoost(indexOfBall);
 
-                    pointsLeft -= bricks[posX, posY].Value;
                     points += bricks[posX, posY].Value;
                     allPoints += bricks[posX, posY].Value;
                     pointsLabel.Content = "" + allPoints;
@@ -575,7 +702,10 @@ namespace ArkanoEgo
                 {
                     myCanvas.Children.Remove(g);
                     StopBoost();
-                    booster.RandomPower();
+                    if (levelek == 33 && customLvl == false)
+                        booster.RandomPower(5);
+                    else
+                        booster.RandomPower();
                     SetBoost();
                     return true;
                 }
@@ -588,7 +718,7 @@ namespace ArkanoEgo
             if (Tools.RundomNumber(1, 10) == 5)
             {
                 if (myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "Booster").Count() == 0)
-                booster = new Booster(balls[indexOfBall], ref myCanvas, booster);
+                    booster = new Booster(balls[indexOfBall], ref myCanvas, booster);
             }
         }
 
@@ -662,26 +792,29 @@ namespace ArkanoEgo
         }
         private void Shot()
         {
-            // Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
-            Tools.SpawnShoots(ref myCanvas, ref balls, player,true);
-            if (shoots > 0)
+            if (reloadedShoot)
             {
                 Tools.SpawnShoots(ref myCanvas, ref balls, player);
                 shoots--;
-                //shootsTextBlock.Text = shoots.ToString();
+                reloadedShoot = false;
             }
         }
         private void SkipLvl(bool skip = true)
         {
             if (skip)
+            {
                 skipSpace = (int)player.Width;
+                door.Visibility = Visibility.Visible;
+            }
             else
             {
+                door.Visibility = Visibility.Hidden;
                 skipSpace = 0;
-                if(Canvas.GetLeft(player)+ player.Width > width)
-                Canvas.SetLeft(player, width-player.Width);
+                if (Canvas.GetLeft(player) + player.Width > width)
+                    Canvas.SetLeft(player, width - player.Width);
             }
         }
+
 
         private void RotateCanvas()
         {
@@ -701,7 +834,7 @@ namespace ArkanoEgo
             rotateTransform = new RotateTransform(180);
             rotateTransform.CenterX = 25;
             rotateTransform.CenterY = 38;
-            foreach(var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
+            foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
             {
                 x.RenderTransform = rotateTransform;
             }
@@ -722,13 +855,13 @@ namespace ArkanoEgo
                 x.RenderTransform = rotateTransform;
             }
 
-             rotateTransform = new RotateTransform(0);
-             rotateTransform.CenterX = 25;
-             rotateTransform.CenterY = 38;
-             foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
-             {
-                 x.RenderTransform = rotateTransform;
-             }
+            rotateTransform = new RotateTransform(0);
+            rotateTransform.CenterX = 25;
+            rotateTransform.CenterY = 38;
+            foreach (var x in myCanvas.Children.OfType<Rectangle>().Where(element => element.Tag.ToString() == "bossHeads"))
+            {
+                x.RenderTransform = rotateTransform;
+            }
         }
 
         private void ChangeHeadsDirection(object sender, EventArgs e)
@@ -752,6 +885,11 @@ namespace ArkanoEgo
 
             changeHeadsDirectionsTimer.Interval = TimeSpan.FromMilliseconds(300);
             changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
+
+            BossHitTimer.Interval = TimeSpan.FromMilliseconds(5000);
+            BossHitTimer.Tick += new EventHandler(DohHit);
+
+            BossHitTimer.Start();
             changeHeadsDirectionsTimer.Start();
 
             myCanvas.Focus();
@@ -768,6 +906,57 @@ namespace ArkanoEgo
             myCanvas.Focus();
 
             /* tu zrób tą cudowną funkcję, gl <33 */
+        }
+        private void DohHit(object sender, EventArgs e)
+        {
+            if (betterHit)
+            {
+                Tools.SpawnBossHead(ref myCanvas, ref headsDirections, UnChangeOrientation);
+                Tools.SpawnShoots(ref myCanvas, ref balls, player, true);
+                betterHit = false;
+                changeOrientation++;
+            }
+            else
+            {
+                Tools.SpawnShoots(ref myCanvas, ref balls, player, true);
+                betterHit = true;
+                changeOrientation++;
+            }
+            if (changeOrientation > 5 && !UnChangeOrientation)
+            {
+                RotateCanvas();
+                UnChangeOrientation = true;
+                changeOrientation = 0;
+            }
+            else if (changeOrientation > 5 && UnChangeOrientation)
+            {
+                UnRotateCanvas();
+                UnChangeOrientation = false;
+                changeOrientation = 0;
+            }
+        }
+        private void Shooting(object sender, EventArgs e)
+        {
+            reloadedShoot = true;
+        }
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1 || e.ChangedButton == MouseButton.XButton2)
+            {
+                e.Handled = true;
+            }
+
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1 || e.ChangedButton == MouseButton.XButton2)
+            {
+                e.Handled = true;
+            }
+
+            base.OnMouseUp(e);
         }
     }
 }

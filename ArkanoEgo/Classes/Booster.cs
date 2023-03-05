@@ -12,6 +12,8 @@ namespace ArkanoEgo.Classes
         NewBall = 2,
         StrongerHit = 3,
         SkipLevel = 4,
+        Shooting = 5,
+        StickyPlayer = 6
     }
     public class Booster
     {
@@ -71,9 +73,9 @@ namespace ArkanoEgo.Classes
             _power = power;
         }
 
-        public void RandomPower()
+        public void RandomPower(int number = 6)
         {
-            switch (Tools.Tools.RundomNumber(1, 4))
+            switch (Tools.Tools.RundomNumber(1, number))
             {
                 case 1:
                     _power = Power.PlayerLenght;
@@ -85,6 +87,12 @@ namespace ArkanoEgo.Classes
                     _power = Power.StrongerHit;
                     break;
                 case 4:
+                    _power = Power.StickyPlayer;
+                    break;
+                case 5:
+                    _power = Power.Shooting;
+                    break;
+                case 6:
                     _power = Power.SkipLevel;
                     break;
                 default:

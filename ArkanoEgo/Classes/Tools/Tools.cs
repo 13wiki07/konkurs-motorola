@@ -182,7 +182,7 @@ namespace ArkanoEgo.Classes.Tools
             Canvas.SetTop(RectangleEclipse, 263);
             Canvas.SetLeft(RectangleEclipse, 300);
         }
-        public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list)
+        public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list,bool UnChangeOrientation = false)
         {
             Rectangle RectangleEclipse = new Rectangle()
             {
@@ -191,16 +191,27 @@ namespace ArkanoEgo.Classes.Tools
                 Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
                 Tag = "bossHeads",
             };
+            if (UnChangeOrientation)
+            {
+                RotateTransform rotateTransform = new RotateTransform(180);
+                rotateTransform.CenterX = 25;
+                rotateTransform.CenterY = 38;
+                RectangleEclipse.RenderTransform = rotateTransform;
+            }
             myCanvas.Children.Add(RectangleEclipse);
             Canvas.SetTop(RectangleEclipse, 375);
             Canvas.SetLeft(RectangleEclipse, 375);
             list.Add(1);
         }
 
-        public static bool CalculateTrajectory(Rect blockHitBox, Rect ballEclipseHitBox,Rectangle x, Ellipse ball, ref List<Ball> balls, int index)
+        public static bool CalculateTrajectory(Rect blockHitBox, Rect ballEclipseHitBox,Rectangle x, Ellipse ball, ref List<Ball> balls, int index,bool stickyPlayer)
         {
             if (ballEclipseHitBox.IntersectsWith(blockHitBox))
             {
+                if (stickyPlayer)
+                {
+                    balls[index].stop = true;
+                }
                 if (balls[index].iAmBossShoot) return false;
                 if (Canvas.GetLeft(x) < Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) > Canvas.GetLeft(ball) + ball.Width / 2)
                 {
