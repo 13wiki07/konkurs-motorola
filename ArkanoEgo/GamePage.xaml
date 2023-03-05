@@ -28,7 +28,7 @@
                 <TextBlock x:Name="heartsTextBlock" Text="" Foreground="#F6F7F9" FontSize="26" Panel.ZIndex="200" Canvas.Top="46" FontFamily="Agency FB" Canvas.Left="679" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="63" TextAlignment="Right"/>
                 <Image Source="/Resources/Images/heart.png" Canvas.Left="750" Canvas.Top="45" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="200" />
 
-                <Image x:Name="shootsIcon" Visibility="Visible" Source="/Resources/Images/ammo.png" Canvas.Left="750" Canvas.Top="84.9" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="200" />
+                <Image x:Name="shootsIcon" Visibility="Collapsed" Source="/Resources/Images/ammo.png" Canvas.Left="750" Canvas.Top="84.9" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="200" />
             </Canvas>
         </Border>
         <Button x:Name="btnBack" Style="{DynamicResource btnStyleWithChange}" Click="Back_Click" Margin="10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
