@@ -33,7 +33,8 @@ namespace ArkanoEgo
         public int skipSpace = 0;
 
         public int hearts = 3; // życia gracza
-        public int shoots = 5;
+        public bool reloadedShoot = false;
+        public bool stickyPlayer = false;
 
         //boss mechanicks
         public bool betterHit = false;
@@ -47,6 +48,7 @@ namespace ArkanoEgo
         public List<int> headsDirections = new List<int>();
 
         DispatcherTimer gameTimer = new DispatcherTimer();
+        DispatcherTimer reloadingShoot = new DispatcherTimer();
         DispatcherTimer changeHeadsDirectionsTimer = new DispatcherTimer();
         DispatcherTimer BossHitTimer = new DispatcherTimer();
         List<Ball> balls = new List<Ball>();
@@ -128,10 +130,14 @@ namespace ArkanoEgo
             gameTimer.Interval = TimeSpan.FromMilliseconds(30);
             gameTimer.Tick += new EventHandler(GameTimerEvent);
             gameTimer.Start();
+            reloadingShoot.Interval = TimeSpan.FromMilliseconds(3000);
+            reloadingShoot.Tick += new EventHandler(Shooting);
         }
 
         private void GameTimerEvent(object sender, EventArgs e)
         {
+            try
+            {
             OnLoseAllBalls();
 
             for (int i = 0; i < 10; i++)
@@ -157,8 +163,21 @@ namespace ArkanoEgo
                                 // górna krawędź klocka
                                 if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
                                 {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].top = true;
+                                    if (booster.GetPower() != Power.StrongerHit)
+                                    {
+                                        if (levelek == 0 || levelek == 33)
+                                        {
+                                            balls[index].top = true;
+                                        }
+                                        else
+                                        {
+                                            if(bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                            {
+                                                    balls[index].top = true;
+                                            }
+                                        }
+                                    }
+
 
                                     HitBlock(posX, posY, x, index);
                                     isTheSameBrick = true;
@@ -168,10 +187,22 @@ namespace ArkanoEgo
                                 // dolna krawędź klocka
                                 else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
                                 {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].top = false;
+                                        if (booster.GetPower() != Power.StrongerHit)
+                                        {
+                                            if (levelek == 0 || levelek == 33)
+                                            {
+                                                balls[index].top = false;
+                                            }
+                                            else
+                                            {
+                                                if (bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                                {
+                                                    balls[index].top = false;
+                                                }
+                                            }
+                                        }
 
-                                    HitBlock(posX, posY, x, index);
+                                        HitBlock(posX, posY, x, index);
                                     isTheSameBrick = true;
                                     leave = true;
                                 }
@@ -179,10 +210,22 @@ namespace ArkanoEgo
                                 // lewa krawędź klocka
                                 else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
                                 {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].left = true;
+                                        if (booster.GetPower() != Power.StrongerHit)
+                                        {
+                                            if (levelek == 0 || levelek == 33)
+                                            {
+                                                balls[index].left = true;
+                                            }
+                                            else
+                                            {
+                                                if (bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                                {
+                                                    balls[index].left = true;
+                                                }
+                                            }
+                                        }
 
-                                    HitBlock(posX, posY, x, index);
+                                        HitBlock(posX, posY, x, index);
                                     isTheSameBrick = true;
                                     leave = true;
                                 }
@@ -190,10 +233,22 @@ namespace ArkanoEgo
                                 // prawa krawędź klocka
                                 else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
                                 {
-                                    if (booster.GetPower() != Power.StrongerHit || bricks[posX, posY].GetType() == typeof(GoldBrick))
-                                        balls[index].left = false;
+                                        if (booster.GetPower() != Power.StrongerHit)
+                                        {
+                                            if (levelek == 0 || levelek == 33)
+                                            {
+                                                balls[index].left = false;
+                                            }
+                                            else
+                                            {
+                                                if (bricks[posX, posY].GetType() == typeof(GoldBrick))
+                                                {
+                                                    balls[index].left = false;
+                                                }
+                                            }
+                                        }
 
-                                    HitBlock(posX, posY, x, index);
+                                        HitBlock(posX, posY, x, index);
                                     isTheSameBrick = true;
                                     leave = true;
                                 }
@@ -219,8 +274,7 @@ namespace ArkanoEgo
                         {
                             bool gotHit = false;
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
-                            gotHit = Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index);
-
+                            gotHit = Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index,stickyPlayer);
                             if (!gotHit)
                             {
                                 for (int b = 0; b < myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").Count(); b++)
@@ -235,7 +289,7 @@ namespace ArkanoEgo
                         //kolizja gracza z boostem
                         if (PlayerCaughtABoost(blockHitBox)) { break; }//kontakt paletki z boostem
                     }
-                    if (x.Name == "boss") //jeżeli element jest graczem to się od niego odbij
+                    if (x.Name == "boss")
                     {
                         Rect blockHitBox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                         Rect ballEclipseHitBox;
@@ -330,6 +384,11 @@ namespace ArkanoEgo
                 }
             }
             if (Canvas.GetLeft(player) >= width) Next_Level();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message+""+ ex.StackTrace);
+            }
 
         }
 
@@ -397,6 +456,11 @@ namespace ArkanoEgo
                     balls[index].posY -= balls[index].trajectoryY;
                 else
                     balls[index].posY += balls[index].trajectoryY;
+            }
+            else if (balls[index].stop && balls[index].posY + balls[index].rad*2 > Canvas.GetTop(player) - 3)
+            {
+                balls[index].posY -= 3;
+                Canvas.SetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index), balls[index].posY - 3);
             }
             else balls[index].posX += goLeft;
 
@@ -501,15 +565,27 @@ namespace ArkanoEgo
             {
                 case Power.PlayerLenght:
                     booster.SetBoostPlayerLenght(ref player);
+                    shootsTextBlock.Text = "PlayerLenght";
                     break;
                 case Power.NewBall:
                     booster.NewBallSetBoost(ref myCanvas, ref balls);
+                    shootsTextBlock.Text = "NewBall";
                     break;
                 case Power.StrongerHit:
                     booster.SetPower(Power.StrongerHit);
+                    shootsTextBlock.Text = "StrongerHit";
                     break;
                 case Power.SkipLevel:
+                    shootsTextBlock.Text = "SkipLevel";
                     SkipLvl();
+                    break;
+                case Power.Shooting:
+                    shootsTextBlock.Text = "Shooting";
+                    reloadingShoot.Start();
+                    break;
+                case Power.StickyPlayer:
+                    shootsTextBlock.Text = "StickyPlayer";
+                    stickyPlayer = true;
                     break;
                 case Power.None:
                     break;
@@ -533,6 +609,13 @@ namespace ArkanoEgo
                     break;
                 case Power.SkipLevel:
                     SkipLvl(false);
+                    break;
+                case Power.Shooting:
+                    reloadedShoot = false;
+                    reloadingShoot.Stop();
+                    break;
+                case Power.StickyPlayer:
+                    stickyPlayer = false;
                     break;
                 case Power.None:
                     break;
@@ -581,7 +664,10 @@ namespace ArkanoEgo
                 {
                     myCanvas.Children.Remove(g);
                     StopBoost();
-                    booster.RandomPower();
+                    if (levelek == 0 || levelek == 33)
+                        booster.RandomPower(5);
+                    else
+                        booster.RandomPower();
                     SetBoost();
                     return true;
                 }
@@ -663,11 +749,10 @@ namespace ArkanoEgo
         }
         private void Shot()
         {
-            if (shoots > 0)
+            if (reloadedShoot)
             {
                 Tools.SpawnShoots(ref myCanvas, ref balls, player);
-                shoots--;
-                shootsTextBlock.Text = shoots.ToString();
+                reloadedShoot=false;
             }
         }
         private void SkipLvl(bool skip = true)
@@ -681,6 +766,7 @@ namespace ArkanoEgo
                     Canvas.SetLeft(player, width - player.Width);
             }
         }
+
 
         private void RotateCanvas()
         {
@@ -793,7 +879,9 @@ namespace ArkanoEgo
                 changeOrientation = 0;
             }
         }
-
-
+        private void Shooting(object sender, EventArgs e)
+        {
+            reloadedShoot = true;
+        }
     }
 }

@@ -197,10 +197,14 @@ namespace ArkanoEgo.Classes.Tools
             list.Add(1);
         }
 
-        public static bool CalculateTrajectory(Rect blockHitBox, Rect ballEclipseHitBox,Rectangle x, Ellipse ball, ref List<Ball> balls, int index)
+        public static bool CalculateTrajectory(Rect blockHitBox, Rect ballEclipseHitBox,Rectangle x, Ellipse ball, ref List<Ball> balls, int index,bool stickyPlayer)
         {
             if (ballEclipseHitBox.IntersectsWith(blockHitBox))
             {
+                if (stickyPlayer)
+                {
+                    balls[index].stop = true;
+                }
                 if (balls[index].iAmBossShoot) return false;
                 if (Canvas.GetLeft(x) < Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) > Canvas.GetLeft(ball) + ball.Width / 2)
                 {
