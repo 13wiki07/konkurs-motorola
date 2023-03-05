@@ -182,7 +182,7 @@ namespace ArkanoEgo.Classes.Tools
             Canvas.SetTop(RectangleEclipse, 263);
             Canvas.SetLeft(RectangleEclipse, 300);
         }
-        public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list)
+        public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list,bool UnChangeOrientation = false)
         {
             Rectangle RectangleEclipse = new Rectangle()
             {
@@ -191,6 +191,13 @@ namespace ArkanoEgo.Classes.Tools
                 Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
                 Tag = "bossHeads",
             };
+            if (UnChangeOrientation)
+            {
+                RotateTransform rotateTransform = new RotateTransform(180);
+                rotateTransform.CenterX = 25;
+                rotateTransform.CenterY = 38;
+                RectangleEclipse.RenderTransform = rotateTransform;
+            }
             myCanvas.Children.Add(RectangleEclipse);
             Canvas.SetTop(RectangleEclipse, 375);
             Canvas.SetLeft(RectangleEclipse, 375);

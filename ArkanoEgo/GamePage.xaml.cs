@@ -855,7 +855,7 @@ namespace ArkanoEgo
         {
             if (betterHit)
             {
-                Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
+                Tools.SpawnBossHead(ref myCanvas, ref headsDirections, UnChangeOrientation);
                 Tools.SpawnShoots(ref myCanvas, ref balls, player, true);
                 betterHit = false;
                 changeOrientation++;
