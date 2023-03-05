@@ -121,8 +121,7 @@ namespace ArkanoEgo
             if (levelek == 33)
             {
                 DohLvL();
-                pointsLeft = 21000;
-
+                Tools.PointsAtLevel = 3500;
             }
 
 
@@ -269,7 +268,7 @@ namespace ArkanoEgo
                                         balls.RemoveAt(b);
                                         myCanvas.Children.Remove(myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").ElementAt(b));
                                     }
-                                    OnLoseAllBalls();
+                                    //OnLoseAllBalls();
                                     return;
                                 }
                             }
@@ -286,7 +285,24 @@ namespace ArkanoEgo
                                 ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
                                 if (ballEclipseHitBox.IntersectsWith(blockHitBox))
                                 {
-                                    pointsLeft -= 70;
+                                    if (booster.GetPower() == Power.StrongerHit)
+                                    {
+                                        points += 210;
+                                        allPoints += 210;
+                                    }
+                                    else
+                                    {
+                                        points += 70;
+                                        allPoints += 70;
+                                    }
+                                    pointsLabel.Content = "" + allPoints;
+
+                                    if (points >= Tools.PointsAtLevel)
+                                    {
+                                        MessageBox.Show("Wygrana");
+                                        gameTimer.Stop();
+                                        NavigationService.Navigate(new MenuPage());
+                                    }
                                     RespawnBoost(index);
                                     if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
                                     {
@@ -627,7 +643,6 @@ namespace ArkanoEgo
 
                     RespawnBoost(indexOfBall);
 
-                    pointsLeft -= bricks[posX, posY].Value;
                     points += bricks[posX, posY].Value;
                     allPoints += bricks[posX, posY].Value;
                     pointsLabel.Content = "" + allPoints;
