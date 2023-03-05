@@ -132,6 +132,7 @@
     <Compile Include="Classes\Bricks\SilverBrick.cs" />
     <Compile Include="Classes\Bricks\SimpleBrick.cs" />
     <Compile Include="Classes\GalleryElement.cs" />
+    <Compile Include="Struct\CartesianPosition.cs" />
     <Compile Include="Classes\Tools\Physics.cs" />
     <Compile Include="Classes\Tools\XMLBrick.cs" />
     <Compile Include="Classes\Tools\Tools.cs" />
