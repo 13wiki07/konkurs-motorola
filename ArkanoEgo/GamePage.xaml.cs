@@ -535,6 +535,24 @@ namespace ArkanoEgo
 
         private void myCanvas_KeyDown(object sender, KeyEventArgs e)
         {
+            switch (e.Key)
+            {
+                case Key.Left:
+                    e.Handled = true;
+                    break;
+                case Key.Right:
+                    e.Handled = true;
+                    break;
+                case Key.Up:
+                    e.Handled = true;
+                    break;
+                case Key.Down:
+                    e.Handled = true;
+                    break;
+                default:
+                    break;
+            }
+
             if (e.Key == Key.D) playerGoRight = true;
 
             if (e.Key == Key.A) playerGoLeft = true;
