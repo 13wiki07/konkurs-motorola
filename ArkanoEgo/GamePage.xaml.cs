@@ -326,7 +326,7 @@ namespace ArkanoEgo
 
                                     if (points >= Tools.PointsAtLevel)
                                     {
-                                        MessageBox.Show("Wygrana");
+                                        MessageBox.Show("Wygrana :)");
                                         gameTimer.Stop();
                                         NavigationService.Navigate(new MenuPage());
                                     }
@@ -764,7 +764,7 @@ namespace ArkanoEgo
 
             if (balls.Count == 0 && hearts == 0)//przegrana
             {
-                MessageBox.Show("Przegrana");
+                MessageBox.Show("Przegrana :(");
                 gameTimer.Stop();
                 NavigationService.Navigate(new MenuPage());
                 return;
