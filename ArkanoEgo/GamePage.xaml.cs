@@ -25,7 +25,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 15;
+        public int levelek = 33;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -63,7 +63,7 @@ namespace ArkanoEgo
             InitializeComponent();
             customLvl = false;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
-            if (levelek == 0 || levelek == 33)
+            if (levelek == 33)
                 levelTB.Text = "Level DOH";
             else
                 levelTB.Text = "Level " + levelek;
@@ -76,7 +76,7 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = level;
             allPoints = allpkt;
-            if (levelek == 0 || levelek == 33)
+            if (levelek == 33)
                 levelTB.Text = "Level DOH";
             else
                 levelTB.Text = "Level " + levelek;
@@ -118,7 +118,7 @@ namespace ArkanoEgo
             pointsLeft = Tools.PointsAtLevel;
             numberOfBricksLeft = Tools.NumberOfBricks;
 
-            if (levelek == 0)
+            if (levelek == 33)
             {
                 DohLvL();
                 pointsLeft = 21000;
@@ -163,7 +163,7 @@ namespace ArkanoEgo
                                     // górna krawędź klocka
                                     if (balls[index].posY + balls[index].rad < Canvas.GetTop(x))
                                     {
-                                        if (booster.GetPower() != Power.StrongerHit && levelek == 0 || levelek == 33)
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
                                         {
                                             balls[index].top = true;
                                         }
@@ -183,7 +183,7 @@ namespace ArkanoEgo
                                     // dolna krawędź klocka
                                     else if (balls[index].posY + balls[index].rad > Canvas.GetTop(x) + x.Height)
                                     {
-                                        if (booster.GetPower() != Power.StrongerHit && levelek == 0 || levelek == 33)
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
                                         {
                                             balls[index].top = false;
                                         }
@@ -203,7 +203,7 @@ namespace ArkanoEgo
                                     // lewa krawędź klocka
                                     else if (balls[index].posX + balls[index].rad < Canvas.GetLeft(x))
                                     {
-                                        if (booster.GetPower() != Power.StrongerHit && levelek == 0 || levelek == 33)
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
                                         {
                                             balls[index].left = true;
                                         }
@@ -223,7 +223,7 @@ namespace ArkanoEgo
                                     // prawa krawędź klocka
                                     else if (balls[index].posX + balls[index].rad > Canvas.GetLeft(x) + x.Width)
                                     {
-                                        if (booster.GetPower() != Power.StrongerHit && levelek == 0 || levelek == 33)
+                                        if (booster.GetPower() != Power.StrongerHit && levelek == 33)
                                         {
                                             balls[index].left = false;
                                         }
@@ -651,7 +651,7 @@ namespace ArkanoEgo
                 {
                     myCanvas.Children.Remove(g);
                     StopBoost();
-                    if (levelek == 0 || levelek == 33)
+                    if (levelek == 33)
                         booster.RandomPower(5);
                     else
                         booster.RandomPower();
@@ -745,9 +745,13 @@ namespace ArkanoEgo
         private void SkipLvl(bool skip = true)
         {
             if (skip)
+            {
                 skipSpace = (int)player.Width;
+                door.Visibility = Visibility.Visible;
+            }
             else
             {
+                door.Visibility = Visibility.Hidden;
                 skipSpace = 0;
                 if (Canvas.GetLeft(player) + player.Width > width)
                     Canvas.SetLeft(player, width - player.Width);
