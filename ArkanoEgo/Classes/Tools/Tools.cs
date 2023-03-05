@@ -130,9 +130,9 @@ namespace ArkanoEgo.Classes.Tools
                 ballBossShot.iAmShoot = true;
                 ballBossShot.iAmBossShoot = true;
                 ballBossShot.stop = false;
-                double x = 0;
+                int x = 0;
                 ballBossShot.left = CalculateBossShotTrajectory(rectangle, ref x);
-                ballBossShot.trajectoryX = x;
+                ballBossShot.position = x;
                 ballBossShot.top = false;
                 balls.Add(ballBossShot);
                 return;
@@ -499,60 +499,226 @@ namespace ArkanoEgo.Classes.Tools
             }
             return true;
         }
-        public static bool CalculateBossShotTrajectory(Rectangle x,ref double xTraj)
+        public static bool CalculateBossShotTrajectory(Rectangle x, ref int position)
         {
-            if (Canvas.GetLeft(x) < (793 / 10))
+            if (Canvas.GetLeft(x)+x.Width/2 < (793 / 40))
             {
-                xTraj = 1.5;// całkiem po lewej
+                position = 1;// całkiem po lewej
 
                 return true;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) && Canvas.GetLeft(x) < (793 / 10) * 2)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 2)
             {
-                xTraj = 1.3;
+                position = 2;
 
                 return true;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 2 && Canvas.GetLeft(x) < (793 / 10) * 3)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 2 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 3)
             {
-                xTraj = 1;
+                position = 3;
 
                 return true;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 3 && Canvas.GetLeft(x) < (793 / 10) * 4)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 3 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 4)
             {
-                xTraj = 0.6;
+                position = 4;
 
                 return true;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 4 && Canvas.GetLeft(x) < (793 / 10) * 5)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 4 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 5)
             {
-                xTraj = 0.3;
+                position = 5;
+
                 return true;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 5 && Canvas.GetLeft(x) < (793 / 10) * 6)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 5 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 6)
             {
-                xTraj = 0.3;
+                position = 6;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 6 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 7)
+            {
+                position = 7;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 7 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 8)
+            {
+                position = 8;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 8 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 9)
+            {
+                position = 9;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 9 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 10)
+            {
+                position = 10;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 10 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 11)
+            {
+                position = 11;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 11 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 12)
+            {
+                position = 12;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 12 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 13)
+            {
+                position = 13;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 13 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 14)
+            {
+                position = 14;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 14 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 15)
+            {
+                position = 15;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 15 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 16)
+            {
+                position = 16;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 16 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 17)
+            {
+                position = 17;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 17 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 18)
+            {
+                position = 18;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 18 && Canvas.GetLeft(x)+x.Width/2 < (793 / 408) * 19)
+            {
+                position = 19;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 19 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 20)
+            {
+                position = 19;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 20 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 21)
+            {
+                position = 19;
                 return false;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 6 && Canvas.GetLeft(x) < (793 / 10) * 7)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 21 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 22)
             {
-                xTraj = 0.6;
+                position = 19;
                 return false;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 7 && Canvas.GetLeft(x) < (793 / 10) * 8)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 22 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 23)
             {
-                xTraj = 1;
+                position = 18;
                 return false;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 8 && Canvas.GetLeft(x) < (793 / 10) * 9)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 23 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 24)
             {
-                xTraj = 1.3;
+                position = 17;
                 return false;
             }
-            else if (Canvas.GetLeft(x) >= (793 / 10) * 9 && Canvas.GetLeft(x) < (793 / 10) * 10)
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 24 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 25)
             {
-                xTraj = 1.5; // całkiem po prawej
+                position = 16;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 25 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 26)
+            {
+                position = 15;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 26 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 27)
+            {
+                position = 14;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 27 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 28)
+            {
+                position = 13;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 28 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 29)
+            {
+                position = 12;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 29 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 30)
+            {
+                position = 11;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 30 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 31)
+            {
+                position = 10;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 31 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 32)
+            {
+                position = 9;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 32 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 33)
+            {
+                position = 8;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 33 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 34)
+            {
+                position = 7;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 34 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 35)
+            {
+                position = 6;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 35 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 36)
+            {
+                position = 5;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 36 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 37)
+            {
+                position = 4;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 37 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 38)
+            {
+                position = 3;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 38 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 39)
+            {
+                position = 2;
+                return false;
+            }
+            else if (Canvas.GetLeft(x)+x.Width/2 >= (793 / 40) * 39 && Canvas.GetLeft(x)+x.Width/2 < (793 / 40) * 40)
+            {
+                position = 1;
                 return false;
             }
             return true;

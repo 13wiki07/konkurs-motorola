@@ -26,7 +26,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 1;
+        public int levelek = 33;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
