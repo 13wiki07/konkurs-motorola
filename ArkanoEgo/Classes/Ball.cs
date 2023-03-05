@@ -17,7 +17,7 @@ namespace ArkanoEgo.Classes
         public double posY { get; set; } // - w lewo, + w prawo
         public double trajectoryX { get; set; } // - w lewo, + w prawo
         public double trajectoryY { get; set; } // - w lewo, + w prawo
-
+        public int position { get; set; }
         public bool top { get; set; } // top = true; bottom = false;
         public bool left { get; set; } // left = true; right = false;
 
@@ -25,10 +25,10 @@ namespace ArkanoEgo.Classes
         public bool iAmShoot { get; set; }
         public bool iAmBossShoot { get; set; }
 
-        public void InitBall(Ellipse ballEclipse)
+        public void InitBall(Ellipse ballEclipse, int firstPosition)
         {
             stop = true;
-
+            position = firstPosition;
             rad = Convert.ToInt32(ballEclipse.Height) / 2; // promień kuli
             posX = Convert.ToInt32(Canvas.GetLeft(ballEclipse));
             posY = Convert.ToInt32(Canvas.GetTop(ballEclipse));

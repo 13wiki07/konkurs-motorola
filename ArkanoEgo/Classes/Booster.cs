@@ -146,7 +146,7 @@ namespace ArkanoEgo.Classes
             Canvas.SetLeft(ballEclipse, balls[0].posX);
 
             Ball ball = new Ball();
-            ball.InitBall(ballEclipse);
+            ball.InitBall(ballEclipse, ball.position*-1);
             ball.stop = false;
             ball.top = balls[0].top;
             if (balls[0].left)

@@ -37,20 +37,21 @@ namespace ArkanoEgo.Classes.Tools
         }
         private void GenerateBaseTopRightValue()
         {
+            baseTopRight.Add(new CartesianPosition(0,-10));
             //Sharp angle
-            for(int i = 1; i <= tickRateValue; i++)
+            for (int i = 1; i <= tickRateValue; i++)
             {
                 baseTopRight.Add(new CartesianPosition(tickRateValue, -i));
             }
             //We have to do it in 2 diffrent loops to keep the order of positons
             //Obtuse angle
-            for (int i = 1; i <= tickRateValue; i++)
+            for (int i = tickRateValue; i > 0; i--)
             {
                 baseTopRight.Add(new CartesianPosition(i, -tickRateValue));
             }
-            //There is dupilcate on tickRateValue-1 and tickRateValue index
+            //There is dupilcate on tickRateValue and tickRateValue+1 index
             //So, we have to delete one
-            baseTopRight.RemoveAt(NumberOfMoves);
+            baseTopRight.RemoveAt(tickRateValue);
             //its doesnt metter which one
         }
         private void GenerateBaseTopLeftValue()
@@ -85,26 +86,26 @@ namespace ArkanoEgo.Classes.Tools
             {
                 if (VerticalPosition)
                 {
-                    X = baseBottomLeft[position].HorizontalPosition;
-                    Y = baseBottomLeft[position].VerticalPosition;
+                    X = baseTopLeft[position].HorizontalPosition;
+                    Y = baseTopLeft[position].VerticalPosition;
                 }
                 else
                 {
-                    X = baseBottomRight[position].HorizontalPosition;
-                    Y = baseBottomRight[position].VerticalPosition;
+                    X = baseBottomLeft[position].HorizontalPosition;
+                    Y = baseBottomLeft[position].VerticalPosition;
                 }
             }
             else
             {
                 if (VerticalPosition)
                 {
-                    X = baseTopLeft[position].HorizontalPosition;
-                    Y = baseTopLeft[position].VerticalPosition;
+                    X = baseTopRight[position].HorizontalPosition;
+                    Y = baseTopRight[position].VerticalPosition;
                 }
                 else
                 {
-                    X = baseTopRight[position].HorizontalPosition;
-                    Y = baseTopRight[position].VerticalPosition;
+                    X = baseBottomRight[position].HorizontalPosition;
+                    Y = baseBottomRight[position].VerticalPosition;
                 }
             }
             X /= tickRateValue;
@@ -119,26 +120,34 @@ namespace ArkanoEgo.Classes.Tools
             {
                 if (VerticalPosition)
                 {
-                    X = baseTopLeft[tickRateValue - 1].HorizontalPosition;
-                    Y = baseTopLeft[tickRateValue - 1].VerticalPosition;
+                    /*X = baseTopLeft[tickRateValue - 1].HorizontalPosition;
+                    Y = baseTopLeft[tickRateValue - 1].VerticalPosition;*/
+                    X = baseTopLeft[10].HorizontalPosition;
+                    Y = baseTopLeft[10].VerticalPosition;
                 }
                 else
                 {
-                    X = baseBottomLeft[tickRateValue - 1].HorizontalPosition;
-                    Y = baseBottomLeft[tickRateValue - 1].VerticalPosition;
+                    /*X = baseBottomLeft[tickRateValue - 1].HorizontalPosition;
+                    Y = baseBottomLeft[tickRateValue - 1].VerticalPosition;*/
+                    X = baseBottomLeft[10].HorizontalPosition;
+                    Y = baseBottomLeft[10].VerticalPosition;
                 }
             }
             else
             {
                 if (VerticalPosition)
                 {
-                    X = baseTopRight[tickRateValue - 1].HorizontalPosition;
-                    Y = baseTopRight[tickRateValue - 1].VerticalPosition;
+                    /*X = baseTopRight[tickRateValue - 1].HorizontalPosition;
+                    Y = baseTopRight[tickRateValue - 1].VerticalPosition;*/
+                    X = baseTopRight[10].HorizontalPosition;
+                    Y = baseTopRight[10].VerticalPosition;
                 }
                 else
                 {
-                    X = baseBottomRight[tickRateValue - 1].HorizontalPosition;
-                    Y = baseBottomRight[tickRateValue - 1].VerticalPosition;
+                    /*X = baseBottomRight[tickRateValue - 1].HorizontalPosition;
+                    Y = baseBottomRight[tickRateValue - 1].VerticalPosition;*/
+                    X = baseBottomRight[18].HorizontalPosition;
+                    Y = baseBottomRight[18].VerticalPosition;
                 }
             }
             X /= tickRateValue;
