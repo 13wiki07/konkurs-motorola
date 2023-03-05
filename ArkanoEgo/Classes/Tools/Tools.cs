@@ -172,6 +172,7 @@ namespace ArkanoEgo.Classes.Tools
             Rectangle RectangleEclipse = new Rectangle()
             {
                 Width = 200,
+                Height = 300,
                 Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
                 Tag = "boss",
                 Name = "boss",
