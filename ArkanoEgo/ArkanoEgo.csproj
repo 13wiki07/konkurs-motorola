@@ -182,6 +182,7 @@
     <Resource Include="Resources\Images\add-ball.png" />
     <Resource Include="Resources\Images\keyboard.png" />
     <Resource Include="Resources\Images\mouse.png" />
+    <Resource Include="Resources\Images\help.png" />
     <Content Include="Resources\Music\LobbyMusic_v11.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

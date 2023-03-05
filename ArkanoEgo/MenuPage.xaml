@@ -26,7 +26,11 @@
             <Button Content="play" Click="Game_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="level creator" Click="Kreator_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="gallery" Click="Gallery_Click" Style="{StaticResource btnStyle}"/>
+            <Button Content="How to play" Click="Help_Click" Style="{StaticResource btnStyle}"/>
             <Button Content="exit" Click="Exit_Click" Style="{StaticResource btnStyle}"/>
         </StackPanel>
+        <Button x:Name="help" Visibility="Collapsed" Click="Hide_Click">
+            <Image Source="/Resources/Images/help.png"/>
+        </Button>
     </Grid>
 </Page>

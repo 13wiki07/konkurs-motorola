@@ -73,5 +73,15 @@ namespace ArkanoEgo
             (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\NieMamIdeaForNazwa.mp3", UriKind.RelativeOrAbsolute);
             (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
         }
+
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            help.Visibility = Visibility.Visible;
+        }
+
+        private void Hide_Click(object sender, RoutedEventArgs e)
+        {
+            help.Visibility = Visibility.Collapsed;
+        }
     }
 }
