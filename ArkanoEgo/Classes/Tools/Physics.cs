@@ -25,7 +25,6 @@ namespace ArkanoEgo.Classes.Tools
             tickRateValue = tickRate;
             NumberOfMoves = tickRateValue * 2 - 1;
             InitializeValues();
-            NumberOfMoves = tickRateValue * 2 - 1;
 
         }
         private void InitializeValues()
