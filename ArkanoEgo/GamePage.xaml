@@ -23,13 +23,13 @@
                 <Rectangle x:Name="player" Tag="player"  Height="10" Width="150" Fill="#56668a" Canvas.Left="360" Canvas.Top="783"/>
                 <Ellipse Tag="ballEclipse" Height="10" Width="10" Fill="#8ba4df" Canvas.Left="430" Canvas.Top="768"/>
                 <Label x:Name="pointsLabel" HorizontalContentAlignment="Right" Foreground="#F6F7F9" FontSize="50" Content="1700" Panel.ZIndex="200" Canvas.Top="5" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="10"/>
-                <TextBlock x:Name="levelTB" Foreground="#F6F7F9" FontSize="20" Text="Level 1" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="360" Canvas.Top="10" HorizontalAlignment="Right" Width="423" TextAlignment="Right"/>
+                <TextBlock x:Name="levelTB" Foreground="#F6F7F9" FontSize="20" Text="Level 1" FontFamily="/ArkanoEgo;component/Resources/Fonts/#Audiowide" Canvas.Left="360" Canvas.Top="10" HorizontalAlignment="Right" Width="423" TextAlignment="Right" Panel.ZIndex="200"/>
 
                 <TextBlock x:Name="heartsTextBlock" Text="" Foreground="#F6F7F9" FontSize="26" Panel.ZIndex="200" Canvas.Top="46" FontFamily="Agency FB" Canvas.Left="679" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="63" TextAlignment="Right"/>
-                <Image Source="/Resources/Images/heart.png" Canvas.Left="750" Canvas.Top="45" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <Image Source="/Resources/Images/heart.png" Canvas.Left="750" Canvas.Top="45" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="200" />
 
-                <TextBlock x:Name="shootsTextBlock" Text="5" Foreground="#F6F7F9" FontSize="26" Panel.ZIndex="200" Canvas.Top="86" FontFamily="Agency FB" Canvas.Left="679" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="63" TextAlignment="Right"/>
-                <Image Source="/Resources/Images/ammo.png" Canvas.Left="750" Canvas.Top="84.9" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <TextBlock x:Name="shootsTextBlock" Visibility="Collapsed" Text="5" Foreground="#F6F7F9" FontSize="26" Panel.ZIndex="200" Canvas.Top="86" FontFamily="Agency FB" Canvas.Left="679" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="63" TextAlignment="Right"/>
+                <Image x:Name="shootsIcon" Visibility="Collapsed" Source="/Resources/Images/ammo.png" Canvas.Left="750" Canvas.Top="84.9" Height="33" Width="33" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="200" />
             </Canvas>
         </Border>
         <Button x:Name="btnBack" Style="{DynamicResource btnStyleWithChange}" Click="Back_Click" Margin="10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">

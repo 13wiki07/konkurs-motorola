@@ -136,29 +136,33 @@ namespace ArkanoEgo
             }
         }
 
-        private void Element_MouseRightClick(object sender, MouseButtonEventArgs e)
+        private void ToCreatorPage_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = MessageBox.Show("Yes - Open creator, No - Delete level", "Level info", MessageBoxButton.YesNo);
+            NavigationService.Navigate(new CreatorPage());
+        }
+
+        private void EditLevel_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (GalleryElement level in levels)
+            {
+                if ((sender as Button).Tag.ToString() == level._nr)
+                    NavigationService.Navigate(new CreatorPage("lvl_" + level._name));
+            }
+        }
+
+        private void DeleteLevel_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = MessageBox.Show("Are you sure you wanna delete this level?", "Delete level", MessageBoxButton.YesNo);
 
             if (dialog == MessageBoxResult.Yes)
             {
                 foreach (GalleryElement level in levels)
                 {
                     if ((sender as Button).Tag.ToString() == level._nr)
-                        NavigationService.Navigate(new CreatorPage("lvl_" + level._name));
-                }
-            }
-
-            if (dialog == MessageBoxResult.No)
-            {
-
-                foreach (GalleryElement level in levels)
-                {
-                    if ((sender as Button).Tag.ToString() == level._nr)
                     {
                         toDeleteFile = level._name + ".png";
                         string all = File.ReadAllText("dataDelete");
-                        if(all == "")
+                        if (all == "")
                             File.WriteAllText("dataDelete", toDeleteFile);
                         else
                             File.WriteAllText("dataDelete", all + "\n" + toDeleteFile);
@@ -167,11 +171,6 @@ namespace ArkanoEgo
                 }
                 NavigationService.Navigate(new GalleryPage(toDeleteFile));
             }
-        }
-
-        private void ToCreatorPage_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new CreatorPage());
         }
     }
 }

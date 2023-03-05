@@ -25,7 +25,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 0;
+        public int levelek = 0; // 1-32 levele, 33 - DOH
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -49,16 +49,23 @@ namespace ArkanoEgo
         int height;
         int width;
 
+        private void PlayMusic_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(levelek == 32)
+                (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\LobbyMusic_v11.mp3", UriKind.RelativeOrAbsolute);
+            if(levelek == 33)
+                (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\Prequel_lvl1.mp3", UriKind.RelativeOrAbsolute);
+            (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
+        }
+
         public GamePage() // normalna gra, lvl 1
         {
             InitializeComponent();
             customLvl = false;
+            levelek = 32;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
-            if (levelek == 0 || levelek == 33)
-                levelTB.Text = "Level DOH";
-            else
-                levelTB.Text = "Level " + levelek;
             Game();
+            points = Tools.PointsAtLevel-70;
         }
 
         public GamePage(int level, int allpkt) // next level
@@ -67,21 +74,31 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = level;
             allPoints = allpkt;
-            if(levelek == 0 || levelek == 33)
-                levelTB.Text = "Level DOH";
-            else
-                levelTB.Text = "Level " + levelek;
             points = 0;
             bricks = Tools.ReadLvl(levelek);
+            levelTB.Text = "Level DOH";
             Game();
         }
         public GamePage(string path) // custom level
         {
             InitializeComponent();
+            levelek = 1;
             customLvl = true;
             bricks = Tools.ReadLvl(path);
             levelTB.Text = "Level " + (path.StartsWith("lvl_") ? path.Substring(4) : path);
             Game();
+        }
+
+        public GamePage(int allpkt)
+        {
+            InitializeComponent();
+            customLvl = false;
+            levelek = 33;
+            levelTB.Text = "Level DOH";
+            shootsTextBlock.Visibility = Visibility.Visible;
+            shootsIcon.Visibility = Visibility.Visible;
+            Game();
+            DohLvL();
         }
 
         private void Game()
@@ -100,19 +117,16 @@ namespace ArkanoEgo
             height = 800 / 13;
             height = height * 13;
 
-            Brick.GenerateElements(ref myCanvas, ref bricks, width, height);
-            myCanvas.Focus();
+            if (levelek != 33 && levelek != 0)
+            {
+                pointsLeft = Tools.PointsAtLevel;
+                numberOfBricksLeft = Tools.NumberOfBricks;
+                Brick.GenerateElements(ref myCanvas, ref bricks, width, height);
+                myCanvas.Focus();
+            }
 
             pointsLabel.Content = "" + allPoints;
             heartsTextBlock.Text = "" + hearts;
-
-            pointsLeft = Tools.PointsAtLevel;
-            numberOfBricksLeft = Tools.NumberOfBricks;
-
-            if (levelek == 0) {
-                DohLvL();
-            }
-
 
             //Pętla gry
             gameTimer.Interval = TimeSpan.FromMilliseconds(30);
@@ -608,6 +622,8 @@ namespace ArkanoEgo
                 //MessageBox.Show("End of the level. Click OK to go back to gallery.", "Test end", MessageBoxButton.OK);
                 NavigationService.Navigate(new GalleryPage());
             }
+            else if (levelek == 33) // DOH
+                NavigationService.Navigate(new GamePage(allPoints));
             else
                 NavigationService.Navigate(new GamePage(levelek, allPoints));
         }
@@ -640,7 +656,10 @@ namespace ArkanoEgo
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new MenuPage());
+            if(customLvl)
+                NavigationService.Navigate(new GalleryPage());
+            else
+                NavigationService.Navigate(new MenuPage());
         }
         private void Shot()
         {
@@ -722,12 +741,7 @@ namespace ArkanoEgo
                 headsDirections.Add(randomNumber);
             }
         }
-
-        private void PlayMusic_Loaded(object sender, RoutedEventArgs e)
-        {
-            (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\LobbyMusic_v11.mp3", UriKind.RelativeOrAbsolute);
-            (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
-        }
+        
         private void DohLvL()
         {
             Tools.SpawnBoss(ref myCanvas);
@@ -737,12 +751,11 @@ namespace ArkanoEgo
                 headsDirections.Add(randomNumber);
             }
 
-
             changeHeadsDirectionsTimer.Interval = TimeSpan.FromMilliseconds(300);
             changeHeadsDirectionsTimer.Tick += new EventHandler(ChangeHeadsDirection);
-
             changeHeadsDirectionsTimer.Start();
 
+            myCanvas.Focus();
         }
     }
 }

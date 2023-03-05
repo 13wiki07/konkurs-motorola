@@ -45,26 +45,70 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Tag="{Binding Path=_nr}" MouseRightButtonUp="Element_MouseRightClick" Height="250" Width="250"  Margin="5" BorderThickness="0" Padding="0" BorderBrush="Transparent"  Background="Transparent" Click="OpenLevel_Click">
-                            <Border Height="250" Background="#212735">
-                                <Border Height="250" CornerRadius="10">
-                                    <Border.Style>
-                                        <Style>
-                                            <Setter Property="Border.Background" Value="#434f6b"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="Border.IsMouseOver" Value="True">
-                                                    <Setter Property="Border.Background" Value="WhiteSmoke" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <Grid>
-                                        <Image HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,10,0" Source="{Binding Path=_image}" />
-                                        <Label Content="{Binding Path=_name}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                    </Grid>
+                        <StackPanel Width="250" Margin="5">
+                            <Button Tag="{Binding Path=_nr}" Height="250" Width="250" BorderThickness="0" Padding="0" BorderBrush="Transparent"  Background="Transparent" Click="OpenLevel_Click">
+                                <Border Height="250" Background="#212735">
+                                    <Border Height="250" CornerRadius="10">
+                                        <Border.Style>
+                                            <Style>
+                                                <Setter Property="Border.Background" Value="#434f6b"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Border.IsMouseOver" Value="True">
+                                                        <Setter Property="Border.Background" Value="WhiteSmoke" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Grid>
+                                            <Image HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,10,10,0" Source="{Binding Path=_image}" />
+                                            <Label Content="{Binding Path=_name}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                        </Grid>
+                                    </Border>
                                 </Border>
-                            </Border>
-                        </Button>
+                            </Button>
+
+                            <UniformGrid Name="sectionUNI" Visibility="Visible" Columns="2" Width="250" Height="50" Margin="0 10">
+                                <Button Tag="{Binding Path=_nr}" Width="115" Height="50" BorderThickness="0" Padding="0" BorderBrush="Transparent"  Background="Transparent" Click="EditLevel_Click">
+                                    <Border Width="115" Height="50" Background="#212735" BorderThickness="0">
+                                        <Border Width="115" Height="50" CornerRadius="10">
+                                            <Border.Style>
+                                                <Style>
+                                                    <Setter Property="Border.Background" Value="#434f6b"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Border.IsMouseOver" Value="True">
+                                                            <Setter Property="Border.Background" Value="WhiteSmoke" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Grid>
+                                                <Label Content="Edit" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Border>
+                                </Button>
+
+                                <Button Tag="{Binding Path=_nr}" Width="115" Height="50" BorderThickness="0" Padding="0" BorderBrush="Transparent"  Background="Transparent" Click="DeleteLevel_Click">
+                                    <Border Width="115" Height="50" Background="#212735" BorderThickness="0">
+                                        <Border Width="115" Height="50" CornerRadius="10">
+                                            <Border.Style>
+                                                <Style>
+                                                    <Setter Property="Border.Background" Value="#434f6b"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Border.IsMouseOver" Value="True">
+                                                            <Setter Property="Border.Background" Value="WhiteSmoke" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Grid>
+                                                <Label Content="Delete" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </Border>
+                                </Button>
+                            </UniformGrid>
+                        </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
