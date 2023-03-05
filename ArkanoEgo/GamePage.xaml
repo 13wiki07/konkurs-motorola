@@ -41,8 +41,8 @@
         <Button x:Name="btnPause" Style="{DynamicResource btnStyleWithChange}" Click="Pause_Click" Margin="80,20,10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Image Source="Resources/Images/pause-violet.png"/>
         </Button>
-        <Button x:Name="btnMouse" Style="{DynamicResource btnStyleWithChange}" Click="ChangeMouseControl_Click" Margin="160,20,10,20" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Image Source="Resources/Images/pause-violet.png"/>
+        <Button x:Name="btnMouse" Style="{DynamicResource btnStyleWithChange}" Click="ChangeMouseControl_Click" Margin="151,20,0,0" Height="50" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Image Source="Resources/Images/keyboard.png"/>
         </Button>
     </Grid>
 </Page>

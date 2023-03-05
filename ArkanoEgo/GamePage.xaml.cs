@@ -816,16 +816,20 @@ namespace ArkanoEgo
 
         private void ChangeMouseControl_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = sender as Button;
+            Image img = (Image)btn.Content;
+
             if (mouseControl)
             {
                 playerGoRight = false;
                 playerGoLeft = false;
                 mouseControl = false;
+                img.Source = new BitmapImage(new Uri(@"Resources/Images/keyboard.png", UriKind.Relative));
             }
             else
             {
-
                 mouseControl = true;
+                img.Source = new BitmapImage(new Uri(@"Resources/Images/mouse.png", UriKind.Relative));
             }
 
             myCanvas.Focus();
