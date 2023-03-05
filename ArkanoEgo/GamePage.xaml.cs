@@ -727,7 +727,7 @@ namespace ArkanoEgo
         {
             (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\LobbyMusic_v11.mp3", UriKind.RelativeOrAbsolute);
             (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
-
+        }
         private void DohLvL()
         {
             Tools.SpawnBoss(ref myCanvas);
