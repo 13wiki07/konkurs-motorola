@@ -175,6 +175,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Images\door.png" />
+    <Resource Include="Resources\Images\player-length.png" />
+    <Resource Include="Resources\Images\shooting-mode.png" />
+    <Resource Include="Resources\Images\sticky-player.png" />
+    <Resource Include="Resources\Images\stronger-hit.png" />
+    <Resource Include="Resources\Images\add-ball.png" />
     <Content Include="Resources\Music\LobbyMusic_v11.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -288,7 +293,6 @@
     <Resource Include="Resources\Images\heart.png" />
     <Resource Include="Resources\Images\gifek.gif" />
     <Resource Include="Resources\ArkanoEgo-icon.ico" />
-    <Resource Include="Resources\Images\ammo.png" />
     <Resource Include="Resources\Images\doh.png" />
     <Content Include="Resources\Images\ezgif.com-gif-maker.gif" />
     <Resource Include="Resources\Images\background-anim.gif" />
