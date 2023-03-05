@@ -70,7 +70,7 @@ namespace ArkanoEgo
             InitializeComponent();
             customLvl = false;
             bricks = Tools.ReadLvl(levelek); //Wczytywanie mapy
-            if (levelek == 33)
+            if (levelek == 33 && customLvl == false)
                 levelTB.Text = "Level DOH";
             else
                 levelTB.Text = "Level " + levelek;
@@ -83,7 +83,7 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = level;
             allPoints = allpkt;
-            if (levelek == 33)
+            if (levelek == 33 && customLvl == false)
                 levelTB.Text = "Level DOH";
             else
                 levelTB.Text = "Level " + levelek;
@@ -125,7 +125,7 @@ namespace ArkanoEgo
             pointsLeft = Tools.PointsAtLevel;
             numberOfBricksLeft = Tools.NumberOfBricks;
 
-            if (levelek == 33)
+            if (levelek == 33 && customLvl == false)
             {
                 DohLvL();
                 Tools.PointsAtLevel = 3500;
@@ -666,7 +666,7 @@ namespace ArkanoEgo
                 {
                     myCanvas.Children.Remove(g);
                     StopBoost();
-                    if (levelek == 33)
+                    if (levelek == 33 && customLvl == false)
                         booster.RandomPower(5);
                     else
                         booster.RandomPower();
