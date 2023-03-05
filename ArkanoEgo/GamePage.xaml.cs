@@ -1,5 +1,6 @@
 ﻿using ArkanoEgo.Classes;
 using ArkanoEgo.Classes.Bricks;
+using ArkanoEgo.Classes.Struct;
 using ArkanoEgo.Classes.Tools;
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,12 @@ namespace ArkanoEgo
         //wymiary Canvas'a / pola gry
         int height;
         int width;
+
+        const int tickRate = 10;
+
+        Physics Physics = new Physics(tickRate);
+
+        CartesianPosition CurrentPosition;
 
         public GamePage() // normalna gra, lvl 1
         {
@@ -139,7 +146,7 @@ namespace ArkanoEgo
             {
                 OnLoseAllBalls();
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < tickRate; i++)
                 {
                     bool isTheSameBrick = false; // potrzebne, by naprawić błąd z kilkukrotnym zbiciem
                     foreach (var x in myCanvas.Children.OfType<Rectangle>()) //kolizja piłek
@@ -447,18 +454,11 @@ namespace ArkanoEgo
             //tablica balls i jej odpowiednik na planszy mają ten sem index
             balls[index].posX = Canvas.GetLeft(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
             balls[index].posY = Canvas.GetTop(myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").ElementAt(index));
-
+            CurrentPosition = Physics.ExtractValue(balls[index].left, balls[index].top);
             if (balls[index].stop != true) //przyklejamy piłkę do paletki, do momentu wciśnięcia spacji
             {
-                if (balls[index].left)
-                    balls[index].posX -= balls[index].trajectoryX;
-                else
-                    balls[index].posX += balls[index].trajectoryX;
-
-                if (balls[index].top)
-                    balls[index].posY -= balls[index].trajectoryY;
-                else
-                    balls[index].posY += balls[index].trajectoryY;
+                balls[index].posX += CurrentPosition.HorizontalPosition;
+                balls[index].posY += CurrentPosition.VerticalPosition;
             }
             else if (balls[index].stop && balls[index].posY + balls[index].rad * 2 > Canvas.GetTop(player) - 3)
             {
