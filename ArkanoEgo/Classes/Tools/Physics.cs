@@ -25,6 +25,8 @@ namespace ArkanoEgo.Classes.Tools
             tickRateValue = tickRate;
             NumberOfMoves = tickRateValue * 2 - 1;
             InitializeValues();
+            NumberOfMoves = tickRateValue * 2 - 1;
+
         }
         private void InitializeValues()
         {
@@ -48,7 +50,7 @@ namespace ArkanoEgo.Classes.Tools
             }
             //There is dupilcate on tickRateValue-1 and tickRateValue index
             //So, we have to delete one
-            baseTopRight.RemoveAt(tickRateValue);
+            baseTopRight.RemoveAt(NumberOfMoves);
             //its doesnt metter which one
         }
         private void GenerateBaseTopLeftValue()
@@ -83,19 +85,6 @@ namespace ArkanoEgo.Classes.Tools
             {
                 if (VerticalPosition)
                 {
-                    X = baseTopLeft[position].HorizontalPosition;
-                    Y = baseTopLeft[position].VerticalPosition;
-                }
-                else
-                {
-                    X = baseTopRight[position].HorizontalPosition;
-                    Y = baseTopRight[position].VerticalPosition;
-                }
-            }
-            else
-            {
-                if (VerticalPosition)
-                {
                     X = baseBottomLeft[position].HorizontalPosition;
                     Y = baseBottomLeft[position].VerticalPosition;
                 }
@@ -103,6 +92,19 @@ namespace ArkanoEgo.Classes.Tools
                 {
                     X = baseBottomRight[position].HorizontalPosition;
                     Y = baseBottomRight[position].VerticalPosition;
+                }
+            }
+            else
+            {
+                if (VerticalPosition)
+                {
+                    X = baseTopLeft[position].HorizontalPosition;
+                    Y = baseTopLeft[position].VerticalPosition;
+                }
+                else
+                {
+                    X = baseTopRight[position].HorizontalPosition;
+                    Y = baseTopRight[position].VerticalPosition;
                 }
             }
             X /= tickRateValue;
@@ -117,26 +119,26 @@ namespace ArkanoEgo.Classes.Tools
             {
                 if (VerticalPosition)
                 {
-                    X = baseTopRight[tickRateValue].HorizontalPosition;
-                    Y = baseTopRight[tickRateValue].VerticalPosition;
+                    X = baseTopLeft[tickRateValue - 1].HorizontalPosition;
+                    Y = baseTopLeft[tickRateValue - 1].VerticalPosition;
                 }
                 else
                 {
-                    X = baseBottomRight[tickRateValue].HorizontalPosition;
-                    Y = baseBottomRight[tickRateValue].VerticalPosition;
+                    X = baseBottomLeft[tickRateValue - 1].HorizontalPosition;
+                    Y = baseBottomLeft[tickRateValue - 1].VerticalPosition;
                 }
             }
             else
             {
                 if (VerticalPosition)
                 {
-                    X = baseTopLeft[tickRateValue].HorizontalPosition;
-                    Y = baseTopLeft[tickRateValue].VerticalPosition;
+                    X = baseTopRight[tickRateValue - 1].HorizontalPosition;
+                    Y = baseTopRight[tickRateValue - 1].VerticalPosition;
                 }
                 else
                 {
-                    X = baseBottomLeft[tickRateValue].HorizontalPosition;
-                    Y = baseBottomLeft[tickRateValue].VerticalPosition;
+                    X = baseBottomRight[tickRateValue - 1].HorizontalPosition;
+                    Y = baseBottomRight[tickRateValue - 1].VerticalPosition;
                 }
             }
             X /= tickRateValue;
