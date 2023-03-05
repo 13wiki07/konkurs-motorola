@@ -25,7 +25,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 0; // 1-32 levele, 33 - DOH
+        public int levelek = 1; // 1-32 levele, 33 - DOH
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -95,7 +95,7 @@ namespace ArkanoEgo
             customLvl = false;
             levelek = 33;
             levelTB.Text = "Level DOH";
-            shootsTextBlock.Visibility = Visibility.Visible;
+            //shootsTextBlock.Visibility = Visibility.Visible;
             shootsIcon.Visibility = Visibility.Visible;
             Game();
             DohLvL();
@@ -119,7 +119,6 @@ namespace ArkanoEgo
 
             if (levelek != 33 && levelek != 0)
             {
-                pointsLeft = Tools.PointsAtLevel;
                 numberOfBricksLeft = Tools.NumberOfBricks;
                 Brick.GenerateElements(ref myCanvas, ref bricks, width, height);
                 myCanvas.Focus();
@@ -669,7 +668,7 @@ namespace ArkanoEgo
             {
                 Tools.SpawnShoots(ref myCanvas, ref balls, player);
                 shoots--;
-                shootsTextBlock.Text = shoots.ToString();
+                //shootsTextBlock.Text = shoots.ToString();
             }
         }
         private void SkipLvl(bool skip = true)
@@ -756,6 +755,19 @@ namespace ArkanoEgo
             changeHeadsDirectionsTimer.Start();
 
             myCanvas.Focus();
+        }
+
+        private void Grid_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Get the x and y coordinates of the mouse pointer.
+            System.Windows.Point position = e.GetPosition(this);
+            double pX = position.X;
+
+            // Sets the Height/Width of the circle to the mouse coordinates.
+            Canvas.SetLeft(player, pX);
+            myCanvas.Focus();
+
+            /* tu zrób tą cudowną funkcję, gl <33 */
         }
     }
 }
