@@ -25,6 +25,7 @@ namespace ArkanoEgo
         bool playerGoRight = false;
         bool playerGoLeft = false;
         bool gamePlay = true;
+        bool mouseControl = false;
 
         public int levelek = 1; // 1-32 levele, 33 - DOH
         public int points = 0;
@@ -62,12 +63,12 @@ namespace ArkanoEgo
         const int tickRate = 10;
         Physics Physics = new Physics(tickRate);
         CartesianPosition CurrentPosition;
-        
+
         private void PlayMusic_Loaded(object sender, RoutedEventArgs e)
         {
-            if(levelek == 32)
+            if (levelek == 32)
                 (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\LobbyMusic_v11.mp3", UriKind.RelativeOrAbsolute);
-            if(levelek == 33)
+            if (levelek == 33)
                 (Application.Current.MainWindow as MainWindow).musicPlayer.Source = new Uri(@"..\..\Resources\Music\Prequel_lvl1.mp3", UriKind.RelativeOrAbsolute);
             (Application.Current.MainWindow as MainWindow).musicPlayer.Play();
         }
@@ -79,7 +80,7 @@ namespace ArkanoEgo
 
             levelTB.Text = "Level " + levelek;
             Game();
-            points = Tools.PointsAtLevel-70;
+            points = Tools.PointsAtLevel - 70;
         }
 
         public GamePage(int level, int allpkt) // next level
@@ -163,7 +164,10 @@ namespace ArkanoEgo
             try
             {
                 OnLoseAllBalls();
-
+                if (mouseControl)
+                {
+                    Grid_MouseMove();
+                }
                 for (int i = 0; i < tickRate; i++)
                 {
                     bool isTheSameBrick = false; // potrzebne, by naprawić błąd z kilkukrotnym zbiciem
@@ -370,10 +374,13 @@ namespace ArkanoEgo
                             break;
                     }
 
+                    if (!mouseControl)
+                    {
                     if (playerGoRight && !playerGoLeft)
                         PlayerMovement(true);
                     if (playerGoLeft && !playerGoRight)
                         PlayerMovement(false);
+                    }
 
 
                     for (int j = 0; j < myCanvas.Children.OfType<Ellipse>().Where(element => element.Tag.ToString() == "ballEclipse").Count(); j++)
@@ -604,26 +611,26 @@ namespace ArkanoEgo
             {
                 case Power.PlayerLenght:
                     booster.SetBoostPlayerLenght(ref player);
-                    shootsTextBlock.Text = "PlayerLenght";
+                    //shootsTextBlock.Text = "PlayerLenght";
                     break;
                 case Power.NewBall:
                     booster.NewBallSetBoost(ref myCanvas, ref balls);
-                    shootsTextBlock.Text = "NewBall";
+                    //shootsTextBlock.Text = "NewBall";
                     break;
                 case Power.StrongerHit:
                     booster.SetPower(Power.StrongerHit);
-                    shootsTextBlock.Text = "StrongerHit";
+                    //shootsTextBlock.Text = "StrongerHit";
                     break;
                 case Power.SkipLevel:
-                    shootsTextBlock.Text = "SkipLevel";
+                    //shootsTextBlock.Text = "SkipLevel";
                     SkipLvl();
                     break;
                 case Power.Shooting:
-                    shootsTextBlock.Text = "Shooting";
+                    //shootsTextBlock.Text = "Shooting";
                     reloadingShoot.Start();
                     break;
                 case Power.StickyPlayer:
-                    shootsTextBlock.Text = "StickyPlayer";
+                    //shootsTextBlock.Text = "StickyPlayer";
                     stickyPlayer = true;
                     break;
                 case Power.None:
@@ -778,6 +785,23 @@ namespace ArkanoEgo
             }
         }
 
+        private void ChangeMouseControl_Click(object sender, RoutedEventArgs e)
+        {
+            if (mouseControl)
+            {
+                playerGoRight = false;
+                playerGoLeft = false;
+                mouseControl = false;
+            }
+            else
+            {
+
+                mouseControl = true;
+            }
+
+            myCanvas.Focus();
+        }
+
         private void Button_MouseEvent(object sender, MouseEventArgs e)
         {
             (Application.Current.MainWindow as MainWindow).changeColors(sender as Button, maincolor);
@@ -795,7 +819,7 @@ namespace ArkanoEgo
             if (reloadedShoot)
             {
                 Tools.SpawnShoots(ref myCanvas, ref balls, player);
-                shoots--;
+                //shoots--;
                 reloadedShoot = false;
             }
         }
@@ -895,17 +919,47 @@ namespace ArkanoEgo
             myCanvas.Focus();
         }
 
-        private void Grid_MouseMove(object sender, MouseEventArgs e)
+        private void Grid_MouseMove()
         {
             // Get the x and y coordinates of the mouse pointer.
-            System.Windows.Point position = e.GetPosition(this);
-            double pX = position.X;
+            System.Windows.Point position = Mouse.GetPosition(myCanvas);
+            double pX = Math.Round(position.X);
+            for(int i = 0; i < 10; i++)
+            {
+
+            if (pX > Canvas.GetLeft(player) + player.Width/2)
+            {
+                playerGoRight = true;
+                playerGoLeft = false;
+                if (playerGoRight && !playerGoLeft)
+                    PlayerMovement(true);
+                if (playerGoLeft && !playerGoRight)
+                    PlayerMovement(false);
+            }
+            if (pX < Canvas.GetLeft(player) + player.Width / 2)
+            {
+                playerGoRight = false;
+                playerGoLeft = true;
+                if (playerGoRight && !playerGoLeft)
+                    PlayerMovement(true);
+                if (playerGoLeft && !playerGoRight)
+                    PlayerMovement(false);
+            }
+            if (pX == Canvas.GetLeft(player) + player.Width / 2)
+            {
+                playerGoRight = true;
+                playerGoLeft = true;
+                if (playerGoRight && !playerGoLeft)
+                    PlayerMovement(true);
+                if (playerGoLeft && !playerGoRight)
+                    PlayerMovement(false);
+            }
+            }
 
             // Sets the Height/Width of the circle to the mouse coordinates.
-            Canvas.SetLeft(player, pX);
-            myCanvas.Focus();
+            // myCanvas.Focus();
 
-            /* tu zrób tą cudowną funkcję, gl <33 */
+
         }
         private void DohHit(object sender, EventArgs e)
         {
