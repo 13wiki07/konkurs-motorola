@@ -25,7 +25,7 @@ namespace ArkanoEgo
         bool playerGoLeft = false;
         bool gamePlay = true;
 
-        public int levelek = 1;
+        public int levelek = 0;
         public int points = 0;
         public int allPoints = 0;
         public int pointsLeft = 0;
@@ -207,8 +207,20 @@ namespace ArkanoEgo
 
                         foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
                         {
+                            bool gotHit = false;
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
-                            Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index);
+                            gotHit = Tools.CalculateTrajectory(blockHitBox, ballEclipseHitBox, x, ball, ref balls, index);
+
+                            if (!gotHit)
+                            {
+                                for (int b = 0; b < myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").Count(); b++)
+                                {
+                                    balls.RemoveAt(b);
+                                    myCanvas.Children.Remove(myCanvas.Children.OfType<Ellipse>().Where(deletedBall => deletedBall.Tag.ToString() == "ballEclipse").ElementAt(b));
+                                }
+                                OnLoseAllBalls();
+                                return;
+                            }
                         }
                         //kolizja gracza z boostem
                         if (PlayerCaughtABoost(blockHitBox)) { break; }//kontakt paletki z boostem
@@ -219,6 +231,7 @@ namespace ArkanoEgo
                         Rect ballEclipseHitBox;
                         foreach (var (ball, index) in myCanvas.Children.OfType<Ellipse>().Where(ball => ball.Tag.ToString() == "ballEclipse").Select((ball, index) => (ball, index))) //sprawdzanie czy jakaś piłka nie dotkła paletki
                         {
+                            if (balls[index].iAmBossShoot) break;
                             ballEclipseHitBox = new Rect(Canvas.GetLeft(ball), Canvas.GetTop(ball), ball.Width, ball.Height);
                             if (ballEclipseHitBox.IntersectsWith(blockHitBox))
                             {
@@ -631,8 +644,8 @@ namespace ArkanoEgo
         }
         private void Shot()
         {
-           // Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
-
+            // Tools.SpawnBossHead(ref myCanvas, ref headsDirections);
+            Tools.SpawnShoots(ref myCanvas, ref balls, player,true);
             if (shoots > 0)
             {
                 Tools.SpawnShoots(ref myCanvas, ref balls, player);

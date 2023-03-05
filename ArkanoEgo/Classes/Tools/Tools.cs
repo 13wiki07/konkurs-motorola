@@ -106,36 +106,7 @@ namespace ArkanoEgo.Classes.Tools
             ball.InitBall(ballEclipse);
             balls.Add(ball);
         }
-        public static void SpawnBoss(ref Canvas myCanvas)
-        {
-            Rectangle RectangleEclipse = new Rectangle()
-            {
-                Width = 200,
-                Height = 300,
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
-                Tag = "boss",
-                Name = "boss",
-
-            };
-            myCanvas.Children.Add(RectangleEclipse);
-            Canvas.SetTop(RectangleEclipse, 263);
-            Canvas.SetLeft(RectangleEclipse, 300);
-        }
-        public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list)
-        {
-            Rectangle RectangleEclipse = new Rectangle()
-            {
-                Width = 50,
-                Height = 76,
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
-                Tag = "bossHeads",
-            };
-            myCanvas.Children.Add(RectangleEclipse);
-            Canvas.SetTop(RectangleEclipse, 375);
-            Canvas.SetLeft(RectangleEclipse, 375);
-            list.Add(1);
-        }
-        public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle)
+        public static void SpawnShoots(ref Canvas myCanvas, ref List<Ball> balls, Rectangle rectangle, bool bossShot = false)
         {
             Ellipse ballEclipse = new Ellipse()
             {
@@ -146,6 +117,25 @@ namespace ArkanoEgo.Classes.Tools
             };
 
             myCanvas.Children.Add(ballEclipse);
+
+            if (bossShot)
+            {
+                Canvas.SetTop(ballEclipse, 375);
+                Canvas.SetLeft(ballEclipse, 375);
+
+                Ball ballBossShot = new Ball();
+                ballBossShot.InitBall(ballEclipse);
+                ballBossShot.trajectoryX = 0;
+                ballBossShot.iAmShoot = true;
+                ballBossShot.iAmBossShoot = true;
+                ballBossShot.stop = false;
+                double x = 0;
+                ballBossShot.left = CalculateBossShotTrajectory(rectangle, ref x);
+                ballBossShot.trajectoryX = x;
+                ballBossShot.top = false;
+                balls.Add(ballBossShot);
+                return;
+            }
 
             Canvas.SetTop(ballEclipse, Canvas.GetTop(rectangle) - ballEclipse.Height - 3);
             Canvas.SetLeft(ballEclipse, Canvas.GetLeft(rectangle));
@@ -177,11 +167,40 @@ namespace ArkanoEgo.Classes.Tools
             ball.stop = false;
             balls.Add(ball);
         }
+        public static void SpawnBoss(ref Canvas myCanvas)
+        {
+            Rectangle RectangleEclipse = new Rectangle()
+            {
+                Width = 200,
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
+                Tag = "boss",
+                Name = "boss",
 
-        public static void CalculateTrajectory(Rect blockHitBox, Rect ballEclipseHitBox,Rectangle x, Ellipse ball, ref List<Ball> balls, int index)
+            };
+            myCanvas.Children.Add(RectangleEclipse);
+            Canvas.SetTop(RectangleEclipse, 263);
+            Canvas.SetLeft(RectangleEclipse, 300);
+        }
+        public static void SpawnBossHead(ref Canvas myCanvas, ref List<int> list)
+        {
+            Rectangle RectangleEclipse = new Rectangle()
+            {
+                Width = 50,
+                Height = 76,
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"../../Resources/Images/doh.png", UriKind.Relative))),
+                Tag = "bossHeads",
+            };
+            myCanvas.Children.Add(RectangleEclipse);
+            Canvas.SetTop(RectangleEclipse, 375);
+            Canvas.SetLeft(RectangleEclipse, 375);
+            list.Add(1);
+        }
+
+        public static bool CalculateTrajectory(Rect blockHitBox, Rect ballEclipseHitBox,Rectangle x, Ellipse ball, ref List<Ball> balls, int index)
         {
             if (ballEclipseHitBox.IntersectsWith(blockHitBox))
             {
+                if (balls[index].iAmBossShoot) return false;
                 if (Canvas.GetLeft(x) < Canvas.GetLeft(ball) + ball.Width / 2 && Canvas.GetLeft(x) + (x.Width / 10) > Canvas.GetLeft(ball) + ball.Width / 2)
                 {
                     balls[index].top = true;
@@ -243,6 +262,65 @@ namespace ArkanoEgo.Classes.Tools
                     balls[index].trajectoryX = 1.5;
                 }
             }
+            return true;
+        }
+        public static bool CalculateBossShotTrajectory(Rectangle x,ref double xTraj)
+        {
+            if (Canvas.GetLeft(x) < (793 / 10))
+            {
+                xTraj = 1.5;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) && Canvas.GetLeft(x) < (793 / 10) * 2)
+            {
+                xTraj = 1.3;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 2 && Canvas.GetLeft(x) < (793 / 10) * 3)
+            {
+                xTraj = 1;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 3 && Canvas.GetLeft(x) < (793 / 10) * 4)
+            {
+                xTraj = 0.6;
+
+                return true;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 4 && Canvas.GetLeft(x) < (793 / 10) * 5)
+            {
+                xTraj = 0.3;
+                return true;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 5 && Canvas.GetLeft(x) < (793 / 10) * 6)
+            {
+                xTraj = 0.3;
+                return false;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 6 && Canvas.GetLeft(x) < (793 / 10) * 7)
+            {
+                xTraj = 0.6;
+                return false;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 7 && Canvas.GetLeft(x) < (793 / 10) * 8)
+            {
+                xTraj = 1;
+                return false;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 8 && Canvas.GetLeft(x) < (793 / 10) * 9)
+            {
+                xTraj = 1.3;
+                return false;
+            }
+            else if (Canvas.GetLeft(x) >= (793 / 10) * 9 && Canvas.GetLeft(x) < (793 / 10) * 10)
+            {
+                xTraj = 1.5;
+                return false;
+            }
+            return true;
         }
     }
 }
