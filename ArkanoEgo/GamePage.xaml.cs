@@ -35,7 +35,7 @@ namespace ArkanoEgo
         public int skipSpace = 0;
 
         public int hearts = 3; // życia gracza
-        public bool reloadedShoot = true;
+        public bool reloadedShoot = false;
         public bool stickyPlayer = false;
 
         //boss mechanicks
@@ -583,12 +583,6 @@ namespace ArkanoEgo
             if (e.Key == Key.A) playerGoLeft = true;
 
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) Shot();
-
-            if (e.Key == Key.Z) SkipLvl(true);
-            if (e.Key == Key.X) SkipLvl(false);
-
-            if (e.Key == Key.C) RotateCanvas();
-            if (e.Key == Key.V) UnRotateCanvas();
 
             if (e.Key == Key.Space) //wypuszczenie wszystkich piłek
             {
